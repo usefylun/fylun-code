@@ -1,0 +1,48 @@
+diff --git a/packages/opencode/src/config/config.ts b/packages/opencode/src/config/config.ts
+index 7f568f4..8d95a40 100644
+--- a/packages/opencode/src/config/config.ts
++++ b/packages/opencode/src/config/config.ts
+@@ -137,7 +137,7 @@ export class Service extends Context.Service<Service, Interface>()("@opencode/Co
+ export const use = serviceUse(Service)
+ 
+ function globalConfigFile() {
+-  const candidates = ["opencode.jsonc", "opencode.json", "config.json"].map((file) =>
++  const candidates = ["fyluncode.jsonc", "fyluncode.json", "config.json"].map((file) =>
+     path.join(Global.Path.config, file),
+   )
+   for (const file of candidates) {
+@@ -256,8 +256,8 @@ export const layer = Layer.effect(
+         }
+       }
+       result = mergeConfig(result, yield* loadFile(path.join(Global.Path.config, "config.json"), env))
+-      result = mergeConfig(result, yield* loadFile(path.join(Global.Path.config, "opencode.json"), env))
+-      result = mergeConfig(result, yield* loadFile(path.join(Global.Path.config, "opencode.jsonc"), env))
++      result = mergeConfig(result, yield* loadFile(path.join(Global.Path.config, "fyluncode.json"), env))
++      result = mergeConfig(result, yield* loadFile(path.join(Global.Path.config, "fyluncode.jsonc"), env))
+ 
+       const legacy = path.join(Global.Path.config, "config")
+       if (existsSync(legacy)) {
+@@ -514,7 +514,7 @@ export const layer = Layer.effect(
+ 
+         const managedDir = ConfigManaged.managedConfigDir()
+         if (existsSync(managedDir)) {
+-          for (const file of ["opencode.json", "opencode.jsonc"]) {
++          for (const file of ["fyluncode.json", "fyluncode.jsonc"]) {
+             const source = path.join(managedDir, file)
+             yield* merge(source, yield* loadFile(source), "global")
+           }
+diff --git a/packages/opencode/src/config/tui-migrate.ts b/packages/opencode/src/config/tui-migrate.ts
+index 6ca2543..c240721 100644
+--- a/packages/opencode/src/config/tui-migrate.ts
++++ b/packages/opencode/src/config/tui-migrate.ts
+@@ -27,6 +27,10 @@ interface MigrateInput {
+  * skips only locations where a tui.json already exists.
+  */
+ export async function migrateTuiConfig(input: MigrateInput) {
++  // Fylun Code never had legacy tui keys to migrate, and this migration
++  // writes to (strips keys from) any opencode.json found up the tree —
++  // we must never mutate a stock opencode user's config files.
++  if (input) return
+   const opencode = await opencodeFiles(input)
+   for (const file of opencode) {
+     const source = await Filesystem.readText(file).catch(() => undefined)

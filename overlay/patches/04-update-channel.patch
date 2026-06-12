@@ -1,0 +1,31 @@
+diff --git a/packages/opencode/src/installation/index.ts b/packages/opencode/src/installation/index.ts
+index 0ed10dc..c356828 100644
+--- a/packages/opencode/src/installation/index.ts
++++ b/packages/opencode/src/installation/index.ts
+@@ -218,6 +218,11 @@ export const layer: Layer.Layer<Service, never, HttpClient.HttpClient | AppProce
+         return "unknown" as Method
+       }),
+       latest: Effect.fn("Installation.latest")(function* (installMethod?: Method) {
++        // Fylun Code releases ship through the Fylun release channel, not
++        // opencode's GitHub/npm/brew channels. Until that endpoint exists,
++        // report the installed version so no upstream update is ever offered.
++        // TODO(fylun): query the Fylun release API here once it is live.
++        if (InstallationVersion) return InstallationVersion
+         const detectedMethod = installMethod || (yield* result.method())
+ 
+         if (detectedMethod === "brew") {
+@@ -275,6 +280,14 @@ export const layer: Layer.Layer<Service, never, HttpClient.HttpClient | AppProce
+         return data.tag_name.replace(/^v/, "")
+       }, Effect.orDie),
+       upgrade: Effect.fn("Installation.upgrade")(function* (m: Method, target: string) {
++        // Never run upstream upgrade paths: npm/brew/choco/scoop/curl here all
++        // point at opencode's packages and would replace this binary with
++        // stock opencode. TODO(fylun): swap in the Fylun installer when live.
++        if (m || target) {
++          return yield* new UpgradeFailedError({
++            stderr: "Fylun Code is updated through the Fylun installer. Run: curl -fsSL https://fylun.ai/code/install | bash",
++          })
++        }
+         let upgradeResult: { code: number; stdout: string; stderr: string } | undefined
+         switch (m) {
+           case "curl":

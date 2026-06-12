@@ -1,0 +1,20 @@
+{
+  "name": "opencode-fylun-auth",
+  "version": "0.1.0",
+  "description": "Log in to Fylun from opencode / Fylun Code with browser OAuth or an API key",
+  "type": "module",
+  "main": "src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@opencode-ai/plugin": "^1.17.3"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.9.0"
+  }
+}

@@ -1,0 +1,90 @@
+diff --git a/packages/core/src/models-dev.ts b/packages/core/src/models-dev.ts
+index 3f9f670..32413f5 100644
+--- a/packages/core/src/models-dev.ts
++++ b/packages/core/src/models-dev.ts
+@@ -197,10 +197,14 @@ export const layer = Layer.effect(
+     })
+ 
+     const populate = Effect.gen(function* () {
+-      const fromDisk = yield* loadFromDisk
+-      if (fromDisk) return fromDisk
++      // Fylun Code: the baked snapshot is authoritative. Release binaries pin
++      // their provider catalog at build time — never prefer the disk cache or
++      // refetch models.dev at runtime, or the full upstream provider list
++      // (including anomalyco's hosted offerings) reappears in the TUI.
+       const snapshot = yield* loadSnapshot
+       if (snapshot) return snapshot
++      const fromDisk = yield* loadFromDisk
++      if (fromDisk) return fromDisk
+       if (Flag.OPENCODE_DISABLE_MODELS_FETCH) return {}
+       // Flock is cross-process: concurrent opencode CLIs can race on this cache file.
+       const text = yield* Effect.scoped(
+@@ -234,8 +238,13 @@ export const layer = Layer.effect(
+       )
+     })
+ 
+-    if (!Flag.OPENCODE_DISABLE_MODELS_FETCH && !process.argv.includes("--get-yargs-completions")) {
++    if (
++      typeof OPENCODE_MODELS_DEV === "undefined" &&
++      !Flag.OPENCODE_DISABLE_MODELS_FETCH &&
++      !process.argv.includes("--get-yargs-completions")
++    ) {
+       // Schedule.spaced runs the effect once, then waits between completions.
++      // Skipped when a snapshot is baked in (see populate above).
+       yield* Effect.forkScoped(refresh().pipe(Effect.repeat(Schedule.spaced("60 minutes")), Effect.ignore))
+     }
+ 
+diff --git a/packages/tui/src/app.tsx b/packages/tui/src/app.tsx
+index edf9085..26d1fcd 100644
+--- a/packages/tui/src/app.tsx
++++ b/packages/tui/src/app.tsx
+@@ -725,6 +725,8 @@ function App(props: { onSnapshot?: () => Promise<string[]>; pluginHost: TuiPlugi
+         title: "Connect provider",
+         suggested: !connected(),
+         slashName: "connect",
++        // Fylun Code: most users reach for /login (Claude Code-style).
++        slashAliases: ["login"],
+         run: () => {
+           dialog.replace(() => <DialogProviderList />)
+         },
+diff --git a/packages/tui/src/component/dialog-model.tsx b/packages/tui/src/component/dialog-model.tsx
+index 15da1a6..29b3a11 100644
+--- a/packages/tui/src/component/dialog-model.tsx
++++ b/packages/tui/src/component/dialog-model.tsx
+@@ -4,7 +4,7 @@ import { useSync } from "../context/sync"
+ import { map, pipe, flatMap, entries, filter, sortBy, take } from "remeda"
+ import { DialogSelect } from "../ui/dialog-select"
+ import { useDialog } from "../ui/dialog"
+-import { createDialogProviderOptions, DialogProvider } from "./dialog-provider"
++import { createDialogProviderOptions } from "./dialog-provider"
+ import { DialogVariant } from "./dialog-variant"
+ import * as fuzzysort from "fuzzysort"
+ import { useConnected } from "./use-connected"
+@@ -24,7 +24,9 @@ export function DialogModel(props: { providerID?: string }) {
+     const needle = query().trim()
+     const showSections = showExtra() && needle.length === 0
+     const favorites = connected() ? local.model.favorite() : []
+-    const recents = local.model.recent()
++    // Fylun Code: no "Recent" section — with a single provider it duplicates
++    // entries and pushes the full catalog below the fold.
++    const recents: ReturnType<typeof local.model.recent> = []
+ 
+     function toOptions(items: typeof favorites, category: string) {
+       if (!showSections) return []
+@@ -147,13 +149,9 @@ export function DialogModel(props: { providerID?: string }) {
+     <DialogSelect<ReturnType<typeof options>[number]["value"]>
+       options={options()}
+       actions={[
+-        {
+-          command: "model.dialog.provider",
+-          title: connected() ? "Connect provider" : "View all providers",
+-          onTrigger() {
+-            dialog.replace(() => <DialogProvider />)
+-          },
+-        },
++        // Fylun Code: no "Connect provider" / "View all providers" action —
++        // Fylun is the only provider, so the ctrl+a provider dialog (which
++        // lists every upstream provider + custom-provider entry) is removed.
+         {
+           command: "model.dialog.favorite",
+           title: "Favorite",

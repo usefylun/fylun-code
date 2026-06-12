@@ -1,0 +1,44 @@
+diff --git a/packages/opencode/script/build.ts b/packages/opencode/script/build.ts
+index 236838d..c41804b 100755
+--- a/packages/opencode/script/build.ts
++++ b/packages/opencode/script/build.ts
+@@ -180,7 +180,7 @@ for (const item of targets) {
+       autoloadTsconfig: true,
+       autoloadPackageJson: true,
+       target: name.replace(pkg.name, "bun") as any,
+-      outfile: `dist/${name}/bin/opencode`,
++      outfile: `dist/${name}/bin/fylun-code`,
+       execArgv: [`--user-agent=opencode/${Script.version}`, "--use-system-ca", "--"],
+       windows: {},
+     },
+@@ -200,7 +200,7 @@ for (const item of targets) {
+ 
+   // Smoke test: only run if binary is for current platform
+   if (item.os === process.platform && item.arch === process.arch && !item.abi) {
+-    const binaryPath = `dist/${name}/bin/opencode`
++    const binaryPath = `dist/${name}/bin/fylun-code`
+     console.log(`Running smoke test: ${binaryPath} --version`)
+     try {
+       const versionOutput = await $`${binaryPath} --version`.text()
+diff --git a/packages/opencode/src/index.ts b/packages/opencode/src/index.ts
+index 13540a7..7dfd409 100644
+--- a/packages/opencode/src/index.ts
++++ b/packages/opencode/src/index.ts
+@@ -34,7 +34,7 @@ const args = hideBin(process.argv)
+ 
+ function show(out: string) {
+   const text = out.trimStart()
+-  if (!text.startsWith("opencode ")) {
++  if (!text.startsWith("fylun-code ")) {
+     process.stderr.write(UI.logo() + EOL + EOL)
+     process.stderr.write(text + EOL)
+     return
+@@ -44,7 +44,7 @@ function show(out: string) {
+ 
+ const cli = yargs(args)
+   .parserConfiguration({ "populate--": true })
+-  .scriptName("opencode")
++  .scriptName("fylun-code")
+   .wrap(100)
+   .help("help", "show help")
+   .alias("help", "h")
