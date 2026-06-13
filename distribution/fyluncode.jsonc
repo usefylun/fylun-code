@@ -1,546 +1,530 @@
-// Fylun Code default global config. The installer places this at
-// ~/.config/fylun-code/fyluncode.jsonc (XDG config dir). Users can edit it —
-// the lock to Fylun is config-level by design, not enforced in code.
-//
-// The models block is GENERATED from @fylun/ai's ModelRegistry (same source
-// as GET /api/v1/models) — see fylun-code README "Regenerating models".
+// Fylun Code default global config. Installer places this at
+// ~/.config/fylun-code/fyluncode.jsonc. Models block is GENERATED from
+// @fylun/ai ModelRegistry (same source as /api/v1/models + the baked catalog).
 {
   "$schema": "https://opencode.ai/config.json",
-
-  // Updates ship through the Fylun installer, never opencode's channels
-  // (also hard-disabled by overlay patch 04).
   "autoupdate": false,
-
-  // Never surface anomalyco's Zen gateway ("opencode" provider). Its free
-  // models are inference billed to anomalyco as a funnel for their paid
-  // offering — riding that from a rebranded distribution is freeloading on
-  // a competitor's subsidy. MIT covers their code, not their hosted services.
+  // Never surface anomalyco's Zen gateway provider.
   "disabled_providers": ["opencode"],
-
-  // No "plugin" entry: the Fylun auth provider is compiled into the binary
-  // (opencode internalPlugins), not loaded from npm or a file.
-
+  // No "plugin" entry: Fylun auth is compiled into the binary (internalPlugins).
   "model": "fylun/deepseek-v4-flash",
-
   "provider": {
     "fylun": {
       "npm": "@ai-sdk/openai-compatible",
       "name": "Fylun",
-      "options": {
-        "baseURL": "https://fylun.ai/api/v1"
-      },
+      "options": { "baseURL": "https://fylun.ai/api/v1" },
       "models": {
-          "gpt-5.5": {
-            "name": "GPT-5.5",
-            "reasoning": true,
-            "limit": {
-              "context": 1000000,
-              "output": 65536
-            },
-            "cost": {
-              "input": 5,
-              "output": 30
-            }
+        "gpt-5.5": {
+          "name": "GPT-5.5",
+          "reasoning": true,
+          "limit": {
+            "context": 1000000,
+            "output": 65536
           },
-          "gpt-5.5-pro": {
-            "name": "GPT-5.5 Pro",
-            "reasoning": true,
-            "limit": {
-              "context": 1000000,
-              "output": 65536
-            },
-            "cost": {
-              "input": 30,
-              "output": 180
-            }
+          "cost": {
+            "input": 5,
+            "output": 30
+          }
+        },
+        "gpt-5.5-pro": {
+          "name": "GPT-5.5 Pro",
+          "reasoning": true,
+          "limit": {
+            "context": 1000000,
+            "output": 65536
           },
-          "gpt-5.4": {
-            "name": "GPT-5.4",
-            "reasoning": true,
-            "limit": {
-              "context": 400000,
-              "output": 65536
-            },
-            "cost": {
-              "input": 3,
-              "output": 15
-            }
+          "cost": {
+            "input": 30,
+            "output": 180
+          }
+        },
+        "gpt-5.4": {
+          "name": "GPT-5.4",
+          "reasoning": true,
+          "limit": {
+            "context": 400000,
+            "output": 65536
           },
-          "gpt-5-2025-08-07": {
-            "name": "GPT-5.2",
-            "reasoning": false,
-            "limit": {
-              "context": 400000,
-              "output": 65536
-            },
-            "cost": {
-              "input": 5,
-              "output": 20
-            }
+          "cost": {
+            "input": 3,
+            "output": 15
+          }
+        },
+        "gpt-5-2025-08-07": {
+          "name": "GPT-5.2",
+          "reasoning": false,
+          "limit": {
+            "context": 400000,
+            "output": 65536
           },
-          "gpt-5.1-thinking": {
-            "name": "GPT-5.1 Thinking",
-            "reasoning": true,
-            "limit": {
-              "context": 256000,
-              "output": 65536
-            },
-            "cost": {
-              "input": 10,
-              "output": 40
-            }
+          "cost": {
+            "input": 5,
+            "output": 20
+          }
+        },
+        "gpt-5.1-thinking": {
+          "name": "GPT-5.1 Thinking",
+          "reasoning": true,
+          "limit": {
+            "context": 256000,
+            "output": 65536
           },
-          "gpt-5-mini-2025-08-07": {
-            "name": "GPT-5 Mini",
-            "reasoning": true,
-            "limit": {
-              "context": 128000,
-              "output": 65536
-            },
-            "cost": {
-              "input": 1,
-              "output": 4
-            }
+          "cost": {
+            "input": 10,
+            "output": 40
+          }
+        },
+        "gpt-5-mini-2025-08-07": {
+          "name": "GPT-5 Mini",
+          "reasoning": true,
+          "limit": {
+            "context": 128000,
+            "output": 65536
           },
-          "o3": {
-            "name": "o3",
-            "reasoning": true,
-            "limit": {
-              "context": 200000,
-              "output": 65536
-            },
-            "cost": {
-              "input": 2,
-              "output": 8
-            }
+          "cost": {
+            "input": 1,
+            "output": 4
+          }
+        },
+        "o3": {
+          "name": "o3",
+          "reasoning": true,
+          "limit": {
+            "context": 200000,
+            "output": 65536
           },
-          "o3-pro": {
-            "name": "o3 Pro",
-            "reasoning": true,
-            "limit": {
-              "context": 200000,
-              "output": 65536
-            },
-            "cost": {
-              "input": 20,
-              "output": 80
-            }
+          "cost": {
+            "input": 2,
+            "output": 8
+          }
+        },
+        "o3-pro": {
+          "name": "o3 Pro",
+          "reasoning": true,
+          "limit": {
+            "context": 200000,
+            "output": 65536
           },
-          "o3-mini": {
-            "name": "o3-mini",
-            "reasoning": true,
-            "limit": {
-              "context": 128000,
-              "output": 65536
-            },
-            "cost": {
-              "input": 1.1,
-              "output": 4.4
-            }
+          "cost": {
+            "input": 20,
+            "output": 80
+          }
+        },
+        "o3-mini": {
+          "name": "o3-mini",
+          "reasoning": true,
+          "limit": {
+            "context": 128000,
+            "output": 65536
           },
-          "claude-fable-5": {
-            "name": "Claude Fable 5",
-            "reasoning": false,
-            "limit": {
-              "context": 1000000,
-              "output": 65536
-            },
-            "cost": {
-              "input": 10,
-              "output": 50
-            }
+          "cost": {
+            "input": 1.1,
+            "output": 4.4
+          }
+        },
+        "claude-opus-4-8": {
+          "name": "Claude Opus 4.8",
+          "reasoning": true,
+          "interleaved": {
+            "field": "reasoning_details"
           },
-          "claude-opus-4-8": {
-            "name": "Claude Opus 4.8",
-            "reasoning": true,
-            "interleaved": {
-              "field": "reasoning_details"
-            },
-            "limit": {
-              "context": 1000000,
-              "output": 65536
-            },
-            "cost": {
-              "input": 5,
-              "output": 25
-            }
+          "limit": {
+            "context": 1000000,
+            "output": 65536
           },
-          "claude-opus-4-7": {
-            "name": "Claude Opus 4.7",
-            "reasoning": true,
-            "interleaved": {
-              "field": "reasoning_details"
-            },
-            "limit": {
-              "context": 1000000,
-              "output": 65536
-            },
-            "cost": {
-              "input": 5,
-              "output": 25
-            }
+          "cost": {
+            "input": 5,
+            "output": 25
+          }
+        },
+        "claude-opus-4-7": {
+          "name": "Claude Opus 4.7",
+          "reasoning": true,
+          "interleaved": {
+            "field": "reasoning_details"
           },
-          "claude-sonnet-4-6": {
-            "name": "Claude Sonnet 4.6",
-            "reasoning": true,
-            "interleaved": {
-              "field": "reasoning_details"
-            },
-            "limit": {
-              "context": 1000000,
-              "output": 65536
-            },
-            "cost": {
-              "input": 3,
-              "output": 15
-            }
+          "limit": {
+            "context": 1000000,
+            "output": 65536
           },
-          "claude-opus-4-5-20251101": {
-            "name": "Claude 4.5 Opus",
-            "reasoning": true,
-            "interleaved": {
-              "field": "reasoning_details"
-            },
-            "limit": {
-              "context": 200000,
-              "output": 65536
-            },
-            "cost": {
-              "input": 15,
-              "output": 75
-            }
+          "cost": {
+            "input": 5,
+            "output": 25
+          }
+        },
+        "claude-sonnet-4-6": {
+          "name": "Claude Sonnet 4.6",
+          "reasoning": true,
+          "interleaved": {
+            "field": "reasoning_details"
           },
-          "claude-sonnet-4-5-20250929": {
-            "name": "Claude 4.5 Sonnet",
-            "reasoning": true,
-            "interleaved": {
-              "field": "reasoning_details"
-            },
-            "limit": {
-              "context": 200000,
-              "output": 65536
-            },
-            "cost": {
-              "input": 3,
-              "output": 15
-            }
+          "limit": {
+            "context": 1000000,
+            "output": 65536
           },
-          "claude-haiku-4-5-20251001": {
-            "name": "Claude Haiku 4.5",
-            "reasoning": true,
-            "interleaved": {
-              "field": "reasoning_details"
-            },
-            "limit": {
-              "context": 200000,
-              "output": 65536
-            },
-            "cost": {
-              "input": 1,
-              "output": 5
-            }
+          "cost": {
+            "input": 3,
+            "output": 15
+          }
+        },
+        "claude-opus-4-5-20251101": {
+          "name": "Claude 4.5 Opus",
+          "reasoning": true,
+          "interleaved": {
+            "field": "reasoning_details"
           },
-          "gemini-3.5-flash": {
-            "name": "Gemini 3.5 Flash",
-            "reasoning": true,
-            "limit": {
-              "context": 1048576,
-              "output": 65536
-            },
-            "cost": {
-              "input": 1.5,
-              "output": 9
-            }
+          "limit": {
+            "context": 200000,
+            "output": 65536
           },
-          "gemini-3.1-flash-lite": {
-            "name": "Gemini 3.1 Flash Lite",
-            "reasoning": false,
-            "limit": {
-              "context": 1048576,
-              "output": 65536
-            },
-            "cost": {
-              "input": 0.25,
-              "output": 1.5
-            }
+          "cost": {
+            "input": 15,
+            "output": 75
+          }
+        },
+        "claude-sonnet-4-5-20250929": {
+          "name": "Claude 4.5 Sonnet",
+          "reasoning": true,
+          "interleaved": {
+            "field": "reasoning_details"
           },
-          "gemini-3.1-pro-preview": {
-            "name": "Gemini 3.1 Pro",
-            "reasoning": true,
-            "limit": {
-              "context": 2000000,
-              "output": 65536
-            },
-            "cost": {
-              "input": 2,
-              "output": 12
-            }
+          "limit": {
+            "context": 200000,
+            "output": 65536
           },
-          "gemini-3-flash-preview": {
-            "name": "Gemini 3 Flash",
-            "reasoning": true,
-            "limit": {
-              "context": 1000000,
-              "output": 65536
-            },
-            "cost": {
-              "input": 0.5,
-              "output": 3
-            }
+          "cost": {
+            "input": 3,
+            "output": 15
+          }
+        },
+        "claude-haiku-4-5-20251001": {
+          "name": "Claude Haiku 4.5",
+          "reasoning": true,
+          "interleaved": {
+            "field": "reasoning_details"
           },
-          "gemini-2.5-pro": {
-            "name": "Gemini 2.5 Pro",
-            "reasoning": true,
-            "limit": {
-              "context": 1000000,
-              "output": 65536
-            },
-            "cost": {
-              "input": 1.25,
-              "output": 10
-            }
+          "limit": {
+            "context": 200000,
+            "output": 65536
           },
-          "gemini-2.5-flash": {
-            "name": "Gemini 2.5 Flash",
-            "reasoning": false,
-            "limit": {
-              "context": 1048576,
-              "output": 65536
-            },
-            "cost": {
-              "input": 0.3,
-              "output": 2.5
-            }
+          "cost": {
+            "input": 1,
+            "output": 5
+          }
+        },
+        "gemini-3.5-flash": {
+          "name": "Gemini 3.5 Flash",
+          "reasoning": true,
+          "limit": {
+            "context": 1048576,
+            "output": 65536
           },
-          "grok-4.3": {
-            "name": "Grok 4.3",
-            "reasoning": false,
-            "limit": {
-              "context": 1000000,
-              "output": 65536
-            },
-            "cost": {
-              "input": 1.25,
-              "output": 2.5
-            }
+          "cost": {
+            "input": 1.5,
+            "output": 9
+          }
+        },
+        "gemini-3.1-flash-lite": {
+          "name": "Gemini 3.1 Flash Lite",
+          "reasoning": false,
+          "limit": {
+            "context": 1048576,
+            "output": 65536
           },
-          "grok-4.20-non-reasoning": {
-            "name": "Grok 4.20 (Instant)",
-            "reasoning": false,
-            "limit": {
-              "context": 1000000,
-              "output": 65536
-            },
-            "cost": {
-              "input": 1.25,
-              "output": 2.5
-            }
+          "cost": {
+            "input": 0.25,
+            "output": 1.5
+          }
+        },
+        "gemini-3.1-pro-preview": {
+          "name": "Gemini 3.1 Pro",
+          "reasoning": true,
+          "limit": {
+            "context": 2000000,
+            "output": 65536
           },
-          "deepseek-v4-pro": {
-            "name": "DeepSeek V4 Pro",
-            "reasoning": true,
-            "limit": {
-              "context": 1000000,
-              "output": 65536
-            },
-            "cost": {
-              "input": 1.74,
-              "output": 3.48
-            }
+          "cost": {
+            "input": 2,
+            "output": 12
+          }
+        },
+        "gemini-3-flash-preview": {
+          "name": "Gemini 3 Flash",
+          "reasoning": true,
+          "limit": {
+            "context": 1000000,
+            "output": 65536
           },
-          "deepseek-v4-flash": {
-            "name": "DeepSeek V4 Flash",
-            "reasoning": true,
-            "limit": {
-              "context": 1000000,
-              "output": 65536
-            },
-            "cost": {
-              "input": 0.14,
-              "output": 0.28
-            }
+          "cost": {
+            "input": 0.5,
+            "output": 3
+          }
+        },
+        "gemini-2.5-pro": {
+          "name": "Gemini 2.5 Pro",
+          "reasoning": true,
+          "limit": {
+            "context": 1000000,
+            "output": 65536
           },
-          "mistral-large-latest": {
-            "name": "Mistral Large 3",
-            "reasoning": false,
-            "limit": {
-              "context": 128000,
-              "output": 65536
-            },
-            "cost": {
-              "input": 0.5,
-              "output": 1.5
-            }
+          "cost": {
+            "input": 1.25,
+            "output": 10
+          }
+        },
+        "gemini-2.5-flash": {
+          "name": "Gemini 2.5 Flash",
+          "reasoning": false,
+          "limit": {
+            "context": 1048576,
+            "output": 65536
           },
-          "mistral-medium-latest": {
-            "name": "Mistral Medium 3.5",
-            "reasoning": false,
-            "limit": {
-              "context": 131072,
-              "output": 65536
-            },
-            "cost": {
-              "input": 1.5,
-              "output": 7.5
-            }
+          "cost": {
+            "input": 0.3,
+            "output": 2.5
+          }
+        },
+        "grok-4.3": {
+          "name": "Grok 4.3",
+          "reasoning": false,
+          "limit": {
+            "context": 1000000,
+            "output": 65536
           },
-          "magistral-medium-2509": {
-            "name": "Magistral Medium",
-            "reasoning": false,
-            "limit": {
-              "context": 128000,
-              "output": 65536
-            },
-            "cost": {
-              "input": 2,
-              "output": 5
-            }
+          "cost": {
+            "input": 1.25,
+            "output": 2.5
+          }
+        },
+        "grok-4.20-non-reasoning": {
+          "name": "Grok 4.20 (Instant)",
+          "reasoning": false,
+          "limit": {
+            "context": 1000000,
+            "output": 65536
           },
-          "meta-llama/llama-4-scout-17b-16e-instruct": {
-            "name": "Llama 4 Scout",
-            "reasoning": false,
-            "limit": {
-              "context": 131072,
-              "output": 65536
-            },
-            "cost": {
-              "input": 0.11,
-              "output": 0.34
-            }
+          "cost": {
+            "input": 1.25,
+            "output": 2.5
+          }
+        },
+        "deepseek-v4-pro": {
+          "name": "DeepSeek V4 Pro",
+          "reasoning": true,
+          "limit": {
+            "context": 1000000,
+            "output": 65536
           },
-          "kimi-k2.6": {
-            "name": "Kimi K2.6",
-            "reasoning": true,
-            "limit": {
-              "context": 262144,
-              "output": 65536
-            },
-            "cost": {
-              "input": 0.95,
-              "output": 4
-            }
+          "cost": {
+            "input": 1.74,
+            "output": 3.48
+          }
+        },
+        "deepseek-v4-flash": {
+          "name": "DeepSeek V4 Flash",
+          "reasoning": true,
+          "limit": {
+            "context": 1000000,
+            "output": 65536
           },
-          "kimi-k2.5": {
-            "name": "Kimi K2.5",
-            "reasoning": true,
-            "limit": {
-              "context": 256000,
-              "output": 65536
-            },
-            "cost": {
-              "input": 0.6,
-              "output": 2.5
-            }
+          "cost": {
+            "input": 0.14,
+            "output": 0.28
+          }
+        },
+        "mistral-large-latest": {
+          "name": "Mistral Large 3",
+          "reasoning": false,
+          "limit": {
+            "context": 128000,
+            "output": 65536
           },
-          "qwen3.7-max": {
-            "name": "Qwen3.7 Max",
-            "reasoning": true,
-            "limit": {
-              "context": 1000000,
-              "output": 65536
-            },
-            "cost": {
-              "input": 1.25,
-              "output": 3.75
-            }
+          "cost": {
+            "input": 0.5,
+            "output": 1.5
+          }
+        },
+        "mistral-medium-latest": {
+          "name": "Mistral Medium 3.5",
+          "reasoning": false,
+          "limit": {
+            "context": 131072,
+            "output": 65536
           },
-          "qwen3-max": {
-            "name": "Qwen3 Max",
-            "reasoning": false,
-            "limit": {
-              "context": 262144,
-              "output": 65536
-            },
-            "cost": {
-              "input": 0.78,
-              "output": 3.9
-            }
+          "cost": {
+            "input": 1.5,
+            "output": 7.5
+          }
+        },
+        "magistral-medium-2509": {
+          "name": "Magistral Medium",
+          "reasoning": false,
+          "limit": {
+            "context": 128000,
+            "output": 65536
           },
-          "qwen3-coder-480b-a35b-instruct": {
-            "name": "Qwen 3 480B Coder",
-            "reasoning": false,
-            "limit": {
-              "context": 131072,
-              "output": 65536
-            },
-            "cost": {
-              "input": 0.82,
-              "output": 3.29
-            }
+          "cost": {
+            "input": 2,
+            "output": 5
+          }
+        },
+        "meta-llama/llama-4-scout-17b-16e-instruct": {
+          "name": "Llama 4 Scout",
+          "reasoning": false,
+          "limit": {
+            "context": 131072,
+            "output": 65536
           },
-          "glm-5.1": {
-            "name": "GLM-5.1",
-            "reasoning": true,
-            "limit": {
-              "context": 200000,
-              "output": 65536
-            },
-            "cost": {
-              "input": 0.98,
-              "output": 3.08
-            }
+          "cost": {
+            "input": 0.11,
+            "output": 0.34
+          }
+        },
+        "kimi-k2.7-code": {
+          "name": "Kimi K2.7 Code",
+          "reasoning": true,
+          "limit": {
+            "context": 262144,
+            "output": 65536
           },
-          "glm-4.6": {
-            "name": "GLM-4.6",
-            "reasoning": true,
-            "limit": {
-              "context": 204800,
-              "output": 65536
-            },
-            "cost": {
-              "input": 0.6,
-              "output": 2.2
-            }
+          "cost": {
+            "input": 0.95,
+            "output": 4
+          }
+        },
+        "kimi-k2.6": {
+          "name": "Kimi K2.6",
+          "reasoning": true,
+          "limit": {
+            "context": 262144,
+            "output": 65536
           },
-          "sonar": {
-            "name": "Sonar",
-            "reasoning": false,
-            "limit": {
-              "context": 128000,
-              "output": 65536
-            },
-            "cost": {
-              "input": 1,
-              "output": 1
-            }
+          "cost": {
+            "input": 0.95,
+            "output": 4
+          }
+        },
+        "kimi-k2.5": {
+          "name": "Kimi K2.5",
+          "reasoning": true,
+          "limit": {
+            "context": 256000,
+            "output": 65536
           },
-          "sonar-pro": {
-            "name": "Sonar Pro",
-            "reasoning": false,
-            "limit": {
-              "context": 200000,
-              "output": 65536
-            },
-            "cost": {
-              "input": 3,
-              "output": 15
-            }
+          "cost": {
+            "input": 0.6,
+            "output": 2.5
+          }
+        },
+        "qwen3.7-max": {
+          "name": "Qwen3.7 Max",
+          "reasoning": true,
+          "limit": {
+            "context": 1000000,
+            "output": 65536
           },
-          "sonar-reasoning-pro": {
-            "name": "Sonar Reasoning Pro",
-            "reasoning": false,
-            "limit": {
-              "context": 128000,
-              "output": 65536
-            },
-            "cost": {
-              "input": 2,
-              "output": 8
-            }
+          "cost": {
+            "input": 1.25,
+            "output": 3.75
+          }
+        },
+        "qwen3-max": {
+          "name": "Qwen3 Max",
+          "reasoning": false,
+          "limit": {
+            "context": 262144,
+            "output": 65536
           },
-          "sonar-deep-research": {
-            "name": "Sonar Deep Research",
-            "reasoning": false,
-            "limit": {
-              "context": 128000,
-              "output": 65536
-            },
-            "cost": {
-              "input": 2,
-              "output": 8
-            }
+          "cost": {
+            "input": 0.78,
+            "output": 3.9
+          }
+        },
+        "qwen3-coder-480b-a35b-instruct": {
+          "name": "Qwen 3 480B Coder",
+          "reasoning": false,
+          "limit": {
+            "context": 131072,
+            "output": 65536
+          },
+          "cost": {
+            "input": 0.82,
+            "output": 3.29
+          }
+        },
+        "glm-5.1": {
+          "name": "GLM-5.1",
+          "reasoning": true,
+          "limit": {
+            "context": 200000,
+            "output": 65536
+          },
+          "cost": {
+            "input": 0.98,
+            "output": 3.08
+          }
+        },
+        "glm-4.6": {
+          "name": "GLM-4.6",
+          "reasoning": true,
+          "limit": {
+            "context": 204800,
+            "output": 65536
+          },
+          "cost": {
+            "input": 0.6,
+            "output": 2.2
+          }
+        },
+        "sonar": {
+          "name": "Sonar",
+          "reasoning": false,
+          "limit": {
+            "context": 128000,
+            "output": 65536
+          },
+          "cost": {
+            "input": 1,
+            "output": 1
+          }
+        },
+        "sonar-pro": {
+          "name": "Sonar Pro",
+          "reasoning": false,
+          "limit": {
+            "context": 200000,
+            "output": 65536
+          },
+          "cost": {
+            "input": 3,
+            "output": 15
+          }
+        },
+        "sonar-reasoning-pro": {
+          "name": "Sonar Reasoning Pro",
+          "reasoning": false,
+          "limit": {
+            "context": 128000,
+            "output": 65536
+          },
+          "cost": {
+            "input": 2,
+            "output": 8
+          }
+        },
+        "sonar-deep-research": {
+          "name": "Sonar Deep Research",
+          "reasoning": false,
+          "limit": {
+            "context": 128000,
+            "output": 65536
+          },
+          "cost": {
+            "input": 2,
+            "output": 8
           }
         }
+      }
     }
   }
 }

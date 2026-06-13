@@ -159,23 +159,6 @@
           "output": 65536
         }
       },
-      "claude-fable-5": {
-        "id": "claude-fable-5",
-        "name": "Claude Fable 5",
-        "release_date": "2026-01-01",
-        "attachment": true,
-        "reasoning": false,
-        "temperature": true,
-        "tool_call": true,
-        "cost": {
-          "input": 10,
-          "output": 50
-        },
-        "limit": {
-          "context": 1000000,
-          "output": 65536
-        }
-      },
       "claude-opus-4-8": {
         "id": "claude-opus-4-8",
         "name": "Claude Opus 4.8",
@@ -531,6 +514,23 @@
         },
         "limit": {
           "context": 131072,
+          "output": 65536
+        }
+      },
+      "kimi-k2.7-code": {
+        "id": "kimi-k2.7-code",
+        "name": "Kimi K2.7 Code",
+        "release_date": "2026-01-01",
+        "attachment": true,
+        "reasoning": true,
+        "temperature": true,
+        "tool_call": true,
+        "cost": {
+          "input": 0.95,
+          "output": 4
+        },
+        "limit": {
+          "context": 262144,
           "output": 65536
         }
       },
