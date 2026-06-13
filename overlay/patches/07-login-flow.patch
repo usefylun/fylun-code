@@ -1,5 +1,5 @@
 diff --git a/packages/tui/src/app.tsx b/packages/tui/src/app.tsx
-index edf9085..64ebbc8 100644
+index edf9085..7877242 100644
 --- a/packages/tui/src/app.tsx
 +++ b/packages/tui/src/app.tsx
 @@ -25,7 +25,7 @@ import {
@@ -11,7 +11,24 @@ index edf9085..64ebbc8 100644
  import { ErrorComponent } from "./component/error-component"
  import { PluginRouteMissing } from "./component/plugin-route-missing"
  import { ProjectProvider, useProject } from "./context/project"
-@@ -730,6 +730,35 @@ function App(props: { onSnapshot?: () => Promise<string[]>; pluginHost: TuiPlugi
+@@ -696,10 +696,14 @@ function App(props: { onSnapshot?: () => Promise<string[]>; pluginHost: TuiPlugi
+       },
+       {
+         name: "variant.list",
+-        title: "Switch model variant",
++        title: "Reasoning effort",
+         category: "Agent",
+         hidden: local.model.variant.list().length === 0,
+-        slashName: "variants",
++        // Fylun Code: model "variants" are reasoning-effort levels here, so
++        // /effort is the primary command; keep /variants (opencode term) and
++        // /thinking searchable as aliases.
++        slashName: "effort",
++        slashAliases: ["variants", "thinking"],
+         run: () => {
+           if (local.model.variant.list().length === 0) {
+             return toast.show({
+@@ -730,6 +734,35 @@ function App(props: { onSnapshot?: () => Promise<string[]>; pluginHost: TuiPlugi
          },
          category: "Provider",
        },
