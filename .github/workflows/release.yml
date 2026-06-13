@@ -1,0 +1,58 @@
+name: Release
+
+# Cut a release by pushing a version tag:  git tag v0.1.0 && git push github v0.1.0
+# Builds every platform binary (bun cross-compiles all targets in one run, the
+# same way upstream opencode does) and uploads them to the GitHub Release.
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version tag to build (e.g. v0.1.0)"
+        required: true
+
+permissions:
+  contents: write # create releases + upload assets
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      TAG: ${{ github.event.inputs.version || github.ref_name }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.3.14"
+
+      - name: Fetch upstream + apply overlay + vendor plugin
+        run: |
+          set -euo pipefail
+          chmod +x scripts/*.sh
+          ./scripts/fetch-upstream.sh
+          ./scripts/apply-overlay.sh
+          # Compile the Fylun auth provider into the binary (see build.sh).
+          cp plugin/src/index.ts upstream/packages/opencode/src/plugin/fylun-auth.ts
+          (cd upstream && bun install)
+
+      - name: Create release (if needed)
+        run: gh release create "$TAG" --repo "$GITHUB_REPOSITORY" --title "Fylun Code $TAG" --notes "Fylun Code $TAG — built on OpenCode (MIT)." --verify-tag || true
+
+      - name: Build all platforms + upload to release
+        working-directory: upstream/packages/opencode
+        env:
+          OPENCODE_RELEASE: "1"
+          OPENCODE_VERSION: ${{ env.TAG }} # build.ts strips/handles; binary --version shows this
+          GH_REPO: ${{ github.repository }}
+          MODELS_DEV_API_JSON: "../../../distribution/models-fylun.json"
+        run: |
+          set -euo pipefail
+          # Strip leading v for the embedded version string; build.ts re-adds it for the release tag.
+          export OPENCODE_VERSION="${OPENCODE_VERSION#v}"
+          # --skip-embed-web-ui: the CLI/TUI doesn't need the embedded desktop web UI,
+          # and skipping it avoids building packages/app in CI.
+          bun run script/build.ts --skip-embed-web-ui

@@ -1,5 +1,5 @@
 diff --git a/packages/opencode/script/build.ts b/packages/opencode/script/build.ts
-index 236838d..c41804b 100755
+index 236838d..3049bc1 100755
 --- a/packages/opencode/script/build.ts
 +++ b/packages/opencode/script/build.ts
 @@ -180,7 +180,7 @@ for (const item of targets) {
@@ -20,6 +20,22 @@ index 236838d..c41804b 100755
      console.log(`Running smoke test: ${binaryPath} --version`)
      try {
        const versionOutput = await $`${binaryPath} --version`.text()
+@@ -231,10 +231,13 @@ for (const item of targets) {
+ 
+ if (Script.release) {
+   for (const key of Object.keys(binaries)) {
++    // Fylun Code: name the release ARCHIVES fylun-code-* (the dist dir keeps
++    // upstream's name so the bun target derivation above is untouched).
++    const asset = key.replace("opencode", "fylun-code")
+     if (key.includes("linux")) {
+-      await $`tar -czf ../../${key}.tar.gz *`.cwd(`dist/${key}/bin`)
++      await $`tar -czf ../../${asset}.tar.gz *`.cwd(`dist/${key}/bin`)
+     } else {
+-      await $`zip -r ../../${key}.zip *`.cwd(`dist/${key}/bin`)
++      await $`zip -r ../../${asset}.zip *`.cwd(`dist/${key}/bin`)
+     }
+   }
+   await $`gh release upload v${Script.version} ./dist/*.zip ./dist/*.tar.gz --clobber --repo ${process.env.GH_REPO}`
 diff --git a/packages/opencode/src/index.ts b/packages/opencode/src/index.ts
 index 13540a7..7dfd409 100644
 --- a/packages/opencode/src/index.ts
