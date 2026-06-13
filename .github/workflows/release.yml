@@ -56,3 +56,16 @@ jobs:
           # --skip-embed-web-ui: the CLI/TUI doesn't need the embedded desktop web UI,
           # and skipping it avoids building packages/app in CI.
           bun run script/build.ts --skip-embed-web-ui
+
+      - name: Publish checksums
+        run: |
+          set -euo pipefail
+          tmp="$(mktemp -d)"
+          gh release download "$TAG" --repo "$GITHUB_REPOSITORY" --dir "$tmp" --pattern '*'
+          ( cd "$tmp" && sha256sum * > checksums.txt )
+          gh release upload "$TAG" "$tmp/checksums.txt" --repo "$GITHUB_REPOSITORY" --clobber
+
+      - name: Publish to Homebrew tap + Scoop bucket
+        env:
+          TAP_TOKEN: ${{ secrets.TAP_TOKEN }}
+        run: ./scripts/update-packages.sh
