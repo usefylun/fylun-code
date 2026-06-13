@@ -1,5 +1,5 @@
 diff --git a/packages/tui/src/app.tsx b/packages/tui/src/app.tsx
-index edf9085..168bd4b 100644
+index edf9085..73f4a88 100644
 --- a/packages/tui/src/app.tsx
 +++ b/packages/tui/src/app.tsx
 @@ -25,7 +25,7 @@ import {
@@ -11,7 +11,54 @@ index edf9085..168bd4b 100644
  import { ErrorComponent } from "./component/error-component"
  import { PluginRouteMissing } from "./component/plugin-route-missing"
  import { ProjectProvider, useProject } from "./context/project"
-@@ -696,10 +696,16 @@ function App(props: { onSnapshot?: () => Promise<string[]>; pluginHost: TuiPlugi
+@@ -534,6 +534,46 @@ function App(props: { onSnapshot?: () => Promise<string[]>; pluginHost: TuiPlugi
+   )
+ 
+   const connected = useConnected()
++
++  // Fylun Code: the browser-OAuth fast path /login uses, factored out so the
++  // command and first-run onboarding share it. Opens the browser and shows the
++  // AutoMethod dialog (which renders a pasteable URL fallback for headless /
++  // SSH). Falls back to the full provider dialog if the OAuth method isn't
++  // ready yet (e.g. sync mid-flight).
++  const startFylunLogin = async () => {
++    const providerID = "fylun"
++    const methods = sync.data.provider_auth[providerID] ?? []
++    const index = methods.findIndex((m) => m.type === "oauth")
++    if (index < 0) {
++      dialog.replace(() => <DialogProviderList />)
++      return
++    }
++    const result = await sdk.client.provider.oauth.authorize({ providerID, method: index })
++    if (result.error || result.data?.method !== "auto") {
++      dialog.replace(() => <DialogProviderList />)
++      return
++    }
++    dialog.replace(() => (
++      <AutoMethod providerID={providerID} title="Log in to Fylun" index={index} authorization={result.data!} />
++    ))
++  }
++
++  // First run: a fresh install has no Fylun credentials and nothing works
++  // without them, so once sync is ready we take the user straight into sign-in.
++  // Done exactly once (tracked in KV) — never nag on later launches; /login is
++  // always there to re-auth. Gated on sync.status so provider_auth is populated.
++  createEffect(
++    on(
++      () => sync.status === "complete",
++      (complete, prev) => {
++        if (!complete || prev) return
++        if (kv.get("fylun_onboarded", false)) return
++        kv.set("fylun_onboarded", true)
++        void startFylunLogin()
++      },
++    ),
++  )
++
+   const currentWorktreeWorkspace = createMemo(() => {
+     const workspaceID = project.workspace.current()
+     if (!workspaceID) return
+@@ -696,10 +736,16 @@ function App(props: { onSnapshot?: () => Promise<string[]>; pluginHost: TuiPlugi
        },
        {
          name: "variant.list",
@@ -30,7 +77,7 @@ index edf9085..168bd4b 100644
          run: () => {
            if (local.model.variant.list().length === 0) {
              return toast.show({
-@@ -730,6 +736,35 @@ function App(props: { onSnapshot?: () => Promise<string[]>; pluginHost: TuiPlugi
+@@ -730,6 +776,21 @@ function App(props: { onSnapshot?: () => Promise<string[]>; pluginHost: TuiPlugi
          },
          category: "Provider",
        },
@@ -45,21 +92,7 @@ index edf9085..168bd4b 100644
 +        suggested: !connected(),
 +        slashName: "login",
 +        run: async () => {
-+          const providerID = "fylun"
-+          const methods = sync.data.provider_auth[providerID] ?? []
-+          const index = methods.findIndex((m) => m.type === "oauth")
-+          if (index < 0) {
-+            dialog.replace(() => <DialogProviderList />)
-+            return
-+          }
-+          const result = await sdk.client.provider.oauth.authorize({ providerID, method: index })
-+          if (result.error || result.data?.method !== "auto") {
-+            dialog.replace(() => <DialogProviderList />)
-+            return
-+          }
-+          dialog.replace(() => (
-+            <AutoMethod providerID={providerID} title="Log in to Fylun" index={index} authorization={result.data!} />
-+          ))
++          await startFylunLogin()
 +        },
 +        category: "Provider",
 +      },
