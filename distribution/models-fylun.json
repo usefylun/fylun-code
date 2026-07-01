@@ -159,6 +159,26 @@
           "output": 65536
         }
       },
+      "claude-fable-5": {
+        "id": "claude-fable-5",
+        "name": "Claude Fable 5",
+        "release_date": "2026-06-09",
+        "attachment": true,
+        "reasoning": true,
+        "temperature": false,
+        "tool_call": true,
+        "interleaved": {
+          "field": "reasoning_details"
+        },
+        "cost": {
+          "input": 10,
+          "output": 50
+        },
+        "limit": {
+          "context": 1000000,
+          "output": 128000
+        }
+      },
       "claude-opus-4-8": {
         "id": "claude-opus-4-8",
         "name": "Claude Opus 4.8",
