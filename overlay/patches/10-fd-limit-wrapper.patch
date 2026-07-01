@@ -1,0 +1,33 @@
+diff --git a/packages/opencode/script/build.ts b/packages/opencode/script/build.ts
+index 3049bc1..f4a1b2c 100755
+--- a/packages/opencode/script/build.ts
++++ b/packages/opencode/script/build.ts
+@@ -209,6 +209,28 @@
+       console.error(`Smoke test failed for ${name}:`, e)
+       process.exit(1)
+     }
++  }
++
++  // Fylun Code: macOS/Linux ship `fylun-code` as a thin shell wrapper that
++  // raises this process's own fd soft limit to the OS-permitted max before
++  // exec'ing the real binary (renamed `fylun-code-bin`). macOS defaults new
++  // shells to a 256 fd limit, which file watching/sync on startup can
++  // exceed; this only adjusts the limit for this process, not the user's
++  // shell or system. Applies to every build (local + release), not just
++  // release archives. Windows has no equivalent rlimit concept, so leave
++  // fylun-code.exe untouched there.
++  if (item.os !== "win32") {
++    await $`mv dist/${name}/bin/fylun-code dist/${name}/bin/fylun-code-bin`
++    await Bun.file(`dist/${name}/bin/fylun-code`).write(
++      [
++        "#!/bin/sh",
++        "ulimit -n 65536 2>/dev/null || true",
++        'dir="$(cd "$(dirname "$0")" && pwd)"',
++        'exec "$dir/fylun-code-bin" "$@"',
++        "",
++      ].join("\n"),
++    )
++    await $`chmod +x dist/${name}/bin/fylun-code`
+   }
+ 
+   await $`rm -rf ./dist/${name}/bin/tui`

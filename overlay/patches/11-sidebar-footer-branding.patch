@@ -1,0 +1,26 @@
+diff --git a/packages/tui/src/feature-plugins/sidebar/footer.tsx b/packages/tui/src/feature-plugins/sidebar/footer.tsx
+index 0000000..0000000 100644
+--- a/packages/tui/src/feature-plugins/sidebar/footer.tsx
++++ b/packages/tui/src/feature-plugins/sidebar/footer.tsx
+@@ -69,7 +69,7 @@
+         <span style={{ fg: theme().text }}>{path().name}</span>
+       </text>
+       <text fg={theme().textMuted}>
+-        <span style={{ fg: theme().success }}>•</span> <b>Open</b>
++        <span style={{ fg: theme().success }}>•</span> <b>Fylun</b>{" "}
+         <span style={{ fg: theme().text }}>
+           <b>Code</b>
+         </span>{" "}
+diff --git a/packages/tui/src/routes/session/sidebar.tsx b/packages/tui/src/routes/session/sidebar.tsx
+index 0000000..0000000 100644
+--- a/packages/tui/src/routes/session/sidebar.tsx
++++ b/packages/tui/src/routes/session/sidebar.tsx
+@@ -89,7 +89,7 @@
+         <box flexShrink={0} gap={1} paddingTop={1}>
+           <pluginRuntime.Slot name="sidebar_footer" mode="single_winner" session_id={props.sessionID}>
+             <text fg={theme.textMuted}>
+-              <span style={{ fg: theme.success }}>•</span> <b>Open</b>
++              <span style={{ fg: theme.success }}>•</span> <b>Fylun</b>{" "}
+               <span style={{ fg: theme.text }}>
+                 <b>Code</b>
+               </span>{" "}

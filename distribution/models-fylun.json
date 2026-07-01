@@ -199,6 +199,26 @@
           "output": 65536
         }
       },
+      "claude-sonnet-5": {
+        "id": "claude-sonnet-5",
+        "name": "Claude Sonnet 5",
+        "release_date": "2026-01-01",
+        "attachment": true,
+        "reasoning": true,
+        "temperature": true,
+        "tool_call": true,
+        "interleaved": {
+          "field": "reasoning_details"
+        },
+        "cost": {
+          "input": 3,
+          "output": 15
+        },
+        "limit": {
+          "context": 1000000,
+          "output": 65536
+        }
+      },
       "claude-sonnet-4-6": {
         "id": "claude-sonnet-4-6",
         "name": "Claude Sonnet 4.6",
@@ -616,6 +636,23 @@
         },
         "limit": {
           "context": 131072,
+          "output": 65536
+        }
+      },
+      "glm-5.2": {
+        "id": "glm-5.2",
+        "name": "GLM-5.2",
+        "release_date": "2026-01-01",
+        "attachment": true,
+        "reasoning": true,
+        "temperature": true,
+        "tool_call": true,
+        "cost": {
+          "input": 1.4,
+          "output": 4.4
+        },
+        "limit": {
+          "context": 1000000,
           "output": 65536
         }
       },

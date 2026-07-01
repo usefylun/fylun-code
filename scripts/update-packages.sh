@@ -79,6 +79,7 @@ class FylunCode < Formula
 
   def install
     bin.install "fylun-code"
+    bin.install "fylun-code-bin"
     bin.install_symlink bin/"fylun-code" => "fylun"
   end
 
