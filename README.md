@@ -11,7 +11,7 @@ Built on OpenCode (MIT) — keep this attribution visible in anything user-facin
 
 ```
 fylun-code/
-├── UPSTREAM_VERSION        # pinned upstream release tag (v1.17.3)
+├── UPSTREAM_VERSION        # pinned upstream release tag (v1.17.14)
 ├── upstream/               # gitignored; shallow clone managed by scripts
 ├── overlay/patches/        # the entire diff between opencode and fylun-code
 ├── plugin/                 # Fylun auth provider — compiled into the binary (patch 08)
@@ -21,7 +21,7 @@ fylun-code/
 
 ## Build
 
-Requires [bun](https://bun.sh) (upstream pins 1.3.x). Not installed on this machine yet.
+Requires [bun](https://bun.sh) (upstream pins 1.3.x).
 
 ```bash
 ./scripts/build.sh   # fetch pinned upstream → apply overlay → bun build (current platform)
@@ -49,7 +49,8 @@ Requires [bun](https://bun.sh) (upstream pins 1.3.x). Not installed on this mach
 | 06-pinned-catalog | Baked models.dev snapshot is authoritative (no disk-cache preference, no runtime fetch/refresh); model dialog drops the "Recent" section and the "Connect provider" action | The catalog feeds the provider/`/login` list and the model picker. `build.sh` bakes a Fylun-only catalog (`distribution/models-fylun.json`) via `MODELS_DEV_API_JSON` so only Fylun appears — never anomalyco's providers. Don't bake an empty `{}` catalog: that also removes Fylun from the connect/`/login` list. |
 | 07-login-flow | `AutoMethod` exported; `/login` is a dedicated command that goes straight to Fylun browser OAuth (skips the provider list + auth-method menu), falling back to the full dialog if unavailable. `/connect` keeps the full menu. The "Other / custom provider" entry is removed so **Fylun is the lone provider** in the UI | Fast Claude-Code-style login + single-provider product. The plugin auto-opens the browser (no link click). API-key method still lives in `/connect` + Settings → Security; custom providers still work via config, just not advertised. |
 | 08-bundled-auth | Registers `FylunAuthPlugin` in opencode's `internalPlugins` so the auth provider is **compiled into the binary** (like opencode's own Copilot/xAI/GitLab auth), not installed from npm | No npm package, no `plugin` config entry, no runtime plugin-install. `build.sh` copies `plugin/src/index.ts` → `upstream/.../plugin/fylun-auth.ts` before building. Updates ship with the binary. |
-| 10-fd-limit-wrapper | Every macOS/Linux build (local `--single` dev builds and CI release builds alike) ships `fylun-code` as a thin shell wrapper (`ulimit -n 65536` then `exec`) around the real binary, renamed `fylun-code-bin`. Applied per-target inside the main build loop, not gated behind `Script.release` — a release-only gate would mean local rebuilds silently skip the fix. Windows untouched (no rlimit concept). | macOS defaults new shells to a 256 fd soft limit; opencode's file watching/sync on startup can exceed it (`EMFILE`/"low max file descriptors" on launch). Raising the soft limit up to the already-permitted hard limit needs no sudo and only affects this process — fixes it transparently instead of asking users to edit shell config. Both `install/route.ts` and the Homebrew formula must install `fylun-code` **and** `fylun-code-bin` for this to work. |
+| 09-terminal-title | Terminal *window* title `OpenCode` → `Fylun Code` (`packages/tui/src/app.tsx`) | The OS window/tab title is a separate render path from the TUI banner (patch 05) and the sidebar footer (patch 11). |
+| 10-fd-limit-wrapper | Every macOS/Linux build (local `--single` dev builds and CI release builds alike) ships `fylun-code` as a thin shell wrapper (`ulimit -n 65536` then `exec`) around the real binary, renamed `fylun-code-bin`. Applied per-target inside the main build loop, not gated behind `Script.release`. Also copies the repo `LICENSE` (opencode + Fylun, MIT) into `dist/<target>/bin` so the notice ships inside every archive. Windows untouched (no rlimit concept). | macOS defaults new shells to a 256 fd soft limit; opencode's file watching/sync on startup can exceed it (`EMFILE`/"low max file descriptors" on launch). Raising the soft limit up to the already-permitted hard limit needs no sudo and only affects this process. Both `install/route.ts` and the Homebrew formula must install `fylun-code` **and** `fylun-code-bin` for this to work. |
 | 11-sidebar-footer-branding | `packages/tui/src/feature-plugins/sidebar/footer.tsx` and `packages/tui/src/routes/session/sidebar.tsx` both render the sidebar footer version line as `<b>Open</b><b>Code</b>`, untouched by patch 09 (which only renamed the terminal *window title*). Both now render `Fylun` `Code`. | Same "OpenCode" leak as patch 09, different render path — the sidebar footer is a separate slot-based component tree, not covered by the app.tsx title-bar patch. |
 
 ### Deliberate non-changes
@@ -132,12 +133,20 @@ fylun-code
 - Cache-read/write price multipliers are provider-wide constants in
   `translate.ts` — move into ModelRegistry per-model when catalog is rebuilt.
 
+## Done since v0.1.5
+
+- **Installer** — `fylun.ai/code/install` (+ `.ps1`) is live: detects OS/arch, pulls the
+  matching archive from `usefylun/fylun-code` releases, installs `fylun-code` + `fylun`
+  symlink, seeds `~/.config/fylun-code/fyluncode.jsonc`. Homebrew tap + Scoop bucket too.
+- **Core branding** — logo/wordmark (05), terminal window title (09), sidebar footer (11).
+
 ## Still TODO in this folder
 
-- TUI/branding strings beyond the binary name (logo, "opencode" in help/about text) —
-  cosmetic, decide how far to take it.
-- Installer script (place binary on PATH as `fylun-code` **plus a `fylun` symlink** —
-  both names launch the TUI; locally done via `ln -s` in /opt/homebrew/bin — and put
-  `distribution/fyluncode.jsonc` into `~/.config/fylun-code/`).
-- VS Code extension rebrand (upstream ships one in the same repo).
-- CI: build on UPSTREAM_VERSION bump, run both-tools-coexist smoke test.
+- Residual `opencode` strings in help/about text — the load-bearing branding is done
+  (05/09/11); a `grep -ri opencode packages/tui/src` finds the stragglers. Cosmetic;
+  decide how far to take it.
+- VS Code extension rebrand (upstream ships one in the same repo). Gated by Marketplace
+  trader/DSA setup, same as the Chrome Web Store — not a code problem.
+- CI: on `UPSTREAM_VERSION` bump (or a weekly cron), run `apply-overlay.sh`'s dry-run
+  against the latest opencode tag + a both-tools-coexist smoke test, to catch patch drift
+  before it accumulates (this release proved the manual version of that check works).
