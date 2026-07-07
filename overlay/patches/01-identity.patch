@@ -1,10 +1,10 @@
 diff --git a/packages/core/src/global.ts b/packages/core/src/global.ts
-index 2a0ac95..99301dc 100644
+index a192a4b..d63c10f 100644
 --- a/packages/core/src/global.ts
 +++ b/packages/core/src/global.ts
 @@ -7,7 +7,7 @@ import { Flock } from "./util/flock"
  import { Flag } from "./flag/flag"
- import { LayerNode } from "./effect/layer-node"
+ import { makeGlobalNode } from "./effect/app-node"
  
 -const app = "opencode"
 +const app = "fylun-code"

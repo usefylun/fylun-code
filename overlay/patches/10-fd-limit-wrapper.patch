@@ -1,13 +1,11 @@
 diff --git a/packages/opencode/script/build.ts b/packages/opencode/script/build.ts
-index 3049bc1..f4a1b2c 100755
+index 236838d..242df35 100755
 --- a/packages/opencode/script/build.ts
 +++ b/packages/opencode/script/build.ts
-@@ -209,6 +209,28 @@
-       console.error(`Smoke test failed for ${name}:`, e)
-       process.exit(1)
+@@ -211,6 +211,32 @@ for (const item of targets) {
      }
-+  }
-+
+   }
+ 
 +  // Fylun Code: macOS/Linux ship `fylun-code` as a thin shell wrapper that
 +  // raises this process's own fd soft limit to the OS-permitted max before
 +  // exec'ing the real binary (renamed `fylun-code-bin`). macOS defaults new
@@ -28,6 +26,12 @@ index 3049bc1..f4a1b2c 100755
 +      ].join("\n"),
 +    )
 +    await $`chmod +x dist/${name}/bin/fylun-code`
-   }
- 
++  }
++
++  // Fylun Code: ship the MIT license (opencode + Fylun overlay) inside every
++  // release archive so the copyright/permission notice travels with copies.
++  await $`cp ../../../LICENSE dist/${name}/bin/LICENSE`
++
    await $`rm -rf ./dist/${name}/bin/tui`
+   await Bun.file(`dist/${name}/package.json`).write(
+     JSON.stringify(

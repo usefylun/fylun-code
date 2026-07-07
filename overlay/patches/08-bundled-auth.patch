@@ -1,11 +1,11 @@
 diff --git a/packages/opencode/src/plugin/index.ts b/packages/opencode/src/plugin/index.ts
-index 4c4659d..7bf5279 100644
+index 1558c70..802df97 100644
 --- a/packages/opencode/src/plugin/index.ts
 +++ b/packages/opencode/src/plugin/index.ts
-@@ -19,6 +19,10 @@ import { CloudflareAIGatewayAuthPlugin, CloudflareWorkersAuthPlugin } from "./cl
- import { AzureAuthPlugin } from "./azure"
+@@ -20,6 +20,10 @@ import { AzureAuthPlugin } from "./azure"
  import { DigitalOceanAuthPlugin } from "./digitalocean"
  import { XaiAuthPlugin } from "./xai"
+ import { SnowflakeCortexAuthPlugin } from "./snowflake-cortex"
 +// Fylun Code: the Fylun auth provider is compiled into the binary (like the
 +// providers above), not installed from npm. Source of truth is
 +// fylun-code/plugin/src/index.ts; build.sh copies it to ./fylun-auth.ts.
@@ -13,7 +13,7 @@ index 4c4659d..7bf5279 100644
  import { Effect, Layer, Context } from "effect"
  import { EffectBridge } from "@/effect/bridge"
  import { InstanceState } from "@/effect/instance-state"
-@@ -63,6 +67,8 @@ export function experimentalWebSocketsEnabled(input: { enabled: boolean; channel
+@@ -64,6 +68,8 @@ export function experimentalWebSocketsEnabled(input: { enabled: boolean; channel
  // Built-in plugins that are directly imported (not installed from npm)
  function internalPlugins(flags: RuntimeFlags.Info): PluginInstance[] {
    return [
