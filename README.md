@@ -156,3 +156,6 @@ fylun-code
 - CI: on `UPSTREAM_VERSION` bump (or a weekly cron), run `apply-overlay.sh`'s dry-run
   against the latest opencode tag + a both-tools-coexist smoke test, to catch patch drift
   before it accumulates (this release proved the manual version of that check works).
+- Two Claude-Code-parity features, planned but deferred past v1: push-to-talk
+  dictation (voice-to-text) and remote connect (drive a session from a phone). See
+  `docs/deferred-features.md` for the design thinking on both.
