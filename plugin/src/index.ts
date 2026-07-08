@@ -11,12 +11,27 @@ import type { Plugin } from "@opencode-ai/plugin"
  */
 function openBrowser(url: string): void {
   try {
-    const [cmd, args] =
-      process.platform === "darwin"
-        ? ["open", [url]]
-        : process.platform === "win32"
-          ? ["cmd", ["/c", "start", "", url]]
-          : ["xdg-open", [url]]
+    if (process.platform === "win32") {
+      // cmd's `start` treats & and % as metacharacters and re-parses its
+      // command line even for args passed via spawn — so `start "" <url>`
+      // truncates an OAuth URL at its first `&` (dropping client_id,
+      // redirect_uri, state, scope) and can eat `%`-encoded sequences in
+      // the redirect_uri. Double-quoting the URL protects both, and
+      // windowsVerbatimArguments stops Node from re-quoting/escaping the
+      // command line so cmd sees the quotes intact. Strip any stray double
+      // quotes from the URL first (OAuth URLs never contain them) so they
+      // can't break out of our quoting.
+      const safeUrl = url.replace(/"/g, "")
+      const child = spawn("cmd", ["/c", `start "" "${safeUrl}"`], {
+        stdio: "ignore",
+        detached: true,
+        windowsVerbatimArguments: true,
+      })
+      child.on("error", () => {})
+      child.unref()
+      return
+    }
+    const [cmd, args] = process.platform === "darwin" ? ["open", [url]] : ["xdg-open", [url]]
     const child = spawn(cmd as string, args as string[], { stdio: "ignore", detached: true })
     child.on("error", () => {})
     child.unref()
