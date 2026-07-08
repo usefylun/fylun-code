@@ -125,8 +125,14 @@ fylun-code
 
 ### Known residual gaps (accepted for v1)
 
-- No Responses-API reasoning persistence for GPT-5.x (vs Codex CLI); optional
-  /v1/responses endpoint later.
+- ~~No Responses-API reasoning persistence for GPT-5.x (vs Codex CLI)~~ —
+  **BUILT 2026-07-07, pending prod deploy + E2E.** fylun-web now has a
+  `/api/v1/responses` passthrough (store:false, encrypted-reasoning replay), and
+  OpenAI-family entries in `distribution/models-fylun.json` carry
+  `"provider": {"npm": "@ai-sdk/openai"}` so opencode routes them there natively —
+  zero overlay patches. **Do NOT ship the catalog change in a CLI release until the
+  gateway is deployed** (GPT models would 404). Full design + findings:
+  `docs/openai-responses-persistence-plan.md`.
 - Anthropic reasoning signatures are captured from `reasoning-end` stream
   parts; if a provider emits signatures elsewhere, reasoning_details degrade
   to unsigned text (functional, slightly lower quality on tool-heavy turns).
