@@ -322,7 +322,7 @@
         },
         "grok-4.5": {
           "name": "Grok 4.5",
-          "reasoning": false,
+          "reasoning": true,
           "limit": {
             "context": 500000,
             "output": 65536

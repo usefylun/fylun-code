@@ -1,0 +1,17 @@
+diff --git a/packages/opencode/src/provider/transform.ts b/packages/opencode/src/provider/transform.ts
+index f42e141..5eec522 100644
+--- a/packages/opencode/src/provider/transform.ts
++++ b/packages/opencode/src/provider/transform.ts
+@@ -734,7 +734,11 @@ export function variants(model: Provider.Model): Record<string, Record<string, a
+       high: { reasoningEffort: "high" },
+     }
+   }
+-  if (id.includes("grok")) return {}
++  // Fylun proxies grok through its OpenAI-compatible endpoint, which accepts
++  // reasoning_effort (grok-4.5 supports low/medium/high). Let those models fall
++  // through to the effort-emitting switch below; only block native/openrouter
++  // grok, which don't expose an effort control here.
++  if (id.includes("grok") && model.api.npm !== "@ai-sdk/openai-compatible") return {}
+ 
+   switch (model.api.npm) {
+     case "@openrouter/ai-sdk-provider":
