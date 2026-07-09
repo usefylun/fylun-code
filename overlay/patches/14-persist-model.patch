@@ -1,0 +1,36 @@
+diff --git a/packages/tui/src/context/local.tsx b/packages/tui/src/context/local.tsx
+index a05d315..dc8798b 100644
+--- a/packages/tui/src/context/local.tsx
++++ b/packages/tui/src/context/local.tsx
+@@ -205,6 +205,18 @@ export const { use: useLocal, provider: LocalProvider } = createSimpleContext({
+           }
+         }
+ 
++        // Fylun overlay: the user's persisted last-used model (recent[0]) wins
++        // over the baked config `model`, so a model change is remembered across
++        // sessions. config.model (e.g. deepseek-v4-flash) stays as the FIRST-RUN
++        // default/fallback — it's only reached when `recent` is empty. This
++        // reverses upstream's "explicit config model is authoritative" order by
++        // intent (config model is a first-time default, not a hard override).
++        for (const item of modelStore.recent) {
++          if (isModelValid(item)) {
++            return item
++          }
++        }
++
+         if (sync.data.config.model) {
+           const { providerID, modelID } = parseModel(sync.data.config.model)
+           if (isModelValid({ providerID, modelID })) {
+@@ -215,12 +227,6 @@ export const { use: useLocal, provider: LocalProvider } = createSimpleContext({
+           }
+         }
+ 
+-        for (const item of modelStore.recent) {
+-          if (isModelValid(item)) {
+-            return item
+-          }
+-        }
+-
+         const provider = sync.data.provider[0]
+         if (!provider) return undefined
+         const defaultModel = sync.data.provider_default[provider.id]
