@@ -1,0 +1,26 @@
+diff --git a/packages/opencode/src/cli/cmd/run/splash.ts b/packages/opencode/src/cli/cmd/run/splash.ts
+index 141ff6f..b2732de 100644
+--- a/packages/opencode/src/cli/cmd/run/splash.ts
++++ b/packages/opencode/src/cli/cmd/run/splash.ts
+@@ -234,7 +234,7 @@ function build(input: SplashWriterInput, kind: "entry" | "exit", ctx: Scrollback
+       lines,
+       body_left + label.length,
+       top + 1,
+-      `opencode --mini -s ${meta.session_id}`,
++      `fylun --mini -s ${meta.session_id}`,
+       right,
+       undefined,
+       TextAttributes.BOLD,
+diff --git a/packages/tui/src/feature-plugins/home/tips-view.tsx b/packages/tui/src/feature-plugins/home/tips-view.tsx
+index d9ef81e..698c524 100644
+--- a/packages/tui/src/feature-plugins/home/tips-view.tsx
++++ b/packages/tui/src/feature-plugins/home/tips-view.tsx
+@@ -235,7 +235,7 @@ const TIPS: Tip[] = [
+   "Use plugins to send OS notifications when sessions complete",
+   "Create a plugin to prevent OpenCode from reading sensitive files",
+   "Use {highlight}opencode run{/highlight} for non-interactive scripting",
+-  "Use {highlight}opencode --continue{/highlight} to resume the last session",
++  "Use {highlight}fylun --continue{/highlight} to resume the last session",
+   "Use {highlight}opencode run -f file.ts{/highlight} to attach files via CLI",
+   "Use {highlight}--format json{/highlight} for machine-readable output in scripts",
+   "Run {highlight}opencode serve{/highlight} for headless API access to OpenCode",

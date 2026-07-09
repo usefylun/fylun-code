@@ -1,5 +1,5 @@
 diff --git a/packages/tui/src/util/presentation.ts b/packages/tui/src/util/presentation.ts
-index cf432bf..53e26c3 100644
+index cf432bf..dc3aafb 100644
 --- a/packages/tui/src/util/presentation.ts
 +++ b/packages/tui/src/util/presentation.ts
 @@ -1,5 +1,5 @@
@@ -9,3 +9,12 @@ index cf432bf..53e26c3 100644
    right: ["             ▄     ", "█▀▀▀ █▀▀█ █▀▀█ █▀▀█", "█___ █__█ █__█ █^^^", "▀▀▀▀ ▀▀▀▀ ▀▀▀▀ ▀▀▀▀"],
  }
  
+@@ -32,7 +32,7 @@ export function sessionEpilogue(input: { title: string; sessionID?: string }) {
+     ...wordmark("  "),
+     "",
+     `  ${weak("Session")}${bold}${input.title}${reset}`,
+-    `  ${weak("Continue")}${bold}opencode -s ${input.sessionID}${reset}`,
++    `  ${weak("Continue")}${bold}fylun -s ${input.sessionID}${reset}`,
+     "",
+   ].join("\n")
+ }
