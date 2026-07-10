@@ -13,6 +13,10 @@
   "disabled_providers": ["opencode"],
   // No "plugin" entry: Fylun auth is compiled into the binary (internalPlugins).
   "model": "fylun/deepseek-v4-flash",
+  // Cheap model for side-tasks (titles, compaction summaries). Without this
+  // opencode falls back to the MAIN model — running title generation on a
+  // frontier model like gpt-5.6-sol at frontier prices.
+  "small_model": "fylun/gemini-3.1-flash-lite",
   "provider": {
     "fylun": {
       "npm": "@ai-sdk/openai-compatible",
