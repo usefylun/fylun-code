@@ -1,6 +1,11 @@
 // Fylun Code default global config. Installer places this at
 // ~/.config/fylun-code/fyluncode.jsonc. Models block is GENERATED from
 // @fylun/ai ModelRegistry (same source as /api/v1/models + the baked catalog).
+// COST NOTE: rates are provider list price x1.2 (Fylun's flat markup) with
+// cache tiers (cache_read = 0.1x input for openai/anthropic/google/deepseek,
+// 0.25x for xai; cache_write = 1.25x input, Anthropic only) so the TUI's
+// session estimate matches what the wallet is actually debited. Keep in sync
+// with models-fylun.json and fylun-web translate.ts multipliers.
 {
   "$schema": "https://opencode.ai/config.json",
   "autoupdate": false,
@@ -22,8 +27,9 @@
             "output": 65536
           },
           "cost": {
-            "input": 5,
-            "output": 30
+            "input": 6,
+            "output": 36,
+            "cache_read": 0.6
           }
         },
         "gpt-5.6-terra": {
@@ -34,8 +40,9 @@
             "output": 65536
           },
           "cost": {
-            "input": 2.5,
-            "output": 15
+            "input": 3,
+            "output": 18,
+            "cache_read": 0.3
           }
         },
         "gpt-5.6-luna": {
@@ -46,8 +53,9 @@
             "output": 65536
           },
           "cost": {
-            "input": 1,
-            "output": 6
+            "input": 1.2,
+            "output": 7.2,
+            "cache_read": 0.12
           }
         },
         "gpt-5.5": {
@@ -58,8 +66,9 @@
             "output": 65536
           },
           "cost": {
-            "input": 5,
-            "output": 30
+            "input": 6,
+            "output": 36,
+            "cache_read": 0.6
           }
         },
         "gpt-5.5-pro": {
@@ -70,8 +79,9 @@
             "output": 65536
           },
           "cost": {
-            "input": 30,
-            "output": 180
+            "input": 36,
+            "output": 216,
+            "cache_read": 3.6
           }
         },
         "gpt-5.4": {
@@ -82,8 +92,9 @@
             "output": 65536
           },
           "cost": {
-            "input": 3,
-            "output": 15
+            "input": 3.6,
+            "output": 18,
+            "cache_read": 0.36
           }
         },
         "gpt-5-2025-08-07": {
@@ -94,8 +105,9 @@
             "output": 65536
           },
           "cost": {
-            "input": 5,
-            "output": 20
+            "input": 6,
+            "output": 24,
+            "cache_read": 0.6
           }
         },
         "gpt-5.1-thinking": {
@@ -106,8 +118,9 @@
             "output": 65536
           },
           "cost": {
-            "input": 10,
-            "output": 40
+            "input": 12,
+            "output": 48,
+            "cache_read": 1.2
           }
         },
         "gpt-5-mini-2025-08-07": {
@@ -118,8 +131,9 @@
             "output": 65536
           },
           "cost": {
-            "input": 1,
-            "output": 4
+            "input": 1.2,
+            "output": 4.8,
+            "cache_read": 0.12
           }
         },
         "o3": {
@@ -130,8 +144,9 @@
             "output": 65536
           },
           "cost": {
-            "input": 2,
-            "output": 8
+            "input": 2.4,
+            "output": 9.6,
+            "cache_read": 0.24
           }
         },
         "o3-pro": {
@@ -142,8 +157,9 @@
             "output": 65536
           },
           "cost": {
-            "input": 20,
-            "output": 80
+            "input": 24,
+            "output": 96,
+            "cache_read": 2.4
           }
         },
         "o3-mini": {
@@ -154,8 +170,9 @@
             "output": 65536
           },
           "cost": {
-            "input": 1.1,
-            "output": 4.4
+            "input": 1.32,
+            "output": 5.28,
+            "cache_read": 0.132
           }
         },
         "claude-opus-4-8": {
@@ -169,8 +186,10 @@
             "output": 65536
           },
           "cost": {
-            "input": 5,
-            "output": 25
+            "input": 6,
+            "output": 30,
+            "cache_read": 0.6,
+            "cache_write": 7.5
           }
         },
         "claude-opus-4-7": {
@@ -184,8 +203,10 @@
             "output": 65536
           },
           "cost": {
-            "input": 5,
-            "output": 25
+            "input": 6,
+            "output": 30,
+            "cache_read": 0.6,
+            "cache_write": 7.5
           }
         },
         "claude-sonnet-4-6": {
@@ -199,8 +220,10 @@
             "output": 65536
           },
           "cost": {
-            "input": 3,
-            "output": 15
+            "input": 3.6,
+            "output": 18,
+            "cache_read": 0.36,
+            "cache_write": 4.5
           }
         },
         "claude-opus-4-5-20251101": {
@@ -214,8 +237,10 @@
             "output": 65536
           },
           "cost": {
-            "input": 15,
-            "output": 75
+            "input": 18,
+            "output": 90,
+            "cache_read": 1.8,
+            "cache_write": 22.5
           }
         },
         "claude-sonnet-4-5-20250929": {
@@ -229,8 +254,10 @@
             "output": 65536
           },
           "cost": {
-            "input": 3,
-            "output": 15
+            "input": 3.6,
+            "output": 18,
+            "cache_read": 0.36,
+            "cache_write": 4.5
           }
         },
         "claude-haiku-4-5-20251001": {
@@ -244,8 +271,10 @@
             "output": 65536
           },
           "cost": {
-            "input": 1,
-            "output": 5
+            "input": 1.2,
+            "output": 6,
+            "cache_read": 0.12,
+            "cache_write": 1.5
           }
         },
         "gemini-3.5-flash": {
@@ -256,8 +285,9 @@
             "output": 65536
           },
           "cost": {
-            "input": 1.5,
-            "output": 9
+            "input": 1.8,
+            "output": 10.8,
+            "cache_read": 0.18
           }
         },
         "gemini-3.1-flash-lite": {
@@ -268,8 +298,9 @@
             "output": 65536
           },
           "cost": {
-            "input": 0.25,
-            "output": 1.5
+            "input": 0.3,
+            "output": 1.8,
+            "cache_read": 0.03
           }
         },
         "gemini-3.1-pro-preview": {
@@ -280,8 +311,9 @@
             "output": 65536
           },
           "cost": {
-            "input": 2,
-            "output": 12
+            "input": 2.4,
+            "output": 14.4,
+            "cache_read": 0.24
           }
         },
         "gemini-3-flash-preview": {
@@ -292,8 +324,9 @@
             "output": 65536
           },
           "cost": {
-            "input": 0.5,
-            "output": 3
+            "input": 0.6,
+            "output": 3.6,
+            "cache_read": 0.06
           }
         },
         "gemini-2.5-pro": {
@@ -304,8 +337,9 @@
             "output": 65536
           },
           "cost": {
-            "input": 1.25,
-            "output": 10
+            "input": 1.5,
+            "output": 12,
+            "cache_read": 0.15
           }
         },
         "gemini-2.5-flash": {
@@ -316,8 +350,9 @@
             "output": 65536
           },
           "cost": {
-            "input": 0.3,
-            "output": 2.5
+            "input": 0.36,
+            "output": 3,
+            "cache_read": 0.036
           }
         },
         "grok-4.5": {
@@ -328,8 +363,9 @@
             "output": 65536
           },
           "cost": {
-            "input": 2,
-            "output": 6
+            "input": 2.4,
+            "output": 7.2,
+            "cache_read": 0.6
           }
         },
         "grok-4.3": {
@@ -340,8 +376,9 @@
             "output": 65536
           },
           "cost": {
-            "input": 1.25,
-            "output": 2.5
+            "input": 1.5,
+            "output": 3,
+            "cache_read": 0.375
           }
         },
         "grok-4.20-non-reasoning": {
@@ -352,8 +389,9 @@
             "output": 65536
           },
           "cost": {
-            "input": 1.25,
-            "output": 2.5
+            "input": 1.5,
+            "output": 3,
+            "cache_read": 0.375
           }
         },
         "deepseek-v4-pro": {
@@ -364,8 +402,9 @@
             "output": 65536
           },
           "cost": {
-            "input": 1.74,
-            "output": 3.48
+            "input": 2.088,
+            "output": 4.176,
+            "cache_read": 0.2088
           }
         },
         "deepseek-v4-flash": {
@@ -376,8 +415,9 @@
             "output": 65536
           },
           "cost": {
-            "input": 0.14,
-            "output": 0.28
+            "input": 0.168,
+            "output": 0.336,
+            "cache_read": 0.0168
           }
         },
         "mistral-large-latest": {
@@ -388,8 +428,9 @@
             "output": 65536
           },
           "cost": {
-            "input": 0.5,
-            "output": 1.5
+            "input": 0.6,
+            "output": 1.8,
+            "cache_read": 0.6
           }
         },
         "mistral-medium-latest": {
@@ -400,8 +441,9 @@
             "output": 65536
           },
           "cost": {
-            "input": 1.5,
-            "output": 7.5
+            "input": 1.8,
+            "output": 9,
+            "cache_read": 1.8
           }
         },
         "magistral-medium-2509": {
@@ -412,8 +454,9 @@
             "output": 65536
           },
           "cost": {
-            "input": 2,
-            "output": 5
+            "input": 2.4,
+            "output": 6,
+            "cache_read": 2.4
           }
         },
         "meta-llama/llama-4-scout-17b-16e-instruct": {
@@ -424,8 +467,9 @@
             "output": 65536
           },
           "cost": {
-            "input": 0.11,
-            "output": 0.34
+            "input": 0.132,
+            "output": 0.408,
+            "cache_read": 0.132
           }
         },
         "kimi-k2.7-code": {
@@ -436,8 +480,9 @@
             "output": 65536
           },
           "cost": {
-            "input": 0.95,
-            "output": 4
+            "input": 1.14,
+            "output": 4.8,
+            "cache_read": 1.14
           }
         },
         "kimi-k2.6": {
@@ -448,8 +493,9 @@
             "output": 65536
           },
           "cost": {
-            "input": 0.95,
-            "output": 4
+            "input": 1.14,
+            "output": 4.8,
+            "cache_read": 1.14
           }
         },
         "kimi-k2.5": {
@@ -460,8 +506,9 @@
             "output": 65536
           },
           "cost": {
-            "input": 0.6,
-            "output": 2.5
+            "input": 0.72,
+            "output": 3,
+            "cache_read": 0.72
           }
         },
         "qwen3.7-max": {
@@ -472,8 +519,9 @@
             "output": 65536
           },
           "cost": {
-            "input": 1.25,
-            "output": 3.75
+            "input": 1.5,
+            "output": 4.5,
+            "cache_read": 1.5
           }
         },
         "qwen3-max": {
@@ -484,8 +532,9 @@
             "output": 65536
           },
           "cost": {
-            "input": 0.78,
-            "output": 3.9
+            "input": 0.936,
+            "output": 4.68,
+            "cache_read": 0.936
           }
         },
         "qwen3-coder-480b-a35b-instruct": {
@@ -496,8 +545,9 @@
             "output": 65536
           },
           "cost": {
-            "input": 0.82,
-            "output": 3.29
+            "input": 0.984,
+            "output": 3.948,
+            "cache_read": 0.984
           }
         },
         "glm-5.1": {
@@ -508,8 +558,9 @@
             "output": 65536
           },
           "cost": {
-            "input": 0.98,
-            "output": 3.08
+            "input": 1.176,
+            "output": 3.696,
+            "cache_read": 1.176
           }
         },
         "glm-4.6": {
@@ -520,8 +571,9 @@
             "output": 65536
           },
           "cost": {
-            "input": 0.6,
-            "output": 2.2
+            "input": 0.72,
+            "output": 2.64,
+            "cache_read": 0.72
           }
         },
         "sonar": {
@@ -532,8 +584,9 @@
             "output": 65536
           },
           "cost": {
-            "input": 1,
-            "output": 1
+            "input": 1.2,
+            "output": 1.2,
+            "cache_read": 1.2
           }
         },
         "sonar-pro": {
@@ -544,8 +597,9 @@
             "output": 65536
           },
           "cost": {
-            "input": 3,
-            "output": 15
+            "input": 3.6,
+            "output": 18,
+            "cache_read": 3.6
           }
         },
         "sonar-reasoning-pro": {
@@ -556,8 +610,9 @@
             "output": 65536
           },
           "cost": {
-            "input": 2,
-            "output": 8
+            "input": 2.4,
+            "output": 9.6,
+            "cache_read": 2.4
           }
         },
         "sonar-deep-research": {
@@ -568,8 +623,9 @@
             "output": 65536
           },
           "cost": {
-            "input": 2,
-            "output": 8
+            "input": 2.4,
+            "output": 9.6,
+            "cache_read": 2.4
           }
         }
       }
