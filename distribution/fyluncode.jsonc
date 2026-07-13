@@ -9,6 +9,8 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "autoupdate": false,
+  // Palenight — matches Fylun's violet brand in the terminal.
+  "theme": "palenight",
   // Never surface anomalyco's Zen gateway provider.
   "disabled_providers": ["opencode"],
   // No "plugin" entry: Fylun auth is compiled into the binary (internalPlugins).
