@@ -478,6 +478,19 @@
             "cache_read": 0.132
           }
         },
+        "kimi-k3": {
+          "name": "Kimi K3",
+          "reasoning": true,
+          "limit": {
+            "context": 1048576,
+            "output": 65536
+          },
+          "cost": {
+            "input": 3.6,
+            "output": 18,
+            "cache_read": 3.6
+          }
+        },
         "kimi-k2.7-code": {
           "name": "Kimi K2.7 Code",
           "reasoning": true,
