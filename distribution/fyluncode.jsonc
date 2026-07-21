@@ -283,6 +283,19 @@
             "cache_write": 1.5
           }
         },
+        "gemini-3.6-flash": {
+          "name": "Gemini 3.6 Flash",
+          "reasoning": true,
+          "limit": {
+            "context": 1048576,
+            "output": 65536
+          },
+          "cost": {
+            "input": 1.8,
+            "output": 9,
+            "cache_read": 0.18
+          }
+        },
         "gemini-3.5-flash": {
           "name": "Gemini 3.5 Flash",
           "reasoning": true,
