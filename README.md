@@ -102,8 +102,15 @@ Implementation lives at `fylun-web/apps/main/src/lib/openai-compat/` (schema, tr
 
 ### Regenerating models
 
-The models block in `distribution/fyluncode.jsonc` is generated from the same
-registry that serves /v1/models:
+The model catalog lives in **`distribution/models-fylun.json`** only — it is
+baked into the binary at build time (`scripts/build.sh` passes it as
+`MODELS_DEV_API_JSON`) and is the single source for the picker, pricing, and
+context limits. `distribution/fyluncode.jsonc` deliberately carries **no**
+models block, so a plain `fylun-code upgrade` (which ships a new binary but
+never overwrites the seeded user config) always delivers the current catalog
+with nothing stale to refresh.
+
+Regenerate `models-fylun.json` from the same registry that serves /v1/models:
 
 ```bash
 cd fylun-web && pnpm --filter @fylun/ai build && node -e \
@@ -111,6 +118,8 @@ cd fylun-web && pnpm --filter @fylun/ai build && node -e \
 ```
 
 Re-run whenever the catalog changes (or curl /v1/models once prod is live).
+Deprecated models (`deprecated: true`) are filtered out, so removing one here
+is what drops it from the CLI on the next release.
 
 ### Local dev loop
 
