@@ -48,7 +48,10 @@ jobs:
           OPENCODE_RELEASE: "1"
           OPENCODE_VERSION: ${{ env.TAG }} # build.ts strips/handles; binary --version shows this
           GH_REPO: ${{ github.repository }}
-          MODELS_DEV_API_JSON: "../../../distribution/models-fylun.json"
+          # Must match scripts/build.sh. This is a second copy of that path —
+          # v0.1.18 shipped a Fylun-only picker because build.sh was updated and
+          # this was not. If you change one, change both.
+          MODELS_DEV_API_JSON: "../../../distribution/models.json"
         run: |
           set -euo pipefail
           # Strip leading v for the embedded version string; build.ts re-adds it for the release tag.
