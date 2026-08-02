@@ -28,6 +28,15 @@ Requires [bun](https://bun.sh) (upstream pins 1.3.x).
 # binary lands at upstream/packages/opencode/dist/<target>/bin/fylun-code
 ```
 
+**macOS: re-sign after copying.** bun appends the JS bundle to the executable,
+which invalidates its code signature. The binary runs from the path it was built
+at, but any copy (e.g. installing to `~/.local/bin`) is **SIGKILLed on first run**
+(exit 137, no output). Ad-hoc sign it after installing:
+
+```bash
+codesign --force --sign - ~/.local/bin/fylun-code-bin
+```
+
 ## Pulling upstream updates
 
 1. Edit `UPSTREAM_VERSION` to the new tag.
@@ -46,8 +55,8 @@ Requires [bun](https://bun.sh) (upstream pins 1.3.x).
 | 03-binary-name | Build outfile + yargs scriptName → `fylun-code` | Binary/help-text identity. |
 | 04-update-channel | `latest` queries `usefylun/fylun-code` GitHub releases; `upgrade` re-runs the install script (`fylun.ai/code/install`) | Upstream's upgrade paths install `opencode-ai` from npm/brew/GitHub — would replace this binary with stock opencode. Now wired to Fylun's own release + installer, so `fylun-code upgrade` self-updates and update-available checks work. |
 | 05-branding | ASCII logo + wordmark say "fylun code" | Identity in the TUI banner / help logo. |
-| 06-pinned-catalog | Baked models.dev snapshot is authoritative (no disk-cache preference, no runtime fetch/refresh); model dialog drops the "Recent" section and the "Connect provider" action | The catalog feeds the provider/`/login` list and the model picker. `build.sh` bakes a Fylun-only catalog (`distribution/models-fylun.json`) via `MODELS_DEV_API_JSON` so only Fylun appears — never anomalyco's providers. Don't bake an empty `{}` catalog: that also removes Fylun from the connect/`/login` list. |
-| 07-login-flow | `AutoMethod` exported; `/login` is a dedicated command that goes straight to Fylun browser OAuth (skips the provider list + auth-method menu), falling back to the full dialog if unavailable. `/connect` keeps the full menu. The "Other / custom provider" entry is removed so **Fylun is the lone provider** in the UI | Fast Claude-Code-style login + single-provider product. The plugin auto-opens the browser (no link click). API-key method still lives in `/connect` + Settings → Security; custom providers still work via config, just not advertised. |
+| 06-pinned-catalog | Baked models.dev snapshot is authoritative (no disk-cache preference, no runtime fetch/refresh) | The catalog feeds the provider/`/login` list and the model picker. `build.sh` bakes `distribution/models.json` (see "Regenerating models") via `MODELS_DEV_API_JSON`, so the picker is deterministic and works offline. **The TUI half of this patch was removed 2026-08-01** — it dropped the "Recent" section and the "Connect provider" action, both justified only by "Fylun is the only provider", which stopped being true. Don't bake an empty `{}` catalog: that removes Fylun from the connect/`/login` list too. |
+| 07-login-flow | `AutoMethod` exported; `/login` goes straight to Fylun browser OAuth (skips the provider list + auth-method menu), falling back to the full dialog if unavailable. `/connect` keeps the full menu. Fylun is added to `PROVIDER_PRIORITY` and carries "(Recommended — sign in)"; OpenCode Zen's description credits anomalyco | Fast Claude-Code-style login, with Fylun leading the picker **on merit rather than by removing the alternatives**. Upstream's per-provider descriptions and the "Other / custom provider" entry were restored 2026-08-01, so bring-your-own keys are reachable from the UI. Two changed lines instead of two deleted blocks — additive hunks conflict far less on upstream merges. |
 | 08-bundled-auth | Registers `FylunAuthPlugin` in opencode's `internalPlugins` so the auth provider is **compiled into the binary** (like opencode's own Copilot/xAI/GitLab auth), not installed from npm | No npm package, no `plugin` config entry, no runtime plugin-install. `build.sh` copies `plugin/src/index.ts` → `upstream/.../plugin/fylun-auth.ts` before building. Updates ship with the binary. |
 | 09-terminal-title | Terminal *window* title `OpenCode` → `Fylun Code` (`packages/tui/src/app.tsx`) | The OS window/tab title is a separate render path from the TUI banner (patch 05) and the sidebar footer (patch 11). |
 | 10-fd-limit-wrapper | Every macOS/Linux build (local `--single` dev builds and CI release builds alike) ships `fylun-code` as a thin shell wrapper (`ulimit -n 65536` then `exec`) around the real binary, renamed `fylun-code-bin`. Applied per-target inside the main build loop, not gated behind `Script.release`. Also copies the repo `LICENSE` (opencode + Fylun, MIT) into `dist/<target>/bin` so the notice ships inside every archive. Windows untouched (no rlimit concept). | macOS defaults new shells to a 256 fd soft limit; opencode's file watching/sync on startup can exceed it (`EMFILE`/"low max file descriptors" on launch). Raising the soft limit up to the already-permitted hard limit needs no sudo and only affects this process. Both `install/route.ts` and the Homebrew formula must install `fylun-code` **and** `fylun-code-bin` for this to work. |
@@ -102,13 +111,37 @@ Implementation lives at `fylun-web/apps/main/src/lib/openai-compat/` (schema, tr
 
 ### Regenerating models
 
-The model catalog lives in **`distribution/models-fylun.json`** only — it is
-baked into the binary at build time (`scripts/build.sh` passes it as
-`MODELS_DEV_API_JSON`) and is the single source for the picker, pricing, and
-context limits. `distribution/fyluncode.jsonc` deliberately carries **no**
-models block, so a plain `fylun-code upgrade` (which ships a new binary but
-never overwrites the seeded user config) always delivers the current catalog
-with nothing stale to refresh.
+Two files, one generated from the other:
+
+- **`distribution/models-fylun.json`** — the `fylun` provider only, generated
+  from `@fylun/ai`'s `ModelRegistry` (the same registry that serves `/v1/models`).
+  Single source of truth for Fylun's own models, pricing and context limits.
+- **`distribution/models.json`** — what actually gets baked. Produced by
+  `scripts/gen-catalog.mjs`: the file above, plus a curated slice of models.dev.
+  `scripts/build.sh` passes it as `MODELS_DEV_API_JSON`.
+
+```bash
+node scripts/gen-catalog.mjs                # regenerate distribution/models.json
+node scripts/gen-catalog.mjs --fylun-only   # single-provider bake (pre-2026-08 behaviour)
+```
+
+The curated list is ~24 providers / ~800 models / ~800KB, against 177 providers
+and 3.3MB for all of models.dev — that would be an unusable picker, and the
+provider dialog keeps upstream's "Other / custom provider" entry so anything off
+the list is still reachable.
+
+**The curation is a usability decision, not a competitive one.** OpenCode Zen and
+OpenCode Go are deliberately in the list, and `disabled_providers` is deliberately
+absent from `fyluncode.jsonc`: this project ships anomalyco's harness under
+another brand and depends on their releases continuing. Fylun leads the picker on
+merit — `PROVIDER_PRIORITY` puts it first and it carries "(Recommended — sign
+in)" — not by removing the alternative. Dropping a provider from the allowlist to
+suppress a competitor would make the usability justification dishonest.
+
+`distribution/fyluncode.jsonc` deliberately carries **no** models block, so a
+plain `fylun-code upgrade` (which ships a new binary but never overwrites the
+seeded user config) always delivers the current catalog with nothing stale to
+refresh.
 
 Regenerate `models-fylun.json` from the same registry that serves /v1/models:
 

@@ -1,8 +1,8 @@
 diff --git a/packages/tui/src/app.tsx b/packages/tui/src/app.tsx
-index edf9085..73f4a88 100644
+index 57f372e..7e643f4 100644
 --- a/packages/tui/src/app.tsx
 +++ b/packages/tui/src/app.tsx
-@@ -25,7 +25,7 @@ import {
+@@ -26,7 +26,7 @@ import {
  } from "solid-js"
  import { TuiPathsProvider, TuiStartupProvider, TuiTerminalEnvironmentProvider, useTuiStartup } from "./context/runtime"
  import { DialogProvider, useDialog } from "./ui/dialog"
@@ -11,7 +11,7 @@ index edf9085..73f4a88 100644
  import { ErrorComponent } from "./component/error-component"
  import { PluginRouteMissing } from "./component/plugin-route-missing"
  import { ProjectProvider, useProject } from "./context/project"
-@@ -534,6 +534,46 @@ function App(props: { onSnapshot?: () => Promise<string[]>; pluginHost: TuiPlugi
+@@ -549,6 +549,46 @@ function App(props: { onSnapshot?: () => Promise<string[]>; pluginHost: TuiPlugi
    )
  
    const connected = useConnected()
@@ -58,7 +58,7 @@ index edf9085..73f4a88 100644
    const currentWorktreeWorkspace = createMemo(() => {
      const workspaceID = project.workspace.current()
      if (!workspaceID) return
-@@ -696,10 +736,16 @@ function App(props: { onSnapshot?: () => Promise<string[]>; pluginHost: TuiPlugi
+@@ -711,10 +751,16 @@ function App(props: { onSnapshot?: () => Promise<string[]>; pluginHost: TuiPlugi
        },
        {
          name: "variant.list",
@@ -77,7 +77,7 @@ index edf9085..73f4a88 100644
          run: () => {
            if (local.model.variant.list().length === 0) {
              return toast.show({
-@@ -730,6 +776,21 @@ function App(props: { onSnapshot?: () => Promise<string[]>; pluginHost: TuiPlugi
+@@ -745,6 +791,21 @@ function App(props: { onSnapshot?: () => Promise<string[]>; pluginHost: TuiPlugi
          },
          category: "Provider",
        },
@@ -100,38 +100,32 @@ index edf9085..73f4a88 100644
          ? [
              {
 diff --git a/packages/tui/src/component/dialog-provider.tsx b/packages/tui/src/component/dialog-provider.tsx
-index 2767508..7bc69da 100644
+index 0fd51e3..f4b0b62 100644
 --- a/packages/tui/src/component/dialog-provider.tsx
 +++ b/packages/tui/src/component/dialog-provider.tsx
-@@ -58,22 +58,14 @@ export function providerOptions(list: { id: string; name: string }[]): ProviderO
-         title: provider.name,
+@@ -17,6 +17,9 @@ import { useBindings } from "../keymap"
+ import { useClipboard } from "../context/clipboard"
+ 
+ const PROVIDER_PRIORITY: Record<string, number> = {
++  // Fylun Code: Fylun leads the "Popular" group. Negative rather than
++  // renumbering the rest, to keep this a one-line addition over upstream.
++  fylun: -1,
+   opencode: 0,
+   "opencode-go": 1,
+   openai: 2,
+@@ -59,7 +62,10 @@ export function providerOptions(list: { id: string; name: string }[]): ProviderO
          value: provider.id,
          providerID: provider.id,
--        description: {
+         description: {
 -          opencode: "(Recommended)",
--          anthropic: "(API key)",
--          openai: "(ChatGPT Plus/Pro or API key)",
--          "opencode-go": "Low cost subscription for everyone",
--        }[provider.id],
-+        // Fylun Code: Fylun is the lone provider — drop per-provider hint text.
-+        description: undefined,
-         category: provider.id in PROVIDER_PRIORITY ? "Popular" : "Providers",
-       })),
-     ),
--    {
--      type: "custom",
--      title: "Other",
--      value: CUSTOM_PROVIDER_OPTION_VALUE,
--      description: "Custom provider",
--      category: "Providers",
--    },
-+    // Fylun Code: no "Other / custom provider" entry — Fylun is the only
-+    // provider offered in the UI. (Power users can still add one by editing
-+    // fyluncode.jsonc; we just don't advertise it.)
-   ]
- }
- 
-@@ -236,7 +228,7 @@ interface AutoMethodProps {
++          // Fylun Code: "(Recommended)" moves to Fylun; OpenCode Zen keeps a
++          // description that credits the harness this is built on.
++          fylun: "(Recommended — sign in)",
++          opencode: "OpenCode Zen — from the makers of opencode",
+           anthropic: "(API key)",
+           openai: "(ChatGPT Plus/Pro or API key)",
+           "opencode-go": "Low cost subscription for everyone",
+@@ -236,7 +242,7 @@ interface AutoMethodProps {
    title: string
    authorization: ProviderAuthAuthorization
  }

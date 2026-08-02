@@ -1,8 +1,8 @@
 diff --git a/packages/core/src/models-dev.ts b/packages/core/src/models-dev.ts
-index 3f9f670..32413f5 100644
+index c2325cb..f3e6603 100644
 --- a/packages/core/src/models-dev.ts
 +++ b/packages/core/src/models-dev.ts
-@@ -197,10 +197,14 @@ export const layer = Layer.effect(
+@@ -193,10 +193,14 @@ const layer = Layer.effect(
      })
  
      const populate = Effect.gen(function* () {
@@ -19,7 +19,7 @@ index 3f9f670..32413f5 100644
        if (Flag.OPENCODE_DISABLE_MODELS_FETCH) return {}
        // Flock is cross-process: concurrent opencode CLIs can race on this cache file.
        const text = yield* Effect.scoped(
-@@ -234,8 +238,13 @@ export const layer = Layer.effect(
+@@ -230,8 +234,13 @@ const layer = Layer.effect(
        )
      })
  
@@ -34,44 +34,3 @@ index 3f9f670..32413f5 100644
        yield* Effect.forkScoped(refresh().pipe(Effect.repeat(Schedule.spaced("60 minutes")), Effect.ignore))
      }
  
-diff --git a/packages/tui/src/component/dialog-model.tsx b/packages/tui/src/component/dialog-model.tsx
-index 15da1a6..29b3a11 100644
---- a/packages/tui/src/component/dialog-model.tsx
-+++ b/packages/tui/src/component/dialog-model.tsx
-@@ -4,7 +4,7 @@ import { useSync } from "../context/sync"
- import { map, pipe, flatMap, entries, filter, sortBy, take } from "remeda"
- import { DialogSelect } from "../ui/dialog-select"
- import { useDialog } from "../ui/dialog"
--import { createDialogProviderOptions, DialogProvider } from "./dialog-provider"
-+import { createDialogProviderOptions } from "./dialog-provider"
- import { DialogVariant } from "./dialog-variant"
- import * as fuzzysort from "fuzzysort"
- import { useConnected } from "./use-connected"
-@@ -24,7 +24,9 @@ export function DialogModel(props: { providerID?: string }) {
-     const needle = query().trim()
-     const showSections = showExtra() && needle.length === 0
-     const favorites = connected() ? local.model.favorite() : []
--    const recents = local.model.recent()
-+    // Fylun Code: no "Recent" section — with a single provider it duplicates
-+    // entries and pushes the full catalog below the fold.
-+    const recents: ReturnType<typeof local.model.recent> = []
- 
-     function toOptions(items: typeof favorites, category: string) {
-       if (!showSections) return []
-@@ -147,13 +149,9 @@ export function DialogModel(props: { providerID?: string }) {
-     <DialogSelect<ReturnType<typeof options>[number]["value"]>
-       options={options()}
-       actions={[
--        {
--          command: "model.dialog.provider",
--          title: connected() ? "Connect provider" : "View all providers",
--          onTrigger() {
--            dialog.replace(() => <DialogProvider />)
--          },
--        },
-+        // Fylun Code: no "Connect provider" / "View all providers" action —
-+        // Fylun is the only provider, so the ctrl+a provider dialog (which
-+        // lists every upstream provider + custom-provider entry) is removed.
-         {
-           command: "model.dialog.favorite",
-           title: "Favorite",
