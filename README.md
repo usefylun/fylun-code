@@ -11,7 +11,7 @@ Built on OpenCode (MIT) — keep this attribution visible in anything user-facin
 
 ```
 fylun-code/
-├── UPSTREAM_VERSION        # pinned upstream release tag (v1.17.14)
+├── UPSTREAM_VERSION        # pinned upstream release tag (v1.18.18)
 ├── upstream/               # gitignored; shallow clone managed by scripts
 ├── overlay/patches/        # the entire diff between opencode and fylun-code
 ├── plugin/                 # Fylun auth provider — compiled into the binary (patch 08)
@@ -61,6 +61,18 @@ codesign --force --sign - ~/.local/bin/fylun-code-bin
 | 09-terminal-title | Terminal *window* title `OpenCode` → `Fylun Code` (`packages/tui/src/app.tsx`) | The OS window/tab title is a separate render path from the TUI banner (patch 05) and the sidebar footer (patch 11). |
 | 10-fd-limit-wrapper | Every macOS/Linux build (local `--single` dev builds and CI release builds alike) ships `fylun-code` as a thin shell wrapper (`ulimit -n 65536` then `exec`) around the real binary, renamed `fylun-code-bin`. Applied per-target inside the main build loop, not gated behind `Script.release`. Also copies the repo `LICENSE` (opencode + Fylun, MIT) into `dist/<target>/bin` so the notice ships inside every archive. Windows untouched (no rlimit concept). | macOS defaults new shells to a 256 fd soft limit; opencode's file watching/sync on startup can exceed it (`EMFILE`/"low max file descriptors" on launch). Raising the soft limit up to the already-permitted hard limit needs no sudo and only affects this process. Both `install/route.ts` and the Homebrew formula must install `fylun-code` **and** `fylun-code-bin` for this to work. |
 | 11-sidebar-footer-branding | `packages/tui/src/feature-plugins/sidebar/footer.tsx` and `packages/tui/src/routes/session/sidebar.tsx` both render the sidebar footer version line as `<b>Open</b><b>Code</b>`, untouched by patch 09 (which only renamed the terminal *window title*). Both now render `Fylun` `Code`. | Same "OpenCode" leak as patch 09, different render path — the sidebar footer is a separate slot-based component tree, not covered by the app.tsx title-bar patch. |
+
+### Retired patches
+
+- **12-grok-effort — deleted at v1.18.18, because upstream now does it.** The
+  patch existed to stop `variants()` returning `{}` for every grok model, which
+  denied Fylun's grok models a reasoning-effort control they support. Upstream
+  has since narrowed its grok special case to `grok-3-mini` and routes
+  everything else through the `model.api.npm` switch, where
+  `@ai-sdk/openai-compatible` — Fylun's transport — emits low/medium/high. The
+  behaviour the patch added is the default now, so carrying it would be carrying
+  a diff that changes nothing. Patch numbers are not renumbered on removal; the
+  gap is the record.
 
 ### Deliberate non-changes
 
