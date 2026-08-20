@@ -166,6 +166,20 @@ Re-run whenever the catalog changes (or curl /v1/models once prod is live).
 Deprecated models (`deprecated: true`) are filtered out, so removing one here
 is what drops it from the CLI on the next release.
 
+**And check it, because the filter is a step somebody performs, not a guarantee
+the file carries.** Four deprecated models were found in the bake on
+2026-08-19 — `claude-opus-4-8`, which the Anthropic API now answers with "no
+longer available, use claude-opus-5", plus `claude-opus-4-5`,
+`claude-sonnet-4-5` and `gemini-3.6-flash`. The CLI has none of the web app's
+deprecation messaging, so picking one is a hard failure with no explanation.
+
+```bash
+node scripts/check-catalog-drift.mjs
+```
+
+It enforces both rules: nothing baked that the registry lacks, and nothing baked
+that the registry marks deprecated. Run it after any catalog change.
+
 ### Local dev loop
 
 Point the plugin at a local fylun-web dev server:

@@ -281,28 +281,6 @@
           "output": 128000
         }
       },
-      "claude-opus-4-8": {
-        "id": "claude-opus-4-8",
-        "name": "Claude Opus 4.8",
-        "release_date": "2026-01-01",
-        "attachment": true,
-        "reasoning": true,
-        "temperature": true,
-        "tool_call": true,
-        "interleaved": {
-          "field": "reasoning_details"
-        },
-        "cost": {
-          "input": 6,
-          "output": 30,
-          "cache_read": 0.6,
-          "cache_write": 7.5
-        },
-        "limit": {
-          "context": 1000000,
-          "output": 65536
-        }
-      },
       "claude-sonnet-5": {
         "id": "claude-sonnet-5",
         "name": "Claude Sonnet 5",
@@ -322,50 +300,6 @@
         },
         "limit": {
           "context": 1000000,
-          "output": 65536
-        }
-      },
-      "claude-opus-4-5-20251101": {
-        "id": "claude-opus-4-5-20251101",
-        "name": "Claude 4.5 Opus",
-        "release_date": "2026-01-01",
-        "attachment": true,
-        "reasoning": true,
-        "temperature": true,
-        "tool_call": true,
-        "interleaved": {
-          "field": "reasoning_details"
-        },
-        "cost": {
-          "input": 18,
-          "output": 90,
-          "cache_read": 1.8,
-          "cache_write": 22.5
-        },
-        "limit": {
-          "context": 200000,
-          "output": 65536
-        }
-      },
-      "claude-sonnet-4-5-20250929": {
-        "id": "claude-sonnet-4-5-20250929",
-        "name": "Claude 4.5 Sonnet",
-        "release_date": "2026-01-01",
-        "attachment": true,
-        "reasoning": true,
-        "temperature": true,
-        "tool_call": true,
-        "interleaved": {
-          "field": "reasoning_details"
-        },
-        "cost": {
-          "input": 3.6,
-          "output": 18,
-          "cache_read": 0.36,
-          "cache_write": 4.5
-        },
-        "limit": {
-          "context": 200000,
           "output": 65536
         }
       },
@@ -395,24 +329,6 @@
         "id": "gemini-3.7-flash",
         "name": "Gemini 3.7 Flash",
         "release_date": "2026-08-13",
-        "attachment": true,
-        "reasoning": true,
-        "temperature": true,
-        "tool_call": true,
-        "cost": {
-          "input": 1.8,
-          "output": 9,
-          "cache_read": 0.18
-        },
-        "limit": {
-          "context": 1048576,
-          "output": 65536
-        }
-      },
-      "gemini-3.6-flash": {
-        "id": "gemini-3.6-flash",
-        "name": "Gemini 3.6 Flash",
-        "release_date": "2026-07-21",
         "attachment": true,
         "reasoning": true,
         "temperature": true,
