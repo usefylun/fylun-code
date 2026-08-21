@@ -194,7 +194,7 @@ fylun-code
 ### Known residual gaps (accepted for v1)
 
 - ~~No Responses-API reasoning persistence for GPT-5.x (vs Codex CLI)~~ —
-  **BUILT 2026-07-07, pending prod deploy + E2E.** fylun-web now has a
+  **Built 2026-07-07; production end-to-end confirmation remains.** fylun-web has a
   `/api/v1/responses` passthrough (store:false, encrypted-reasoning replay), and
   OpenAI-family entries in `distribution/models-fylun.json` carry
   `"provider": {"npm": "@ai-sdk/openai"}` so opencode routes them there natively —
@@ -214,7 +214,10 @@ fylun-code
   symlink, seeds `~/.config/fylun-code/fyluncode.jsonc`. Homebrew tap + Scoop bucket too.
 - **Core branding** — logo/wordmark (05), terminal window title (09), sidebar footer (11).
 
-## Still TODO in this folder
+## Deferred ideas and maintenance notes — not active work
+
+These are retained for a future Fylun Code decision. They are not part of the
+active product queue; see [`fylun-web/docs/BOARD.md`](../../fylun-web/docs/BOARD.md).
 
 - Residual `opencode` strings in help/about text — the load-bearing branding is done
   (05/09/11); a `grep -ri opencode packages/tui/src` finds the stragglers. Cosmetic;

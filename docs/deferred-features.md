@@ -1,5 +1,9 @@
 # Deferred features (planned, not started)
 
+**Status: deferred record.** These ideas are not active work. The Fylun Code
+maintenance and verification queue is summarized in
+[`fylun-web/docs/BOARD.md`](../../../fylun-web/docs/BOARD.md).
+
 Two Claude-Code-parity features identified 2026-07-07 and deliberately deferred
 past v1. Both are credible v1.1+ differentiators; neither blocks launch. Notes below
 capture the design thinking so a future session doesn't re-derive it from scratch.

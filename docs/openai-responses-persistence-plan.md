@@ -1,6 +1,6 @@
 # Plan: OpenAI Responses-API reasoning persistence through the Fylun gateway
 
-**Status: IMPLEMENTED (pending prod deploy + E2E).** Originally parked; greenlit and
+**Status: record — implemented; production end-to-end confirmation remains.** Originally parked; greenlit and
 built 2026-07-07 after the Phase-0 spike collapsed the cost dramatically (see
 "Phase 0 findings"). Gateway endpoint lives in fylun-web; CLI side is a catalog-only
 change in `distribution/models-fylun.json` — **zero new overlay patches**.
