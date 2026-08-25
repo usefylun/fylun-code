@@ -1,12 +1,45 @@
 # Plan: OpenAI Responses-API reasoning persistence through the Fylun gateway
 
-**Status: record — implemented; production end-to-end confirmation remains.** Originally parked; greenlit and
+**Status: record — implemented; authenticated production round-trip remains.** Originally parked; greenlit and
 built 2026-07-07 after the Phase-0 spike collapsed the cost dramatically (see
 "Phase 0 findings"). Gateway endpoint lives in fylun-web; CLI side is a catalog-only
 change in `distribution/models-fylun.json` — **zero new overlay patches**.
 **Sequencing is load-bearing:** the catalog change must not ship in a CLI release
 until `/api/v1/responses` is deployed to prod, or GPT-5.x/o3 requests 404 for every
 CLI user. Written 2026-07-07 against opencode v1.17.14.
+
+---
+
+## Production-safe verification — 2026-08-24
+
+Verified without using an account, spending credits, or creating/deleting user
+data:
+
+- `POST https://fylun.ai/api/v1/responses` reaches the deployed route and returns
+  the expected OpenAI-shaped `401 invalid_api_key` response with `cache-control:
+  no-store`. This proves production routing and the authentication boundary, not
+  an upstream model call.
+- A clean build from pinned opencode `v1.18.18` applied all 14 overlay patches and
+  produced a working `fylun-code` binary (`0.0.0--202608250443`). The binary's
+  baked Fylun catalog contains 45 current models, includes `gpt-5.6-sol`,
+  `gpt-5.5`, and `o3`, and excludes the four catalog models retired on 2026-08-19.
+- Catalog drift validation passes: all 45 baked models exist in the web registry
+  and none is deprecated. Eleven OpenAI-family entries select
+  `@ai-sdk/openai`; no non-OpenAI entry does.
+- The two focused opencode native-transport tests pass. They prove that an
+  encrypted reasoning item persisted from turn N is lowered into turn N+1's
+  Responses `input`, including the empty-reasoning-before-tool-output case, with
+  `store:false` and `include:["reasoning.encrypted_content"]` intact.
+- The fylun-web Responses sanitizer tests pass and enforce the complementary
+  gateway contract: stateless mode, encrypted-reasoning inclusion, rejection of
+  stored-object references, function-tools-only, output bounds, and usage parsing.
+
+Remaining limitation: the final authenticated production proof still requires a
+real model request, which necessarily creates billable usage/debit records. Under
+the no-user-data verification constraint, this run deliberately did not make that
+request. The unproven production segment is therefore upstream OpenAI passthrough,
+stream fidelity, and durable billing for a real two-turn request—not route presence,
+catalog selection, or client-side encrypted-state replay.
 
 ---
 

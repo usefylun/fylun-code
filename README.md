@@ -194,7 +194,8 @@ fylun-code
 ### Known residual gaps (accepted for v1)
 
 - ~~No Responses-API reasoning persistence for GPT-5.x (vs Codex CLI)~~ —
-  **Built 2026-07-07; production end-to-end confirmation remains.** fylun-web has a
+  **Built 2026-07-07; production route/auth verified 2026-08-24; authenticated
+  two-turn production confirmation remains.** fylun-web has a
   `/api/v1/responses` passthrough (store:false, encrypted-reasoning replay), and
   OpenAI-family entries in `distribution/models-fylun.json` carry
   `"provider": {"npm": "@ai-sdk/openai"}` so opencode routes them there natively —
