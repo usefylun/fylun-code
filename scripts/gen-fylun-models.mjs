@@ -132,7 +132,10 @@ const CURATED = [
 
   { id: "kimi-k3", release_date: "2026-07-16", attachment: true },
   { id: "kimi-k2.7-code", release_date: "2026-01-01", attachment: true },
-  { id: "kimi-k2.5", release_date: "2026-01-01", attachment: true },
+  // kimi-k2.5 dropped 2026-08-31: Moonshot retired it and the whole
+  // moonshot-v1 series at 16:00 that day, and calls now 404. Kimi K3 above is
+  // the migration target Moonshot names, and it was already baked.
+  // https://platform.kimi.ai/docs/platform-changelog
 
   { id: "qwen3.8-max", release_date: "2026-08-03", attachment: true },
   { id: "qwen3.7-max", release_date: "2026-01-01", attachment: true },

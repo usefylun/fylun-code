@@ -131,7 +131,7 @@
         "id": "gpt-5.5-pro",
         "name": "GPT-5.5 Pro",
         "release_date": "2026-01-01",
-        "attachment": false,
+        "attachment": true,
         "reasoning": true,
         "reasoning_options": [
           {
@@ -148,7 +148,8 @@
         "tool_call": true,
         "modalities": {
           "input": [
-            "text"
+            "text",
+            "image"
           ],
           "output": [
             "text"
@@ -171,7 +172,7 @@
         "id": "gpt-5-mini-2025-08-07",
         "name": "GPT-5 Mini",
         "release_date": "2026-01-01",
-        "attachment": false,
+        "attachment": true,
         "reasoning": true,
         "reasoning_options": [
           {
@@ -187,7 +188,8 @@
         "tool_call": true,
         "modalities": {
           "input": [
-            "text"
+            "text",
+            "image"
           ],
           "output": [
             "text"
@@ -210,7 +212,7 @@
         "id": "o3-pro",
         "name": "o3 Pro",
         "release_date": "2026-01-01",
-        "attachment": false,
+        "attachment": true,
         "reasoning": true,
         "reasoning_options": [
           {
@@ -226,7 +228,8 @@
         "tool_call": true,
         "modalities": {
           "input": [
-            "text"
+            "text",
+            "image"
           ],
           "output": [
             "text"
@@ -588,7 +591,7 @@
         "id": "grok-4.5",
         "name": "Grok 4.5",
         "release_date": "2026-07-08",
-        "attachment": false,
+        "attachment": true,
         "reasoning": true,
         "reasoning_options": [
           {
@@ -604,7 +607,8 @@
         "tool_call": true,
         "modalities": {
           "input": [
-            "text"
+            "text",
+            "image"
           ],
           "output": [
             "text"
@@ -624,13 +628,14 @@
         "id": "grok-4.3",
         "name": "Grok 4.3",
         "release_date": "2026-01-01",
-        "attachment": false,
+        "attachment": true,
         "reasoning": false,
         "temperature": true,
         "tool_call": true,
         "modalities": {
           "input": [
-            "text"
+            "text",
+            "image"
           ],
           "output": [
             "text"
@@ -650,13 +655,14 @@
         "id": "grok-4.20-non-reasoning",
         "name": "Grok 4.20 (Instant)",
         "release_date": "2026-01-01",
-        "attachment": false,
+        "attachment": true,
         "reasoning": false,
         "temperature": true,
         "tool_call": true,
         "modalities": {
           "input": [
-            "text"
+            "text",
+            "image"
           ],
           "output": [
             "text"
@@ -746,13 +752,14 @@
         "id": "mistral-large-latest",
         "name": "Mistral Large 3",
         "release_date": "2026-01-01",
-        "attachment": false,
+        "attachment": true,
         "reasoning": false,
         "temperature": true,
         "tool_call": true,
         "modalities": {
           "input": [
-            "text"
+            "text",
+            "image"
           ],
           "output": [
             "text"
@@ -772,13 +779,14 @@
         "id": "mistral-medium-latest",
         "name": "Mistral Medium 3.5",
         "release_date": "2026-01-01",
-        "attachment": false,
+        "attachment": true,
         "reasoning": false,
         "temperature": true,
         "tool_call": true,
         "modalities": {
           "input": [
-            "text"
+            "text",
+            "image"
           ],
           "output": [
             "text"
@@ -798,13 +806,14 @@
         "id": "magistral-medium-2509",
         "name": "Magistral Medium",
         "release_date": "2026-01-01",
-        "attachment": false,
+        "attachment": true,
         "reasoning": false,
         "temperature": true,
         "tool_call": true,
         "modalities": {
           "input": [
-            "text"
+            "text",
+            "image"
           ],
           "output": [
             "text"
@@ -824,13 +833,14 @@
         "id": "kimi-k3",
         "name": "Kimi K3",
         "release_date": "2026-07-16",
-        "attachment": false,
+        "attachment": true,
         "reasoning": false,
         "temperature": true,
         "tool_call": true,
         "modalities": {
           "input": [
-            "text"
+            "text",
+            "image"
           ],
           "output": [
             "text"
@@ -850,7 +860,7 @@
         "id": "kimi-k2.7-code",
         "name": "Kimi K2.7 Code",
         "release_date": "2026-01-01",
-        "attachment": false,
+        "attachment": true,
         "reasoning": true,
         "reasoning_options": [
           {
@@ -865,7 +875,8 @@
         "tool_call": true,
         "modalities": {
           "input": [
-            "text"
+            "text",
+            "image"
           ],
           "output": [
             "text"
@@ -881,46 +892,11 @@
           "output": 65536
         }
       },
-      "kimi-k2.5": {
-        "id": "kimi-k2.5",
-        "name": "Kimi K2.5",
-        "release_date": "2026-01-01",
-        "attachment": false,
-        "reasoning": true,
-        "reasoning_options": [
-          {
-            "type": "effort",
-            "values": [
-              null,
-              "high"
-            ]
-          }
-        ],
-        "temperature": true,
-        "tool_call": true,
-        "modalities": {
-          "input": [
-            "text"
-          ],
-          "output": [
-            "text"
-          ]
-        },
-        "cost": {
-          "input": 0.6,
-          "output": 2.5,
-          "cache_read": 0.06
-        },
-        "limit": {
-          "context": 256000,
-          "output": 65536
-        }
-      },
       "qwen3.8-max": {
         "id": "qwen3.8-max",
         "name": "Qwen3.8 Max",
         "release_date": "2026-08-03",
-        "attachment": false,
+        "attachment": true,
         "reasoning": true,
         "reasoning_options": [
           {
@@ -935,7 +911,8 @@
         "tool_call": true,
         "modalities": {
           "input": [
-            "text"
+            "text",
+            "image"
           ],
           "output": [
             "text"
@@ -1174,13 +1151,14 @@
         "id": "sonar-pro",
         "name": "Sonar Pro",
         "release_date": "2026-01-01",
-        "attachment": false,
+        "attachment": true,
         "reasoning": false,
         "temperature": true,
         "tool_call": true,
         "modalities": {
           "input": [
-            "text"
+            "text",
+            "image"
           ],
           "output": [
             "text"
@@ -1200,13 +1178,14 @@
         "id": "sonar-reasoning-pro",
         "name": "Sonar Reasoning Pro",
         "release_date": "2026-01-01",
-        "attachment": false,
+        "attachment": true,
         "reasoning": false,
         "temperature": true,
         "tool_call": true,
         "modalities": {
           "input": [
-            "text"
+            "text",
+            "image"
           ],
           "output": [
             "text"
@@ -21718,9 +21697,9 @@
           "output": 384000
         },
         "cost": {
-          "input": 0.08246,
-          "output": 0.16492,
-          "cache_read": 0.016492
+          "input": 0.08092,
+          "output": 0.16184,
+          "cache_read": 0.016184
         }
       },
       "deepseek/deepseek-v4-pro-0813": {
@@ -21809,9 +21788,9 @@
           "output": 384000
         },
         "cost": {
-          "input": 1.034256,
-          "output": 2.068512,
-          "cache_read": 0.086188
+          "input": 1.030776,
+          "output": 2.061552,
+          "cache_read": 0.085898
         }
       },
       "deepseek/deepseek-v3.2": {
@@ -22795,10 +22774,10 @@
           "output": 65536
         },
         "cost": {
-          "input": 1.5,
-          "output": 9,
-          "reasoning": 9,
-          "cache_read": 0.15,
+          "input": 1.65,
+          "output": 9.9,
+          "reasoning": 9.9,
+          "cache_read": 0.165,
           "cache_write": 0.083333
         }
       },
