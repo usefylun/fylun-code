@@ -281,7 +281,11 @@
         "reasoning": true,
         "reasoning_options": [
           {
-            "type": "toggle"
+            "type": "effort",
+            "values": [
+              null,
+              "high"
+            ]
           }
         ],
         "temperature": false,
@@ -317,7 +321,11 @@
         "reasoning": true,
         "reasoning_options": [
           {
-            "type": "toggle"
+            "type": "effort",
+            "values": [
+              null,
+              "high"
+            ]
           }
         ],
         "temperature": false,
@@ -846,7 +854,11 @@
         "reasoning": true,
         "reasoning_options": [
           {
-            "type": "toggle"
+            "type": "effort",
+            "values": [
+              null,
+              "high"
+            ]
           }
         ],
         "temperature": true,
@@ -877,7 +889,11 @@
         "reasoning": true,
         "reasoning_options": [
           {
-            "type": "toggle"
+            "type": "effort",
+            "values": [
+              null,
+              "high"
+            ]
           }
         ],
         "temperature": true,
@@ -908,7 +924,11 @@
         "reasoning": true,
         "reasoning_options": [
           {
-            "type": "toggle"
+            "type": "effort",
+            "values": [
+              null,
+              "high"
+            ]
           }
         ],
         "temperature": true,
@@ -939,7 +959,11 @@
         "reasoning": true,
         "reasoning_options": [
           {
-            "type": "toggle"
+            "type": "effort",
+            "values": [
+              null,
+              "high"
+            ]
           }
         ],
         "temperature": true,
@@ -1058,7 +1082,11 @@
         "reasoning": true,
         "reasoning_options": [
           {
-            "type": "toggle"
+            "type": "effort",
+            "values": [
+              null,
+              "high"
+            ]
           }
         ],
         "temperature": true,
@@ -1089,7 +1117,11 @@
         "reasoning": true,
         "reasoning_options": [
           {
-            "type": "toggle"
+            "type": "effort",
+            "values": [
+              null,
+              "high"
+            ]
           }
         ],
         "temperature": true,
@@ -20009,9 +20041,9 @@
           "output": 128000
         },
         "cost": {
-          "input": 0.132,
-          "output": 0.528,
-          "cache_read": 0.033
+          "input": 0.0825,
+          "output": 0.33,
+          "cache_read": 0.020625
         }
       },
       "tencent/hy-mt2-7b": {
@@ -21686,9 +21718,9 @@
           "output": 384000
         },
         "cost": {
-          "input": 0.088606,
-          "output": 0.177212,
-          "cache_read": 0.017721
+          "input": 0.08246,
+          "output": 0.16492,
+          "cache_read": 0.016492
         }
       },
       "deepseek/deepseek-v4-pro-0813": {
@@ -21730,9 +21762,9 @@
           "output": 384000
         },
         "cost": {
-          "input": 1.32,
-          "output": 3.96,
-          "cache_read": 0.044
+          "input": 0.66,
+          "output": 1.98,
+          "cache_read": 0.022
         }
       },
       "deepseek/deepseek-v4-pro": {
@@ -21774,12 +21806,12 @@
         "open_weights": true,
         "limit": {
           "context": 1048576,
-          "output": 393216
+          "output": 384000
         },
         "cost": {
-          "input": 1.6,
-          "output": 3.2,
-          "cache_read": 0.135
+          "input": 1.034256,
+          "output": 2.068512,
+          "cache_read": 0.086188
         }
       },
       "deepseek/deepseek-v3.2": {
@@ -22108,9 +22140,9 @@
           "output": 384000
         },
         "cost": {
-          "input": 0.44,
-          "output": 1.32,
-          "cache_read": 0.014
+          "input": 0.22,
+          "output": 0.66,
+          "cache_read": 0.007
         }
       },
       "arcee-ai/trinity-large-thinking": {
@@ -30915,12 +30947,12 @@
         "open_weights": true,
         "limit": {
           "context": 1048576,
-          "output": 262144
+          "output": 131072
         },
         "cost": {
           "input": 2,
           "output": 6,
-          "cache_read": 0.25
+          "cache_read": 0.2
         }
       },
       "liquid/lfm-2.5-2.6b:free": {
@@ -33350,43 +33382,12 @@
         "open_weights": false,
         "limit": {
           "context": 262144,
-          "output": 80000
+          "output": 235929
         },
         "cost": {
           "input": 0.74,
           "output": 2.96,
           "cache_read": 0.15
-        }
-      },
-      "kwaipilot/kat-coder-air-v2.5": {
-        "id": "kwaipilot/kat-coder-air-v2.5",
-        "name": "KAT-Coder-Air V2.5",
-        "description": "Coding model for repository understanding, refactors, and agentic engineering tasks",
-        "family": "kat-coder",
-        "attachment": false,
-        "reasoning": false,
-        "tool_call": true,
-        "structured_output": true,
-        "temperature": true,
-        "release_date": "2026-07-10",
-        "last_updated": "2026-07-10",
-        "modalities": {
-          "input": [
-            "text"
-          ],
-          "output": [
-            "text"
-          ]
-        },
-        "open_weights": false,
-        "limit": {
-          "context": 256000,
-          "output": 80000
-        },
-        "cost": {
-          "input": 0.15,
-          "output": 0.6,
-          "cache_read": 0.03
         }
       },
       "kwaipilot/kat-coder-pro-v2": {
@@ -33412,7 +33413,7 @@
         "open_weights": false,
         "limit": {
           "context": 262144,
-          "output": 80000
+          "output": 144000
         },
         "cost": {
           "input": 0.3,

@@ -235,21 +235,37 @@ const MAX_OUTPUT_TOKENS = Number(maxOutMatch[1].replace(/_/g, ""));
 //   {kind:"none"}             -> omitted
 //
 // Only the effort arm currently produces a control on Fylun's transport:
-// upstream's `reasoningToggle`/`reasoningBudget` both return nothing for
-// `@ai-sdk/openai-compatible`, which yields an empty variant set and falls back
-// to the heuristics — i.e. declaring toggle/budget is honest and costs nothing,
-// but does not yet gain those models a control. That is upstream's gap, not a
-// reason to misdeclare a model's shape here.
+// TOGGLE MODELS ARE DECLARED AS TWO-VALUED EFFORT, DELIBERATELY.
 //
-// A null in an effort `values` array means upstream's "none" variant, which
-// this registry never expresses and which the gateway would normalise UP to the
-// strongest level rather than off — so nulls are never emitted.
+// Upstream's `reasoningToggle` handles only `@ai-sdk/alibaba` and
+// `@ai-sdk/cohere` and returns `{}` for everything else, including
+// `@ai-sdk/openai-compatible` (transform.ts:1707-1715). An empty variant set
+// falls back to the id heuristics in `variants()`, which blocklist `glm`,
+// `kimi` and `qwen` outright (transform.ts:781-793). So declaring `toggle`
+// honestly is WORSE than declaring nothing: it routes into a blocklist and the
+// model ends up with no thinking control at all in the CLI.
+//
+// `reasoningVariants` takes the `effort` arm before the toggle arm, and effort
+// IS implemented for openai-compatible. Declaring the two states a toggle has
+// as `values: [null, "high"]` gets both variants out of stock opencode with no
+// patch: upstream maps `null` to its "none" variant, and Fylun's gateway maps
+// "none" to thinking-off (`translate.ts:267,275` — `explicitlyOff` is checked
+// BEFORE effort normalisation) and any other value to on, which for a
+// registry-declared toggle model is `{ kind: "on" }`. Two states in, two states
+// out. The registry keeps saying `toggle`, which is the truth; only the wire
+// vocabulary changes, to the one upstream can actually act on.
+//
+// A previous version of this comment claimed nulls were never emitted because
+// the gateway "would normalise UP to the strongest level rather than off". That
+// was wrong — see translate.ts:275 — and it is why this bug survived the
+// 2026-08-30 pass. Upstream issue: anomalyco/opencode#42793 (open).
 function reasoningOptions(thinking) {
   switch (thinking.kind) {
     case "effort":
       return [{ type: "effort", values: [...thinking.values] }];
     case "toggle":
-      return [{ type: "toggle" }];
+      // See the note above: NOT `[{ type: "toggle" }]`, which upstream drops.
+      return [{ type: "effort", values: [null, "high"] }];
     case "budget":
       return [{ type: "budget_tokens", min: thinking.min, max: thinking.max }];
     default:

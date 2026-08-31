@@ -90,12 +90,39 @@ codesign --force --sign - ~/.local/bin/fylun-code-bin
   reads `reasoning_options` directly off the catalog entry — the heuristics are
   the fallback for catalogs that don't declare it. `gen-fylun-models.mjs` now
   emits `reasoning_options` from each model's registry `ThinkingSupport`, so
-  the guessing path is never reached. Still open upstream: `reasoningToggle`
-  and `reasoningBudget` both return nothing for `@ai-sdk/openai-compatible`, so
-  toggle-kind and budget-kind models fall through to the same heuristics and
-  the GLM/Kimi/Qwen toggles remain uncontrollable. Fixing that needs an
-  upstream change or a new patch; declaring the shapes honestly is the half
-  that belongs here.
+  the guessing path is never reached.
+
+  **Amended again 2026-08-31 — "needs an upstream change or a new patch" was
+  wrong, and it cost the toggle models a control for a day.** `reasoningToggle`
+  and `reasoningBudget` do both return nothing for `@ai-sdk/openai-compatible`
+  (`transform.ts:1707-1715`, `:1846`), so declaring `toggle` honestly is
+  actively WORSE than declaring nothing: an empty variant set falls back to the
+  very id blocklist described above, and the model ends up with no control at
+  all. But `reasoningVariants` takes the `effort` arm BEFORE the toggle arm
+  (`:1662`), and effort IS implemented for openai-compatible. A toggle has
+  exactly two states, so it is now declared as `[{ type: "effort", values:
+  [null, "high"] }]` — upstream maps `null` to its "none" variant, and Fylun's
+  gateway maps "none" to thinking-off at `translate.ts:275`, checked before any
+  effort normalisation, and anything else to on. Verified against the pinned
+  upstream `ProviderTransform`: `{none:{reasoningEffort:"none"},
+  high:{reasoningEffort:"high"}}` for all eight toggle models. No patch.
+
+  The registry still says `toggle`, which is the truth; only the advertised
+  wire vocabulary changed, to the one upstream can act on. The earlier claim
+  that nulls could not be emitted because the gateway "would normalise UP to
+  the strongest level rather than off" was simply false, and was what hid this.
+
+  Budget-kind models (Haiku 4.5, the Gemini three) still fall to the heuristics
+  and get low/medium/high rather than their declared min/max. That is
+  controllable — the gateway maps effort words to budgets and clamps to the
+  model's range — so it is a fidelity gap, not a missing control, and the only
+  real loss is that Gemini 3 Flash's budget floor of 0 has no "off" variant.
+
+  Upstream tracking: `anomalyco/opencode#42793` (open, filed against v1.18.18,
+  the pinned version) and `#39933`. A one-line PR `#44064` was closed unmerged
+  by a bot on a PR-template technicality without human review. Worth commenting
+  on #42793 with the reproduction — the hole affects 634 models across 88
+  providers on live models.dev — but Fylun no longer depends on it landing.
 
 ### Undocumented patches
 
