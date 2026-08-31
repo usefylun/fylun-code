@@ -25,6 +25,15 @@
         ],
         "temperature": true,
         "tool_call": true,
+        "modalities": {
+          "input": [
+            "text",
+            "image"
+          ],
+          "output": [
+            "text"
+          ]
+        },
         "cost": {
           "input": 5,
           "output": 30,
@@ -56,6 +65,15 @@
         ],
         "temperature": true,
         "tool_call": true,
+        "modalities": {
+          "input": [
+            "text",
+            "image"
+          ],
+          "output": [
+            "text"
+          ]
+        },
         "cost": {
           "input": 2.5,
           "output": 15,
@@ -87,6 +105,15 @@
         ],
         "temperature": true,
         "tool_call": true,
+        "modalities": {
+          "input": [
+            "text",
+            "image"
+          ],
+          "output": [
+            "text"
+          ]
+        },
         "cost": {
           "input": 1,
           "output": 6,
@@ -104,7 +131,7 @@
         "id": "gpt-5.5-pro",
         "name": "GPT-5.5 Pro",
         "release_date": "2026-01-01",
-        "attachment": true,
+        "attachment": false,
         "reasoning": true,
         "reasoning_options": [
           {
@@ -119,6 +146,14 @@
         ],
         "temperature": true,
         "tool_call": true,
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
         "cost": {
           "input": 30,
           "output": 180,
@@ -136,7 +171,7 @@
         "id": "gpt-5-mini-2025-08-07",
         "name": "GPT-5 Mini",
         "release_date": "2026-01-01",
-        "attachment": true,
+        "attachment": false,
         "reasoning": true,
         "reasoning_options": [
           {
@@ -150,6 +185,14 @@
         ],
         "temperature": true,
         "tool_call": true,
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
         "cost": {
           "input": 1,
           "output": 4,
@@ -167,7 +210,7 @@
         "id": "o3-pro",
         "name": "o3 Pro",
         "release_date": "2026-01-01",
-        "attachment": true,
+        "attachment": false,
         "reasoning": true,
         "reasoning_options": [
           {
@@ -181,6 +224,14 @@
         ],
         "temperature": true,
         "tool_call": true,
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
         "cost": {
           "input": 20,
           "output": 80,
@@ -202,6 +253,15 @@
         "reasoning": false,
         "temperature": false,
         "tool_call": true,
+        "modalities": {
+          "input": [
+            "text",
+            "image"
+          ],
+          "output": [
+            "text"
+          ]
+        },
         "cost": {
           "input": 10,
           "output": 50,
@@ -226,6 +286,15 @@
         ],
         "temperature": false,
         "tool_call": true,
+        "modalities": {
+          "input": [
+            "text",
+            "image"
+          ],
+          "output": [
+            "text"
+          ]
+        },
         "interleaved": {
           "field": "reasoning_details"
         },
@@ -253,6 +322,15 @@
         ],
         "temperature": false,
         "tool_call": true,
+        "modalities": {
+          "input": [
+            "text",
+            "image"
+          ],
+          "output": [
+            "text"
+          ]
+        },
         "interleaved": {
           "field": "reasoning_details"
         },
@@ -282,6 +360,15 @@
         ],
         "temperature": true,
         "tool_call": true,
+        "modalities": {
+          "input": [
+            "text",
+            "image"
+          ],
+          "output": [
+            "text"
+          ]
+        },
         "interleaved": {
           "field": "reasoning_details"
         },
@@ -314,6 +401,15 @@
         ],
         "temperature": true,
         "tool_call": true,
+        "modalities": {
+          "input": [
+            "text",
+            "image"
+          ],
+          "output": [
+            "text"
+          ]
+        },
         "cost": {
           "input": 1.5,
           "output": 7.5,
@@ -332,6 +428,15 @@
         "reasoning": false,
         "temperature": true,
         "tool_call": true,
+        "modalities": {
+          "input": [
+            "text",
+            "image"
+          ],
+          "output": [
+            "text"
+          ]
+        },
         "cost": {
           "input": 0.3,
           "output": 2.5,
@@ -350,6 +455,15 @@
         "reasoning": false,
         "temperature": true,
         "tool_call": true,
+        "modalities": {
+          "input": [
+            "text",
+            "image"
+          ],
+          "output": [
+            "text"
+          ]
+        },
         "cost": {
           "input": 0.25,
           "output": 1.5,
@@ -375,6 +489,15 @@
         ],
         "temperature": true,
         "tool_call": true,
+        "modalities": {
+          "input": [
+            "text",
+            "image"
+          ],
+          "output": [
+            "text"
+          ]
+        },
         "cost": {
           "input": 2,
           "output": 12,
@@ -400,6 +523,15 @@
         ],
         "temperature": true,
         "tool_call": true,
+        "modalities": {
+          "input": [
+            "text",
+            "image"
+          ],
+          "output": [
+            "text"
+          ]
+        },
         "cost": {
           "input": 0.5,
           "output": 3,
@@ -425,6 +557,15 @@
         ],
         "temperature": true,
         "tool_call": true,
+        "modalities": {
+          "input": [
+            "text",
+            "image"
+          ],
+          "output": [
+            "text"
+          ]
+        },
         "cost": {
           "input": 1.25,
           "output": 10,
@@ -439,7 +580,7 @@
         "id": "grok-4.5",
         "name": "Grok 4.5",
         "release_date": "2026-07-08",
-        "attachment": true,
+        "attachment": false,
         "reasoning": true,
         "reasoning_options": [
           {
@@ -453,6 +594,14 @@
         ],
         "temperature": true,
         "tool_call": true,
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
         "cost": {
           "input": 2,
           "output": 6,
@@ -467,10 +616,18 @@
         "id": "grok-4.3",
         "name": "Grok 4.3",
         "release_date": "2026-01-01",
-        "attachment": true,
+        "attachment": false,
         "reasoning": false,
         "temperature": true,
         "tool_call": true,
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
         "cost": {
           "input": 1.25,
           "output": 2.5,
@@ -485,10 +642,18 @@
         "id": "grok-4.20-non-reasoning",
         "name": "Grok 4.20 (Instant)",
         "release_date": "2026-01-01",
-        "attachment": true,
+        "attachment": false,
         "reasoning": false,
         "temperature": true,
         "tool_call": true,
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
         "cost": {
           "input": 1.25,
           "output": 2.5,
@@ -503,7 +668,7 @@
         "id": "deepseek-v4-pro",
         "name": "DeepSeek V4 Pro",
         "release_date": "2026-01-01",
-        "attachment": true,
+        "attachment": false,
         "reasoning": true,
         "reasoning_options": [
           {
@@ -516,6 +681,14 @@
         ],
         "temperature": true,
         "tool_call": true,
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
         "cost": {
           "input": 1.32,
           "output": 3.96,
@@ -530,7 +703,7 @@
         "id": "deepseek-v4-flash",
         "name": "DeepSeek V4 Flash",
         "release_date": "2026-01-01",
-        "attachment": true,
+        "attachment": false,
         "reasoning": true,
         "reasoning_options": [
           {
@@ -543,6 +716,14 @@
         ],
         "temperature": true,
         "tool_call": true,
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
         "cost": {
           "input": 0.44,
           "output": 1.32,
@@ -557,10 +738,18 @@
         "id": "mistral-large-latest",
         "name": "Mistral Large 3",
         "release_date": "2026-01-01",
-        "attachment": true,
+        "attachment": false,
         "reasoning": false,
         "temperature": true,
         "tool_call": true,
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
         "cost": {
           "input": 0.5,
           "output": 1.5,
@@ -575,10 +764,18 @@
         "id": "mistral-medium-latest",
         "name": "Mistral Medium 3.5",
         "release_date": "2026-01-01",
-        "attachment": true,
+        "attachment": false,
         "reasoning": false,
         "temperature": true,
         "tool_call": true,
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
         "cost": {
           "input": 1.5,
           "output": 7.5,
@@ -593,10 +790,18 @@
         "id": "magistral-medium-2509",
         "name": "Magistral Medium",
         "release_date": "2026-01-01",
-        "attachment": true,
+        "attachment": false,
         "reasoning": false,
         "temperature": true,
         "tool_call": true,
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
         "cost": {
           "input": 2,
           "output": 5,
@@ -611,10 +816,18 @@
         "id": "kimi-k3",
         "name": "Kimi K3",
         "release_date": "2026-07-16",
-        "attachment": true,
+        "attachment": false,
         "reasoning": false,
         "temperature": true,
         "tool_call": true,
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
         "cost": {
           "input": 3,
           "output": 15,
@@ -629,7 +842,7 @@
         "id": "kimi-k2.7-code",
         "name": "Kimi K2.7 Code",
         "release_date": "2026-01-01",
-        "attachment": true,
+        "attachment": false,
         "reasoning": true,
         "reasoning_options": [
           {
@@ -638,6 +851,14 @@
         ],
         "temperature": true,
         "tool_call": true,
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
         "cost": {
           "input": 0.95,
           "output": 4,
@@ -652,7 +873,7 @@
         "id": "kimi-k2.5",
         "name": "Kimi K2.5",
         "release_date": "2026-01-01",
-        "attachment": true,
+        "attachment": false,
         "reasoning": true,
         "reasoning_options": [
           {
@@ -661,6 +882,14 @@
         ],
         "temperature": true,
         "tool_call": true,
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
         "cost": {
           "input": 0.6,
           "output": 2.5,
@@ -675,7 +904,7 @@
         "id": "qwen3.8-max",
         "name": "Qwen3.8 Max",
         "release_date": "2026-08-03",
-        "attachment": true,
+        "attachment": false,
         "reasoning": true,
         "reasoning_options": [
           {
@@ -684,6 +913,14 @@
         ],
         "temperature": true,
         "tool_call": true,
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
         "cost": {
           "input": 2,
           "output": 6,
@@ -698,7 +935,7 @@
         "id": "qwen3.7-max",
         "name": "Qwen3.7 Max",
         "release_date": "2026-01-01",
-        "attachment": true,
+        "attachment": false,
         "reasoning": true,
         "reasoning_options": [
           {
@@ -707,6 +944,14 @@
         ],
         "temperature": true,
         "tool_call": true,
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
         "cost": {
           "input": 1.25,
           "output": 3.75,
@@ -721,10 +966,18 @@
         "id": "qwen3-max",
         "name": "Qwen3 Max",
         "release_date": "2026-01-01",
-        "attachment": true,
+        "attachment": false,
         "reasoning": false,
         "temperature": true,
         "tool_call": true,
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
         "cost": {
           "input": 0.78,
           "output": 3.9,
@@ -739,10 +992,18 @@
         "id": "qwen3-coder-480b-a35b-instruct",
         "name": "Qwen 3 480B Coder",
         "release_date": "2026-01-01",
-        "attachment": true,
+        "attachment": false,
         "reasoning": false,
         "temperature": true,
         "tool_call": true,
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
         "cost": {
           "input": 0.82,
           "output": 3.29,
@@ -757,7 +1018,7 @@
         "id": "glm-5.3",
         "name": "GLM-5.3",
         "release_date": "2026-01-01",
-        "attachment": true,
+        "attachment": false,
         "reasoning": true,
         "reasoning_options": [
           {
@@ -771,6 +1032,14 @@
         ],
         "temperature": true,
         "tool_call": true,
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
         "cost": {
           "input": 1.4,
           "output": 4.4,
@@ -785,7 +1054,7 @@
         "id": "glm-5.1",
         "name": "GLM-5.1",
         "release_date": "2026-01-01",
-        "attachment": true,
+        "attachment": false,
         "reasoning": true,
         "reasoning_options": [
           {
@@ -794,6 +1063,14 @@
         ],
         "temperature": true,
         "tool_call": true,
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
         "cost": {
           "input": 1.4,
           "output": 4.4,
@@ -808,7 +1085,7 @@
         "id": "glm-4.6",
         "name": "GLM-4.6",
         "release_date": "2026-01-01",
-        "attachment": true,
+        "attachment": false,
         "reasoning": true,
         "reasoning_options": [
           {
@@ -817,6 +1094,14 @@
         ],
         "temperature": true,
         "tool_call": true,
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
         "cost": {
           "input": 0.6,
           "output": 2.2,
@@ -831,10 +1116,18 @@
         "id": "sonar",
         "name": "Sonar",
         "release_date": "2026-01-01",
-        "attachment": true,
+        "attachment": false,
         "reasoning": false,
         "temperature": true,
         "tool_call": true,
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
         "cost": {
           "input": 1,
           "output": 1,
@@ -849,10 +1142,18 @@
         "id": "sonar-pro",
         "name": "Sonar Pro",
         "release_date": "2026-01-01",
-        "attachment": true,
+        "attachment": false,
         "reasoning": false,
         "temperature": true,
         "tool_call": true,
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
         "cost": {
           "input": 3,
           "output": 15,
@@ -867,10 +1168,18 @@
         "id": "sonar-reasoning-pro",
         "name": "Sonar Reasoning Pro",
         "release_date": "2026-01-01",
-        "attachment": true,
+        "attachment": false,
         "reasoning": false,
         "temperature": true,
         "tool_call": true,
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
         "cost": {
           "input": 2,
           "output": 8,
@@ -885,10 +1194,18 @@
         "id": "sonar-deep-research",
         "name": "Sonar Deep Research",
         "release_date": "2026-01-01",
-        "attachment": true,
+        "attachment": false,
         "reasoning": false,
         "temperature": true,
         "tool_call": true,
+        "modalities": {
+          "input": [
+            "text"
+          ],
+          "output": [
+            "text"
+          ]
+        },
         "cost": {
           "input": 2,
           "output": 8,

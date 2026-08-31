@@ -79,7 +79,11 @@ const OUT = path.join(ROOT, "distribution/models-fylun.json");
 // The curated subset.
 //
 // Order is the picker's order — keep the strongest/most-wanted first within a
-// family. `release_date` and `attachment` are not in the registry; they are
+// family. `release_date` is not in the registry; it is
+// NOTE: the per-entry `attachment` below is no longer read — it is derived
+// from the registry's verified supportsImageInput. Left in place only so the
+// table's shape is unchanged; delete on the next pass through this list.
+//
 // catalog metadata models.dev's schema wants and are maintained here by hand.
 // "2026-01-01" is this file's long-standing placeholder for "release date not
 // established", inherited from the hand-maintained version — it is a filler,
@@ -297,7 +301,22 @@ for (const entry of CURATED) {
     id: info.id,
     name: info.name,
     release_date: entry.release_date,
-    attachment: entry.attachment,
+    // Both derived from the registry's supportsImageInput, which is set only
+    // where a first-party source confirms vision and carries the citation.
+    //
+    // This file used to hardcode `attachment: true` on every model and emit no
+    // `modalities` at all. opencode builds capabilities.input from
+    // `modalities.input` (fromModelsDevModel, provider.ts ~1238), so every
+    // modality read false and ProviderTransform replaced any image with
+    // "Cannot read image (this model does not support image input)" —
+    // attachments were broken for all 38. The blanket `true` was independently
+    // wrong for the text-only models, so it could not simply be trusted into a
+    // modalities list.
+    //
+    // Only text and image are emitted: the gateway's contentPartsSchema accepts
+    // `text` and `image_url` and nothing else, so declaring audio, video or pdf
+    // would advertise inputs it rejects.
+    attachment: info.supportsImageInput === true,
     // models.dev semantics: does this model expose reasoning at all. Same
     // expression /v1/models uses, so the two payloads agree by construction.
     // A model that reasons but exposes no control is `thinking: {kind:"none"}`
@@ -309,6 +328,10 @@ for (const entry of CURATED) {
     // advertising it would offer a knob every request throws away.
     temperature: !info.omitTemperature,
     tool_call: true,
+    modalities: {
+      input: info.supportsImageInput === true ? ["text", "image"] : ["text"],
+      output: ["text"],
+    },
     ...(info.provider === "anthropic" && thinking.kind !== "none"
       ? { interleaved: { field: "reasoning_details" } }
       : {}),
