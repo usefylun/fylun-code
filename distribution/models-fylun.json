@@ -394,10 +394,10 @@
           "output": 65536
         }
       },
-      "gemini-3.7-flash": {
-        "id": "gemini-3.7-flash",
-        "name": "Gemini 3.7 Flash",
-        "release_date": "2026-08-13",
+      "gemini-3.8-flash": {
+        "id": "gemini-3.8-flash",
+        "name": "Gemini 3.8 Flash",
+        "release_date": "2026-09-10",
         "attachment": true,
         "reasoning": true,
         "reasoning_options": [
@@ -587,10 +587,10 @@
           "output": 65536
         }
       },
-      "grok-4.5": {
-        "id": "grok-4.5",
-        "name": "Grok 4.5",
-        "release_date": "2026-07-08",
+      "grok-4.6": {
+        "id": "grok-4.6",
+        "name": "Grok 4.6",
+        "release_date": "2026-08-12",
         "attachment": true,
         "reasoning": true,
         "reasoning_options": [
@@ -599,7 +599,8 @@
             "values": [
               "low",
               "medium",
-              "high"
+              "high",
+              "xhigh"
             ]
           }
         ],
@@ -678,11 +679,11 @@
           "output": 65536
         }
       },
-      "deepseek-v4-pro": {
-        "id": "deepseek-v4-pro",
-        "name": "DeepSeek V4 Pro",
-        "release_date": "2026-01-01",
-        "attachment": false,
+      "deepseek-flash": {
+        "id": "deepseek-flash",
+        "name": "DeepSeek V4.1 Flash",
+        "release_date": "2026-09-08",
+        "attachment": true,
         "reasoning": true,
         "reasoning_options": [
           {
@@ -697,51 +698,17 @@
         "tool_call": true,
         "modalities": {
           "input": [
-            "text"
+            "text",
+            "image"
           ],
           "output": [
             "text"
           ]
         },
         "cost": {
-          "input": 1.32,
-          "output": 3.96,
-          "cache_read": 0.132
-        },
-        "limit": {
-          "context": 1000000,
-          "output": 65536
-        }
-      },
-      "deepseek-v4-flash": {
-        "id": "deepseek-v4-flash",
-        "name": "DeepSeek V4 Flash",
-        "release_date": "2026-01-01",
-        "attachment": false,
-        "reasoning": true,
-        "reasoning_options": [
-          {
-            "type": "effort",
-            "values": [
-              "high",
-              "xhigh"
-            ]
-          }
-        ],
-        "temperature": true,
-        "tool_call": true,
-        "modalities": {
-          "input": [
-            "text"
-          ],
-          "output": [
-            "text"
-          ]
-        },
-        "cost": {
-          "input": 0.44,
-          "output": 1.32,
-          "cache_read": 0.044
+          "input": 0.3,
+          "output": 1.2,
+          "cache_read": 0.03
         },
         "limit": {
           "context": 1000000,

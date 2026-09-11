@@ -107,19 +107,18 @@ const CURATED = [
   { id: "claude-sonnet-5", release_date: "2026-01-01", attachment: true },
   { id: "claude-haiku-4-5-20251001", release_date: "2026-01-01", attachment: true },
 
-  { id: "gemini-3.7-flash", release_date: "2026-08-13", attachment: true },
+  { id: "gemini-3.8-flash", release_date: "2026-09-10", attachment: true },
   { id: "gemini-3.5-flash-lite", release_date: "2026-07-21", attachment: true },
   { id: "gemini-3.1-flash-lite", release_date: "2026-01-01", attachment: true },
   { id: "gemini-3.1-pro-preview", release_date: "2026-01-01", attachment: true },
   { id: "gemini-3-flash-preview", release_date: "2026-01-01", attachment: true },
   { id: "gemini-2.5-pro", release_date: "2026-01-01", attachment: true },
 
-  { id: "grok-4.5", release_date: "2026-07-08", attachment: true },
+  { id: "grok-4.6", release_date: "2026-08-12", attachment: true },
   { id: "grok-4.3", release_date: "2026-01-01", attachment: true },
   { id: "grok-4.20-non-reasoning", release_date: "2026-01-01", attachment: true },
 
-  { id: "deepseek-v4-pro", release_date: "2026-01-01", attachment: true },
-  { id: "deepseek-v4-flash", release_date: "2026-01-01", attachment: true },
+  { id: "deepseek-flash", release_date: "2026-09-08", attachment: true },
 
   { id: "mistral-large-latest", release_date: "2026-01-01", attachment: true },
   { id: "mistral-medium-latest", release_date: "2026-01-01", attachment: true },
