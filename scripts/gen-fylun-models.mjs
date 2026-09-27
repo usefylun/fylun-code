@@ -95,15 +95,15 @@ const OUT = path.join(ROOT, "distribution/models-fylun.json");
 // other model rides the provider-level "@ai-sdk/openai-compatible".
 // ---------------------------------------------------------------------------
 const CURATED = [
-  { id: "gpt-5.6-sol", release_date: "2026-07-09", attachment: true, npm: "@ai-sdk/openai" },
-  { id: "gpt-5.6-terra", release_date: "2026-07-09", attachment: true, npm: "@ai-sdk/openai" },
-  { id: "gpt-5.6-luna", release_date: "2026-07-09", attachment: true, npm: "@ai-sdk/openai" },
+  { id: "gpt-6-sol", attachment: true, npm: "@ai-sdk/openai" },
+  { id: "gpt-6-astra", attachment: true, npm: "@ai-sdk/openai" },
+  { id: "gpt-6-luna", attachment: true, npm: "@ai-sdk/openai" },
   { id: "gpt-5.5-pro", release_date: "2026-01-01", attachment: true, npm: "@ai-sdk/openai" },
   { id: "gpt-5-mini-2025-08-07", release_date: "2026-01-01", attachment: true, npm: "@ai-sdk/openai" },
   { id: "o3-pro", release_date: "2026-01-01", attachment: true, npm: "@ai-sdk/openai" },
 
-  { id: "claude-fable-5", release_date: "2026-06-09", attachment: true },
-  { id: "claude-opus-5", release_date: "2026-08-01", attachment: true },
+  { id: "claude-fable-5-1", attachment: true },
+  { id: "claude-opus-5-5", attachment: true },
   { id: "claude-sonnet-5", release_date: "2026-01-01", attachment: true },
   { id: "claude-haiku-4-5-20251001", release_date: "2026-01-01", attachment: true },
 
@@ -143,10 +143,8 @@ const CURATED = [
 
   // glm-5.3 takes the slot glm-5.2 held: same $1.4/$4.4, same 1M window, one
   // generation newer, and the registry names it as 5.2's `replacement`.
-  // Following a replacement pointer keeps the curated slot filled; it is not
-  // the same thing as mirroring the registry. glm-5.3-flash is NEW rather than
-  // a successor to anything baked, so it stays out until someone decides the
-  // CLI wants a GLM flash-class entry.
+  // GLM-5.3 Flash is also explicitly curated for the low-cost vision/tool path.
+  { id: "glm-5.3-flash", attachment: true },
   { id: "glm-5.3", release_date: "2026-01-01", attachment: true },
   { id: "glm-5.1", release_date: "2026-01-01", attachment: true },
   { id: "glm-4.6", release_date: "2026-01-01", attachment: true },
