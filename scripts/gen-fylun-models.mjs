@@ -145,7 +145,10 @@ const CURATED = [
 
   { id: "qwen3.8-max", release_date: "2026-08-03", attachment: true },
   { id: "qwen3.7-max", release_date: "2026-01-01", attachment: true },
-  { id: "qwen3-max", release_date: "2026-01-01", attachment: true },
+  // qwen3-max, glm-4.6 and glm-5.1 dropped 2026-09-28: all three deprecated
+  // in the registry as superseded (3.7-max cheaper + provider-delisted 3-max;
+  // 5.3-Flash dominates 4.6 on every axis; 5.1 identical price to 5.3 but
+  // strictly worse). gen runs would fail the drift check if they returned.
   { id: "qwen3-coder-480b-a35b-instruct", release_date: "2026-01-01", attachment: true },
 
   // glm-5.3 takes the slot glm-5.2 held: same $1.4/$4.4, same 1M window, one
@@ -153,8 +156,6 @@ const CURATED = [
   // GLM-5.3 Flash is also explicitly curated for the low-cost vision/tool path.
   { id: "glm-5.3-flash", attachment: true },
   { id: "glm-5.3", release_date: "2026-01-01", attachment: true },
-  { id: "glm-5.1", release_date: "2026-01-01", attachment: true },
-  { id: "glm-4.6", release_date: "2026-01-01", attachment: true },
 
   { id: "sonar", release_date: "2026-01-01", attachment: true },
   { id: "sonar-pro", release_date: "2026-01-01", attachment: true },

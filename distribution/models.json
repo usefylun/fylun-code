@@ -991,32 +991,6 @@
           "output": 65536
         }
       },
-      "qwen3-max": {
-        "id": "qwen3-max",
-        "name": "Qwen3 Max",
-        "release_date": "2026-01-01",
-        "attachment": false,
-        "reasoning": false,
-        "temperature": true,
-        "tool_call": true,
-        "modalities": {
-          "input": [
-            "text"
-          ],
-          "output": [
-            "text"
-          ]
-        },
-        "cost": {
-          "input": 0.78,
-          "output": 3.9,
-          "cache_read": 0.156
-        },
-        "limit": {
-          "context": 262144,
-          "output": 65536
-        }
-      },
       "qwen3-coder-480b-a35b-instruct": {
         "id": "qwen3-coder-480b-a35b-instruct",
         "name": "Qwen 3 480B Coder",
@@ -1112,76 +1086,6 @@
         },
         "limit": {
           "context": 1000000,
-          "output": 65536
-        }
-      },
-      "glm-5.1": {
-        "id": "glm-5.1",
-        "name": "GLM-5.1",
-        "release_date": "2026-01-01",
-        "attachment": false,
-        "reasoning": true,
-        "reasoning_options": [
-          {
-            "type": "effort",
-            "values": [
-              null,
-              "high"
-            ]
-          }
-        ],
-        "temperature": true,
-        "tool_call": true,
-        "modalities": {
-          "input": [
-            "text"
-          ],
-          "output": [
-            "text"
-          ]
-        },
-        "cost": {
-          "input": 1.4,
-          "output": 4.4,
-          "cache_read": 0.26
-        },
-        "limit": {
-          "context": 200000,
-          "output": 65536
-        }
-      },
-      "glm-4.6": {
-        "id": "glm-4.6",
-        "name": "GLM-4.6",
-        "release_date": "2026-01-01",
-        "attachment": false,
-        "reasoning": true,
-        "reasoning_options": [
-          {
-            "type": "effort",
-            "values": [
-              null,
-              "high"
-            ]
-          }
-        ],
-        "temperature": true,
-        "tool_call": true,
-        "modalities": {
-          "input": [
-            "text"
-          ],
-          "output": [
-            "text"
-          ]
-        },
-        "cost": {
-          "input": 0.6,
-          "output": 2.2,
-          "cache_read": 0.11
-        },
-        "limit": {
-          "context": 204800,
           "output": 65536
         }
       },
@@ -22397,9 +22301,9 @@
           "output": 943718
         },
         "cost": {
-          "input": 0.85825,
-          "output": 11.1062,
-          "cache_read": 0.288057
+          "input": 0.6795,
+          "output": 8.7934,
+          "cache_read": 0.3
         }
       },
       "poolside/laguna-s-2.1:free": {
@@ -23744,7 +23648,7 @@
         "cost": {
           "input": 0.018,
           "output": 0.32,
-          "cache_read": 0.01
+          "cache_read": 0.018
         },
         "canonical_model_id": "deepseek/deepseek-v4-flash-0731"
       },
@@ -23949,9 +23853,9 @@
           "output": 943718
         },
         "cost": {
-          "input": 0.3949,
+          "input": 0.4,
           "output": 4.2,
-          "cache_read": 0.3159
+          "cache_read": 0.32
         },
         "canonical_model_id": "deepseek/deepseek-v4-pro-0813"
       },
@@ -25470,9 +25374,9 @@
           "output": 943718
         },
         "cost": {
-          "input": 0.3349,
+          "input": 0.3249,
           "output": 4.4,
-          "cache_read": 0.26
+          "cache_read": 0.2599
         },
         "canonical_model_id": "zhipuai/glm-5.2"
       },
@@ -26639,12 +26543,12 @@
         "open_weights": false,
         "limit": {
           "context": 1310720,
-          "output": 131072
+          "output": 943718
         },
         "cost": {
-          "input": 0.04,
+          "input": 0.03,
           "output": 0.5,
-          "cache_read": 0.015
+          "cache_read": 0.01
         }
       },
       "~z-ai/glm-latest": {
@@ -27954,7 +27858,7 @@
         "cost": {
           "input": 0.02,
           "output": 0.6,
-          "cache_read": 0.01
+          "cache_read": 0.02
         }
       },
       "~deepseek/deepseek-pro-latest": {
@@ -28040,8 +27944,8 @@
           "output": 943718
         },
         "cost": {
-          "input": 0.018,
-          "output": 0.32,
+          "input": 0.012,
+          "output": 0.5,
           "cache_read": 0.01
         }
       },
@@ -32745,9 +32649,9 @@
           "output": 235929
         },
         "cost": {
-          "input": 0.0549,
+          "input": 0.0428,
           "output": 4.4,
-          "cache_read": 0.0439
+          "cache_read": 0.0342
         },
         "canonical_model_id": "alibaba/qwen3.8-27b"
       },

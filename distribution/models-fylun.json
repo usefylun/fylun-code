@@ -991,32 +991,6 @@
           "output": 65536
         }
       },
-      "qwen3-max": {
-        "id": "qwen3-max",
-        "name": "Qwen3 Max",
-        "release_date": "2026-01-01",
-        "attachment": false,
-        "reasoning": false,
-        "temperature": true,
-        "tool_call": true,
-        "modalities": {
-          "input": [
-            "text"
-          ],
-          "output": [
-            "text"
-          ]
-        },
-        "cost": {
-          "input": 0.78,
-          "output": 3.9,
-          "cache_read": 0.156
-        },
-        "limit": {
-          "context": 262144,
-          "output": 65536
-        }
-      },
       "qwen3-coder-480b-a35b-instruct": {
         "id": "qwen3-coder-480b-a35b-instruct",
         "name": "Qwen 3 480B Coder",
@@ -1112,76 +1086,6 @@
         },
         "limit": {
           "context": 1000000,
-          "output": 65536
-        }
-      },
-      "glm-5.1": {
-        "id": "glm-5.1",
-        "name": "GLM-5.1",
-        "release_date": "2026-01-01",
-        "attachment": false,
-        "reasoning": true,
-        "reasoning_options": [
-          {
-            "type": "effort",
-            "values": [
-              null,
-              "high"
-            ]
-          }
-        ],
-        "temperature": true,
-        "tool_call": true,
-        "modalities": {
-          "input": [
-            "text"
-          ],
-          "output": [
-            "text"
-          ]
-        },
-        "cost": {
-          "input": 1.4,
-          "output": 4.4,
-          "cache_read": 0.26
-        },
-        "limit": {
-          "context": 200000,
-          "output": 65536
-        }
-      },
-      "glm-4.6": {
-        "id": "glm-4.6",
-        "name": "GLM-4.6",
-        "release_date": "2026-01-01",
-        "attachment": false,
-        "reasoning": true,
-        "reasoning_options": [
-          {
-            "type": "effort",
-            "values": [
-              null,
-              "high"
-            ]
-          }
-        ],
-        "temperature": true,
-        "tool_call": true,
-        "modalities": {
-          "input": [
-            "text"
-          ],
-          "output": [
-            "text"
-          ]
-        },
-        "cost": {
-          "input": 0.6,
-          "output": 2.2,
-          "cache_read": 0.11
-        },
-        "limit": {
-          "context": 204800,
           "output": 65536
         }
       },
