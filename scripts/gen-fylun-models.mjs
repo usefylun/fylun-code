@@ -129,6 +129,13 @@ const CURATED = [
   // there is no same-provider successor to bake in its place. Dropped, not
   // replaced.
 
+  // muse-spark-1.3 added 2026-09-28: Meta Model API's paid tier only — the
+  // -contributor tier ($0.10/$0.20) is deliberately NOT baked because it lets
+  // Meta train on subscriber prompts. Effort values derive from the registry
+  // (low..max); "minimal" is below Fylun's floor and "none" is rejected
+  // model-side.
+  { id: "muse-spark-1.3", release_date: "2026-09-28", attachment: true },
+
   { id: "kimi-k3", release_date: "2026-07-16", attachment: true },
   { id: "kimi-k2.7-code", release_date: "2026-01-01", attachment: true },
   // kimi-k2.5 dropped 2026-08-31: Moonshot retired it and the whole
