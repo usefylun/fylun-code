@@ -1065,7 +1065,7 @@
             "values": [
               "low",
               "high",
-              "xhigh"
+              "max"
             ]
           }
         ],
@@ -3141,6 +3141,76 @@
           "output": 14,
           "cache_read": 0.175
         }
+      },
+      "gpt-6.1-sol": {
+        "id": "gpt-6.1-sol",
+        "name": "GPT-6.1 Sol",
+        "description": "Near-Astra performance for complex coding, computer use, and professional work at a lower cost.",
+        "family": "gpt-sol",
+        "attachment": true,
+        "reasoning": true,
+        "reasoning_options": [
+          {
+            "type": "effort",
+            "values": [
+              "low",
+              "medium",
+              "high",
+              "xhigh",
+              "max"
+            ]
+          }
+        ],
+        "tool_call": true,
+        "structured_output": true,
+        "temperature": false,
+        "knowledge": "2026-04-30",
+        "release_date": "2026-09-29",
+        "last_updated": "2026-09-29",
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "pdf"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "open_weights": false,
+        "limit": {
+          "context": 1050000,
+          "input": 922000,
+          "output": 128000
+        },
+        "provider": {
+          "npm": "@ai-sdk/openai"
+        },
+        "cost": {
+          "input": 2,
+          "output": 10,
+          "cache_read": 0.2,
+          "cache_write": 2.5,
+          "tiers": [
+            {
+              "input": 4,
+              "output": 15,
+              "cache_read": 0.4,
+              "cache_write": 5,
+              "tier": {
+                "type": "context",
+                "size": 272000
+              }
+            }
+          ],
+          "context_over_200k": {
+            "input": 4,
+            "output": 15,
+            "cache_read": 0.4,
+            "cache_write": 5
+          }
+        },
+        "canonical_model_id": "openai/gpt-6.1-sol"
       },
       "gemini-3.5-flash-lite": {
         "id": "gemini-3.5-flash-lite",
@@ -10042,6 +10112,99 @@
           "output": 14,
           "cache_read": 0.175
         }
+      },
+      "gpt-6.1-sol": {
+        "id": "gpt-6.1-sol",
+        "name": "GPT-6.1 Sol",
+        "description": "Near-Astra performance for complex coding, computer use, and professional work at a lower cost.",
+        "family": "gpt-sol",
+        "attachment": true,
+        "reasoning": true,
+        "reasoning_options": [
+          {
+            "type": "effort",
+            "values": [
+              "low",
+              "medium",
+              "high",
+              "xhigh",
+              "max"
+            ]
+          }
+        ],
+        "tool_call": true,
+        "structured_output": true,
+        "temperature": false,
+        "knowledge": "2026-04-30",
+        "release_date": "2026-09-29",
+        "last_updated": "2026-09-29",
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "pdf"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "open_weights": false,
+        "limit": {
+          "context": 1050000,
+          "input": 922000,
+          "output": 128000
+        },
+        "experimental": {
+          "modes": {
+            "fast": {
+              "cost": {
+                "input": 4,
+                "output": 20,
+                "cache_read": 0.2,
+                "cache_write": 5
+              },
+              "provider": {
+                "body": {
+                  "service_tier": "priority"
+                }
+              }
+            },
+            "pro": {
+              "provider": {
+                "body": {
+                  "reasoning": {
+                    "mode": "pro"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "cost": {
+          "input": 2,
+          "output": 10,
+          "cache_read": 0.1,
+          "cache_write": 2.5,
+          "tiers": [
+            {
+              "input": 4,
+              "output": 15,
+              "cache_read": 0.2,
+              "cache_write": 5,
+              "tier": {
+                "type": "context",
+                "size": 272000
+              }
+            }
+          ],
+          "context_over_200k": {
+            "input": 4,
+            "output": 15,
+            "cache_read": 0.2,
+            "cache_write": 5
+          }
+        },
+        "canonical_model_id": "openai/gpt-6.1-sol"
       },
       "text-embedding-3-large": {
         "id": "text-embedding-3-large",
@@ -22301,9 +22464,9 @@
           "output": 943718
         },
         "cost": {
-          "input": 0.6795,
-          "output": 8.7934,
-          "cache_read": 0.3
+          "input": 0.4,
+          "output": 9,
+          "cache_read": 0.4
         }
       },
       "poolside/laguna-s-2.1:free": {
@@ -23853,9 +24016,9 @@
           "output": 943718
         },
         "cost": {
-          "input": 0.4,
+          "input": 0.3999,
           "output": 4.2,
-          "cache_read": 0.32
+          "cache_read": 0.3199
         },
         "canonical_model_id": "deepseek/deepseek-v4-pro-0813"
       },
@@ -23891,9 +24054,8 @@
           "output": 147456
         },
         "cost": {
-          "input": 0.1344,
-          "output": 0.2016,
-          "cache_read": 0.0672
+          "input": 0.27,
+          "output": 0.41
         }
       },
       "deepseek/deepseek-chat-v3-0324": {
@@ -24003,9 +24165,9 @@
           "output": 384000
         },
         "cost": {
-          "input": 0.95526,
-          "output": 1.91052,
-          "cache_read": 0.079605
+          "input": 0.931074,
+          "output": 1.862148,
+          "cache_read": 0.07759
         },
         "canonical_model_id": "deepseek/deepseek-v4-pro"
       },
@@ -24122,9 +24284,9 @@
           "output": 131072
         },
         "cost": {
-          "input": 0.14,
-          "output": 0.28,
-          "cache_read": 0.028
+          "input": 0.0763,
+          "output": 0.1526,
+          "cache_read": 0.01526
         },
         "canonical_model_id": "deepseek/deepseek-v4-flash"
       },
@@ -24335,9 +24497,9 @@
           "output": 128000
         },
         "cost": {
-          "input": 0.132,
-          "output": 0.528,
-          "cache_read": 0.033
+          "input": 0.0825,
+          "output": 0.33,
+          "cache_read": 0.020625
         },
         "canonical_model_id": "tencent/hy3"
       },
@@ -25374,9 +25536,9 @@
           "output": 943718
         },
         "cost": {
-          "input": 0.3249,
+          "input": 0.2339,
           "output": 4.4,
-          "cache_read": 0.2599
+          "cache_read": 0.1871
         },
         "canonical_model_id": "zhipuai/glm-5.2"
       },
@@ -25414,9 +25576,9 @@
           "output": 131072
         },
         "cost": {
-          "input": 1.4,
-          "output": 4.4,
-          "cache_read": 0.26
+          "input": 0.9646,
+          "output": 3.0316,
+          "cache_read": 0.17914
         },
         "canonical_model_id": "zhipuai/glm-5.1"
       },
@@ -26546,8 +26708,8 @@
           "output": 943718
         },
         "cost": {
-          "input": 0.03,
-          "output": 0.5,
+          "input": 0.02,
+          "output": 0.3,
           "cache_read": 0.01
         }
       },
@@ -26587,9 +26749,9 @@
           "output": 131072
         },
         "cost": {
-          "input": 0.15,
+          "input": 0.19,
           "output": 4,
-          "cache_read": 0.15
+          "cache_read": 0.19
         }
       },
       "arcee-ai/trinity-large-thinking": {
@@ -27897,12 +28059,12 @@
         "open_weights": false,
         "limit": {
           "context": 1048576,
-          "output": 943718
+          "output": 393216
         },
         "cost": {
-          "input": 0.22592,
-          "output": 1.9584,
-          "cache_read": 0.07488
+          "input": 0.15,
+          "output": 3.5,
+          "cache_read": 0.15
         }
       },
       "~deepseek/deepseek-v4-flash-latest": {
@@ -27945,7 +28107,7 @@
         },
         "cost": {
           "input": 0.012,
-          "output": 0.5,
+          "output": 1.25,
           "cache_read": 0.01
         }
       },
@@ -28450,9 +28612,9 @@
           "output": 235929
         },
         "cost": {
-          "input": 0.0765,
-          "output": 0.255,
-          "cache_read": 0.0425
+          "input": 0.09,
+          "output": 0.3,
+          "cache_read": 0.05
         },
         "canonical_model_id": "google/gemma-4-26b-a4b-it"
       },
@@ -30996,7 +31158,7 @@
         },
         "open_weights": true,
         "limit": {
-          "context": 1000000,
+          "context": 262144,
           "output": 32768
         },
         "cost": {
@@ -32649,9 +32811,9 @@
           "output": 235929
         },
         "cost": {
-          "input": 0.0428,
+          "input": 0.0249,
           "output": 4.4,
-          "cache_read": 0.0342
+          "cache_read": 0.0199
         },
         "canonical_model_id": "alibaba/qwen3.8-27b"
       },
@@ -33284,7 +33446,7 @@
         "open_weights": true,
         "limit": {
           "context": 262144,
-          "output": 235929
+          "output": 65536
         },
         "cost": {
           "input": 0.26,
@@ -34026,11 +34188,11 @@
         "open_weights": true,
         "limit": {
           "context": 131072,
-          "output": 8192
+          "output": 16384
         },
         "cost": {
-          "input": 0.13,
-          "output": 0.52
+          "input": 0.12,
+          "output": 0.5
         },
         "canonical_model_id": "alibaba/qwen3-30b-a3b"
       },
@@ -35932,6 +36094,73 @@
           "output": 2
         }
       },
+      "openai/gpt-6.1-sol": {
+        "id": "openai/gpt-6.1-sol",
+        "name": "GPT-6.1 Sol",
+        "description": "Near-Astra performance for complex coding, computer use, and professional work at a lower cost.",
+        "family": "gpt-sol",
+        "attachment": true,
+        "reasoning": true,
+        "reasoning_options": [
+          {
+            "type": "effort",
+            "values": [
+              "low",
+              "medium",
+              "high",
+              "xhigh",
+              "max"
+            ]
+          }
+        ],
+        "tool_call": true,
+        "structured_output": true,
+        "temperature": false,
+        "knowledge": "2026-04-30",
+        "release_date": "2026-09-29",
+        "last_updated": "2026-09-29",
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "pdf"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "open_weights": false,
+        "limit": {
+          "context": 1050000,
+          "input": 922000,
+          "output": 128000
+        },
+        "cost": {
+          "input": 2,
+          "output": 10,
+          "cache_read": 0.1,
+          "cache_write": 2.5,
+          "tiers": [
+            {
+              "input": 4,
+              "output": 15,
+              "cache_read": 0.2,
+              "cache_write": 5,
+              "tier": {
+                "type": "context",
+                "size": 272000
+              }
+            }
+          ],
+          "context_over_200k": {
+            "input": 4,
+            "output": 15,
+            "cache_read": 0.2,
+            "cache_write": 5
+          }
+        },
+        "canonical_model_id": "openai/gpt-6.1-sol"
+      },
       "openai/gpt-4o-2024-08-06": {
         "id": "openai/gpt-4o-2024-08-06",
         "name": "GPT-4o (2024-08-06)",
@@ -37336,12 +37565,11 @@
         "open_weights": true,
         "limit": {
           "context": 131072,
-          "output": 65536
+          "output": 117964
         },
         "cost": {
-          "input": 0.15,
-          "output": 0.6,
-          "cache_read": 0.075
+          "input": 0.037,
+          "output": 0.17
         },
         "canonical_model_id": "openai/gpt-oss-120b"
       },
@@ -39413,6 +39641,73 @@
         },
         "canonical_model_id": "microsoft/mai-code-1.1-flash"
       },
+      "gpt-6.1-sol": {
+        "id": "gpt-6.1-sol",
+        "name": "GPT-6.1 Sol",
+        "description": "Near-Astra performance for complex coding, computer use, and professional work at a lower cost.",
+        "family": "gpt-sol",
+        "attachment": true,
+        "reasoning": true,
+        "reasoning_options": [
+          {
+            "type": "effort",
+            "values": [
+              "low",
+              "medium",
+              "high",
+              "xhigh",
+              "max"
+            ]
+          }
+        ],
+        "tool_call": true,
+        "structured_output": true,
+        "temperature": false,
+        "knowledge": "2026-04-30",
+        "release_date": "2026-09-29",
+        "last_updated": "2026-09-29",
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "pdf"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "open_weights": false,
+        "limit": {
+          "context": 1050000,
+          "input": 922000,
+          "output": 128000
+        },
+        "cost": {
+          "input": 2,
+          "output": 10,
+          "cache_read": 0.1,
+          "cache_write": 2.5,
+          "tiers": [
+            {
+              "input": 4,
+              "output": 15,
+              "cache_read": 0.2,
+              "cache_write": 5,
+              "tier": {
+                "type": "context",
+                "size": 272000
+              }
+            }
+          ],
+          "context_over_200k": {
+            "input": 4,
+            "output": 15,
+            "cache_read": 0.2,
+            "cache_write": 5
+          }
+        },
+        "canonical_model_id": "openai/gpt-6.1-sol"
+      },
       "claude-haiku-4.5": {
         "id": "claude-haiku-4.5",
         "name": "Claude Haiku 4.5 (latest)",
@@ -39631,6 +39926,53 @@
           "cache_write": 6.25
         },
         "canonical_model_id": "anthropic/claude-opus-5"
+      },
+      "claude-sonnet-5.5": {
+        "id": "claude-sonnet-5.5",
+        "name": "Claude Sonnet 5.5",
+        "description": "Fast Claude model for everyday coding, agents, and knowledge work",
+        "family": "claude-sonnet",
+        "attachment": true,
+        "reasoning": true,
+        "reasoning_options": [
+          {
+            "type": "effort",
+            "values": [
+              "low",
+              "medium",
+              "high",
+              "xhigh",
+              "max"
+            ]
+          }
+        ],
+        "tool_call": true,
+        "temperature": false,
+        "knowledge": "2026-06",
+        "release_date": "2026-09-28",
+        "last_updated": "2026-09-28",
+        "modalities": {
+          "input": [
+            "text",
+            "image",
+            "pdf"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "open_weights": false,
+        "limit": {
+          "context": 1000000,
+          "output": 128000
+        },
+        "cost": {
+          "input": 2,
+          "output": 10,
+          "cache_read": 0.2,
+          "cache_write": 2.5
+        },
+        "canonical_model_id": "anthropic/claude-sonnet-5-5"
       },
       "gemini-3.5-flash": {
         "id": "gemini-3.5-flash",
