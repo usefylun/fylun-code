@@ -95,7 +95,7 @@ const OUT = path.join(ROOT, "distribution/models-fylun.json");
 // other model rides the provider-level "@ai-sdk/openai-compatible".
 // ---------------------------------------------------------------------------
 const CURATED = [
-  { id: "gpt-6-sol", attachment: true, npm: "@ai-sdk/openai" },
+  { id: "gpt-6.1-sol", attachment: true, npm: "@ai-sdk/openai" },
   { id: "gpt-6-astra", attachment: true, npm: "@ai-sdk/openai" },
   { id: "gpt-6-luna", attachment: true, npm: "@ai-sdk/openai" },
   { id: "gpt-5.5-pro", release_date: "2026-01-01", attachment: true, npm: "@ai-sdk/openai" },
@@ -114,7 +114,7 @@ const CURATED = [
   { id: "gemini-3-flash-preview", release_date: "2026-01-01", attachment: true },
   { id: "gemini-2.5-pro", release_date: "2026-01-01", attachment: true },
 
-  { id: "grok-4.6", release_date: "2026-08-12", attachment: true },
+  { id: "grok-4.7", attachment: true },
   { id: "grok-4.3", release_date: "2026-01-01", attachment: true },
   { id: "grok-4.20-non-reasoning", release_date: "2026-01-01", attachment: true },
 
@@ -122,7 +122,6 @@ const CURATED = [
 
   { id: "mistral-large-latest", release_date: "2026-01-01", attachment: true },
   { id: "mistral-medium-latest", release_date: "2026-01-01", attachment: true },
-  { id: "magistral-medium-2509", release_date: "2026-01-01", attachment: true },
 
   // meta-llama/llama-4-scout-17b-16e-instruct was here until 2026-08-30.
   // Groq shut it down on 2026-07-17 and retired every other Llama with it, so

@@ -19,6 +19,7 @@
 // reachable from the UI (and from fyluncode.jsonc).
 //
 //   node scripts/gen-catalog.mjs                # -> distribution/models.json
+//   node scripts/gen-catalog.mjs --reuse-upstream # preserve the existing other providers
 //   node scripts/gen-catalog.mjs --fylun-only   # -> the old single-provider bake
 //
 import fs from "node:fs/promises";
@@ -66,6 +67,8 @@ const ALLOWLIST = [
 ];
 
 const fylunOnly = process.argv.includes("--fylun-only");
+const reuseUpstream = process.argv.includes("--reuse-upstream");
+if (fylunOnly && reuseUpstream) throw new Error("Choose one catalog generation mode");
 
 const fylun = JSON.parse(await fs.readFile(FYLUN_SRC, "utf8"));
 if (!fylun.fylun) {
@@ -75,7 +78,11 @@ if (!fylun.fylun) {
 
 let catalog = { ...fylun };
 
-if (!fylunOnly) {
+if (reuseUpstream) {
+  const existing = JSON.parse(await fs.readFile(OUT, "utf8"));
+  if (!existing || typeof existing !== "object" || !existing.fylun) throw new Error("Existing catalog required for --reuse-upstream");
+  catalog = { ...existing, fylun: fylun.fylun };
+} else if (!fylunOnly) {
   const res = await fetch(UPSTREAM, { signal: AbortSignal.timeout(60_000) });
   if (!res.ok) {
     console.error(`models.dev returned ${res.status} — refusing to write a partial catalog.`);
