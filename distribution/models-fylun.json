@@ -6,9 +6,9 @@
     "api": "https://fylun.ai/api/v1",
     "env": [],
     "models": {
-      "gpt-6-sol": {
-        "id": "gpt-6-sol",
-        "name": "GPT-6 Sol",
+      "gpt-6.1-sol": {
+        "id": "gpt-6.1-sol",
+        "name": "GPT-6.1 Sol",
         "attachment": true,
         "reasoning": true,
         "reasoning_options": [
@@ -37,12 +37,12 @@
         "cost": {
           "input": 2,
           "output": 10,
-          "cache_read": 0.2,
+          "cache_read": 0.1,
           "cache_write": 2.5
         },
         "limit": {
           "context": 1050000,
-          "output": 65536
+          "output": 128000
         },
         "provider": {
           "npm": "@ai-sdk/openai"
