@@ -104,7 +104,9 @@ const CURATED = [
 
   { id: "claude-fable-5-1", attachment: true },
   { id: "claude-opus-5-5", attachment: true },
+  { id: "claude-sonnet-5-5", release_date: "2026-09-28", attachment: true },
   { id: "claude-sonnet-5", release_date: "2026-01-01", attachment: true },
+  { id: "claude-haiku-5-5", release_date: "2026-10-07", attachment: true },
   { id: "claude-haiku-4-5-20251001", release_date: "2026-01-01", attachment: true },
 
   { id: "gemini-3.8-flash", release_date: "2026-09-10", attachment: true },
