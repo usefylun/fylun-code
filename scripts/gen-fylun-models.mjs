@@ -68,12 +68,13 @@ module.registerHooks({
 });
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const WEB = path.resolve(ROOT, "../../fylun-web");
+const WEB = path.resolve(process.env.FYLUN_WEB ?? path.resolve(ROOT, "../../fylun-web"));
 const AI_SRC = path.join(WEB, "packages/ai/src/providers.ts");
 const AI_DIST = path.join(WEB, "packages/ai/dist/providers.js");
 const USAGE_DIST = path.join(WEB, "packages/ai/dist/usage.js");
 const SCHEMA_TS = path.join(WEB, "apps/main/src/lib/openai-compat/schema.ts");
 const OUT = path.join(ROOT, "distribution/models-fylun.json");
+const SEED = path.join(ROOT, "distribution/fyluncode.jsonc");
 
 // ---------------------------------------------------------------------------
 // The curated subset.
@@ -375,6 +376,46 @@ for (const entry of CURATED) {
   models[entry.id] = model;
 }
 
+// ---------------------------------------------------------------------------
+// Recovery data for configs that name a model the bake no longer carries.
+//
+// The installer seeds fyluncode.jsonc once and never rewrites it, so a model
+// id that leaves the bake stays in every existing user's config. opencode
+// treats an unknown configured model as absent and falls through to the first
+// listed provider's default — OpenCode Zen's free "Big Pickle" — so a Fylun
+// retirement silently moved Fylun users onto another provider's model. That
+// happened for real with the seeded `deepseek-v4-flash` once V4.1 Flash took
+// over as `deepseek-flash`.
+//
+// Patch 16 reads these two fields off the baked `fylun` provider at config
+// load: `aliases` maps a retired id to its baked successor, and anything else
+// unknown under `fylun/` falls back to `default_model`.
+//
+//   aliases       — every DEPRECATED registry id whose `replacement` chain
+//                   reaches a baked model. The same `replacement` pointers the
+//                   web app migrates users along, so the next retirement
+//                   (Kimi K3 -> K3.1 Pro, Sonnet 5 -> Sonnet 5.5) recovers on
+//                   the next regeneration with no hand-maintained table.
+//   default_model — the seed's own `model`. The seed is the one place the
+//                   CLI's default is decided; check-catalog-drift fails if it
+//                   is not baked.
+// ---------------------------------------------------------------------------
+const seedModel = /"model"\s*:\s*"fylun\/([^"]+)"/.exec(fs.readFileSync(SEED, "utf8"))?.[1];
+if (!seedModel) problems.push(`${path.relative(ROOT, SEED)}: no "model": "fylun/<id>" to use as default_model`);
+else if (!models[seedModel]) problems.push(`${seedModel}: seeded default model is not in CURATED`);
+
+const aliases = {};
+for (const [id, info] of Object.entries(ModelRegistry)) {
+  if (models[id] || !info.deprecated || !info.replacement) continue;
+  let next = info.replacement;
+  const seen = new Set([id]);
+  while (next && !models[next] && !seen.has(next)) {
+    seen.add(next);
+    next = ModelRegistry[next]?.replacement;
+  }
+  if (next && models[next]) aliases[id] = next;
+}
+
 if (problems.length) {
   console.error("gen-fylun-models: refusing to write.\n  " + problems.join("\n  "));
   process.exit(1);
@@ -388,6 +429,8 @@ const catalog = {
     api: "https://fylun.ai/api/v1",
     env: [],
     models,
+    default_model: seedModel,
+    aliases: Object.fromEntries(Object.entries(aliases).sort(([a], [b]) => a.localeCompare(b))),
   },
 };
 
@@ -397,6 +440,7 @@ fs.writeFileSync(OUT, json);
 const reasoning = Object.values(models).filter((m) => m.reasoning).length;
 console.log(
   `${path.relative(ROOT, OUT)}: ${Object.keys(models).length} models ` +
-    `(${reasoning} reasoning), ${(json.length / 1024).toFixed(0)}KB`
+    `(${reasoning} reasoning), ${Object.keys(aliases).length} aliases, ` +
+    `${(json.length / 1024).toFixed(0)}KB`
 );
 console.log("Next: node scripts/gen-catalog.mjs && node scripts/check-catalog-drift.mjs");

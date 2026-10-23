@@ -8,7 +8,7 @@ index a05d315..dc8798b 100644
  
 +        // Fylun overlay: the user's persisted last-used model (recent[0]) wins
 +        // over the baked config `model`, so a model change is remembered across
-+        // sessions. config.model (e.g. deepseek-v4-flash) stays as the FIRST-RUN
++        // sessions. config.model (e.g. deepseek-flash) stays as the FIRST-RUN
 +        // default/fallback — it's only reached when `recent` is empty. This
 +        // reverses upstream's "explicit config model is authoritative" order by
 +        // intent (config model is a first-time default, not a hard override).

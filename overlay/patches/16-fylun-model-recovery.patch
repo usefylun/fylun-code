@@ -1,0 +1,83 @@
+diff --git a/packages/opencode/src/config/config.ts b/packages/opencode/src/config/config.ts
+index 9cef07f..ce70985 100644
+--- a/packages/opencode/src/config/config.ts
++++ b/packages/opencode/src/config/config.ts
+@@ -33,6 +33,7 @@ import { ConfigParse } from "./parse"
+ import { ConfigPaths } from "./paths"
+ import { ConfigPlugin } from "./plugin"
+ import { ConfigVariable } from "./variable"
++import { remapFylunModels } from "./fylun-model"
+ import { ConfigV2Compat } from "./v2-compat"
+ import { Npm } from "@opencode-ai/core/npm"
+ import { withTransientReadRetry } from "@/util/effect-http-client"
+@@ -597,6 +598,12 @@ const layer = Layer.effect(
+           result.compaction = { ...result.compaction, prune: false }
+         }
+ 
++        // Fylun overlay: a retired fylun/* model maps to its baked successor
++        // instead of falling through to another provider (see fylun-model.ts).
++        for (const item of remapFylunModels(result)) {
++          yield* Effect.logWarning("fylun model no longer offered, using its replacement", item)
++        }
++
+         return {
+           config: result,
+           directories,
+diff --git a/packages/opencode/src/config/fylun-model.ts b/packages/opencode/src/config/fylun-model.ts
+new file mode 100644
+index 0000000..7845ab2
+--- /dev/null
++++ b/packages/opencode/src/config/fylun-model.ts
+@@ -0,0 +1,52 @@
++// Fylun overlay (patch 16): recover configs that name a Fylun model the baked
++// catalog no longer carries.
++//
++// The installer seeds fyluncode.jsonc once and never rewrites it, so a model
++// that leaves the bake stays named in every existing config. Upstream treats
++// an unknown configured model as absent and falls through to the first listed
++// provider's default (OpenCode Zen's free "Big Pickle"). Instead, a `fylun/<id>`
++// the bake lacks is mapped through the baked `fylun.aliases` table (generated
++// from the registry's `replacement` pointers by gen-fylun-models.mjs), and
++// anything left over falls back to `fylun.default_model`. Other providers and
++// ids defined under `provider.fylun.models` are left alone.
++declare const OPENCODE_MODELS_DEV: Record<string, any> | undefined
++
++type Fylun = { models?: Record<string, unknown>; aliases?: Record<string, string>; default_model?: string }
++
++export function resolveFylunModel(
++  model: string | undefined,
++  configured: Record<string, unknown> | undefined,
++  fallback = true,
++): string | undefined {
++  if (!model?.startsWith("fylun/")) return model
++  const fylun: Fylun | undefined = typeof OPENCODE_MODELS_DEV === "undefined" ? undefined : OPENCODE_MODELS_DEV?.fylun
++  if (!fylun?.models) return model
++  const id = model.slice("fylun/".length)
++  if (fylun.models[id] || configured?.[id]) return model
++  const next = fylun.aliases?.[id] ?? (fallback ? fylun.default_model : undefined)
++  return next && fylun.models[next] ? `fylun/${next}` : model
++}
++
++export function remapFylunModels(config: {
++  model?: string
++  small_model?: string
++  agent?: Record<string, { model?: string } | undefined>
++  provider?: Record<string, { models?: Record<string, unknown> } | undefined>
++}) {
++  const configured = config.provider?.fylun?.models
++  const changed: { key: string; from: string; to: string }[] = []
++  const apply = (key: string, from: string | undefined, fallback: boolean) => {
++    const to = resolveFylunModel(from, configured, fallback)
++    if (!from || to === from) return from
++    changed.push({ key, from, to: to! })
++    return to
++  }
++  config.model = apply("model", config.model, true)
++  // No default fallback for small_model: upstream already picks a cheap model
++  // within the provider when small_model is unknown, which beats the main default.
++  config.small_model = apply("small_model", config.small_model, false)
++  for (const [name, agent] of Object.entries(config.agent ?? {})) {
++    if (agent?.model) agent.model = apply(`agent.${name}.model`, agent.model, true)
++  }
++  return changed
++}

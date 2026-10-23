@@ -2,7 +2,7 @@
 /**
  * Fail if the baked catalog disagrees with @fylun/ai's registry.
  *
- * Two rules, both learned the hard way:
+ * Three rules, all learned the hard way:
  *
  *   1. **Nothing may be baked that the registry lacks.** The bake is a curated
  *      SUBSET — previous-generation and retired entries are dropped — so it is
@@ -13,6 +13,8 @@
  *      available"), claude-opus-4-5, claude-sonnet-4-5 and gemini-3.6-flash.
  *      The CLI has none of the web app's deprecation messaging, so a user who
  *      picks one gets a hard failure with no explanation.
+ *
+ *   3. **The seeded default model must be baked.** See below.
  *
  * Nothing checked this before; the board carried "nothing checks this" as a
  * known gap for weeks. Run it after any catalog change:
@@ -26,12 +28,44 @@ import { fileURLToPath } from "node:url";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const PROVIDERS_TS = path.resolve(
-  ROOT,
-  "../../fylun-web/packages/ai/src/providers.ts"
+  process.env.FYLUN_WEB ?? path.resolve(ROOT, "../../fylun-web"),
+  "packages/ai/src/providers.ts"
 );
 
+// Rule 3, checked first because it needs no registry: the seeded config must
+// name models the binary actually carries. The seed shipped
+// `fylun/deepseek-v4-flash` for weeks after the bake moved to `deepseek-flash`,
+// and opencode's answer to an unknown configured model is to fall through to
+// the first listed provider — every new install started on OpenCode Zen's free
+// Big Pickle instead of Fylun. The recovery data patch 16 reads is checked
+// alongside it: `default_model` must be the seed's model, and every alias must
+// point at a baked model.
+const bakedFylun = JSON.parse(fs.readFileSync(path.join(ROOT, "distribution/models.json"), "utf8")).fylun ?? {};
+const seedText = fs.readFileSync(path.join(ROOT, "distribution/fyluncode.jsonc"), "utf8");
+const seedProblems = [];
+for (const key of ["model", "small_model"]) {
+  const value = new RegExp(`"${key}"\\s*:\\s*"([^"]+)"`).exec(seedText)?.[1];
+  if (!value) continue;
+  const [provider, ...rest] = value.split("/");
+  if (provider === "fylun" && !bakedFylun.models?.[rest.join("/")]) {
+    seedProblems.push(`fyluncode.jsonc "${key}": ${value} is not in the baked catalog`);
+  }
+  if (key === "model" && `fylun/${bakedFylun.default_model}` !== value) {
+    seedProblems.push(`baked default_model ${bakedFylun.default_model} does not match the seed's ${value}`);
+  }
+}
+for (const [from, to] of Object.entries(bakedFylun.aliases ?? {})) {
+  if (!bakedFylun.models?.[to]) seedProblems.push(`alias ${from} -> ${to}: target is not baked`);
+  if (bakedFylun.models?.[from]) seedProblems.push(`alias ${from}: is itself a baked model`);
+}
+if (seedProblems.length) {
+  console.error(`check-catalog-drift: seed/catalog mismatch:\n  ${seedProblems.join("\n  ")}`);
+  console.error("\nFix distribution/fyluncode.jsonc or regenerate — see README, 'Regenerating models'.");
+  process.exit(1);
+}
+
 if (!fs.existsSync(PROVIDERS_TS)) {
-  console.log(`check-catalog-drift: no registry at ${PROVIDERS_TS}, skipping.`);
+  console.log(`check-catalog-drift: seed ok; no registry at ${PROVIDERS_TS}, skipping the registry rules (set FYLUN_WEB).`);
   process.exit(0);
 }
 
