@@ -380,46 +380,6 @@
           "output": 65536
         }
       },
-      "claude-sonnet-5": {
-        "id": "claude-sonnet-5",
-        "name": "Claude Sonnet 5",
-        "release_date": "2026-01-01",
-        "attachment": true,
-        "reasoning": true,
-        "reasoning_options": [
-          {
-            "type": "effort",
-            "values": [
-              null,
-              "high"
-            ]
-          }
-        ],
-        "temperature": false,
-        "tool_call": true,
-        "modalities": {
-          "input": [
-            "text",
-            "image"
-          ],
-          "output": [
-            "text"
-          ]
-        },
-        "interleaved": {
-          "field": "reasoning_details"
-        },
-        "cost": {
-          "input": 2,
-          "output": 10,
-          "cache_read": 0.2,
-          "cache_write": 2.5
-        },
-        "limit": {
-          "context": 1000000,
-          "output": 65536
-        }
-      },
       "claude-haiku-5-5": {
         "id": "claude-haiku-5-5",
         "name": "Claude Haiku 5.5",
@@ -915,10 +875,10 @@
           "output": 65536
         }
       },
-      "kimi-k3": {
-        "id": "kimi-k3",
-        "name": "Kimi K3",
-        "release_date": "2026-07-16",
+      "kimi-k3.1-pro": {
+        "id": "kimi-k3.1-pro",
+        "name": "Kimi K3.1 Pro",
+        "release_date": "2026-10-23",
         "attachment": true,
         "reasoning": true,
         "reasoning_options": [
@@ -943,9 +903,46 @@
           ]
         },
         "cost": {
-          "input": 3,
-          "output": 15,
-          "cache_read": 0.3
+          "input": 2,
+          "output": 10,
+          "cache_read": 0.2
+        },
+        "limit": {
+          "context": 1048576,
+          "output": 65536
+        }
+      },
+      "kimi-k3.1-pro-highspeed": {
+        "id": "kimi-k3.1-pro-highspeed",
+        "name": "Kimi K3.1 Pro Highspeed",
+        "release_date": "2026-10-23",
+        "attachment": true,
+        "reasoning": true,
+        "reasoning_options": [
+          {
+            "type": "effort",
+            "values": [
+              "low",
+              "high",
+              "max"
+            ]
+          }
+        ],
+        "temperature": true,
+        "tool_call": true,
+        "modalities": {
+          "input": [
+            "text",
+            "image"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "cost": {
+          "input": 4,
+          "output": 20,
+          "cache_read": 0.2
         },
         "limit": {
           "context": 1048576,

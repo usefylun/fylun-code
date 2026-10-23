@@ -105,7 +105,8 @@ const CURATED = [
   { id: "claude-fable-5-1", attachment: true },
   { id: "claude-opus-5-5", attachment: true },
   { id: "claude-sonnet-5-5", release_date: "2026-09-28", attachment: true },
-  { id: "claude-sonnet-5", release_date: "2026-01-01", attachment: true },
+  // claude-sonnet-5 dropped 2026-10-23: the registry marks it superseded by
+  // claude-sonnet-5-5 (same $2/$10, newer), already baked above.
   { id: "claude-haiku-5-5", release_date: "2026-10-07", attachment: true },
   { id: "claude-haiku-4-5-20251001", release_date: "2026-01-01", attachment: true },
 
@@ -137,7 +138,13 @@ const CURATED = [
   // model-side.
   { id: "muse-spark-1.3", release_date: "2026-09-28", attachment: true },
 
-  { id: "kimi-k3", release_date: "2026-07-16", attachment: true },
+  // kimi-k3.1-pro replaced kimi-k3 2026-10-23: a further post-train of K3,
+  // cheaper on both sides ($2/$10 vs $3/$15), same 1M window and effort
+  // levels; the registry marks K3 superseded. Highspeed is the same model at
+  // 2-3x the speed for 2x the price (cache hit unchanged at $0.20).
+  // https://platform.kimi.ai/docs/pricing/chat
+  { id: "kimi-k3.1-pro", release_date: "2026-10-23", attachment: true },
+  { id: "kimi-k3.1-pro-highspeed", release_date: "2026-10-23", attachment: true },
   { id: "kimi-k2.7-code", release_date: "2026-01-01", attachment: true },
   // kimi-k2.5 dropped 2026-08-31: Moonshot retired it and the whole
   // moonshot-v1 series at 16:00 that day, and calls now 404. Kimi K3 above is
