@@ -202,7 +202,7 @@ index 439dc84..f2e33d3 100644
      }
  
 diff --git a/packages/tui/src/component/dialog-update.tsx b/packages/tui/src/component/dialog-update.tsx
-index 3b66249..22ad0c0 100644
+index 3b66249..149f86b 100644
 --- a/packages/tui/src/component/dialog-update.tsx
 +++ b/packages/tui/src/component/dialog-update.tsx
 @@ -63,7 +63,7 @@ export function DialogUpdate(props: {
@@ -214,16 +214,18 @@ index 3b66249..22ad0c0 100644
        run: () => {
          if (current.type !== "installed" && next?.type === "major") props.dismiss()
          if (current.type !== "installed" && next?.type === "latest") props.skip(next.version)
-@@ -71,7 +71,8 @@ export function DialogUpdate(props: {
+@@ -71,8 +71,9 @@ export function DialogUpdate(props: {
        },
      }
      if (current.type === "installed") return [close, { label: "Restart", run: props.restart }]
 -    if (!next) return [close]
+-    return [close, { label: next.type === "major" ? "Upgrade" : "Update", run: () => props.install(next) }]
 +    // Fylun Code: "major" means up to date here; there is nothing to install.
 +    if (!next || next.type === "major") return [close]
-     return [close, { label: next.type === "major" ? "Upgrade" : "Update", run: () => props.install(next) }]
++    return [close, { label: "Update", run: () => props.install(next) }]
    })
  
+   createEffect(() => setActive(Math.max(0, buttons().length - 1)))
 @@ -98,7 +99,7 @@ export function DialogUpdate(props: {
          <text attributes={TextAttributes.BOLD} fg={theme.text}>
            {state().type === "installing"
