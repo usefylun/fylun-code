@@ -11,7 +11,7 @@ Built on OpenCode (MIT) — keep this attribution visible in anything user-facin
 
 ```
 fylun-code/
-├── UPSTREAM_VERSION        # pinned upstream release tag (v1.18.18)
+├── UPSTREAM_VERSION        # pinned upstream release tag (v1.19.4)
 ├── upstream/               # gitignored; shallow clone managed by scripts
 ├── overlay/patches/        # the entire diff between opencode and fylun-code
 ├── plugin/                 # Fylun auth provider — compiled into the binary (patch 08)
@@ -21,17 +21,19 @@ fylun-code/
 
 ## Build
 
-Requires [bun](https://bun.sh) (upstream pins 1.3.x).
+Requires [bun](https://bun.sh) (upstream pins 1.4.x since v1.19.3; `release.yml` pins 1.4.4).
 
 ```bash
 ./scripts/build.sh   # fetch pinned upstream → apply overlay → bun build (current platform)
 # binary lands at upstream/packages/opencode/dist/<target>/bin/fylun-code
 ```
 
-**macOS: re-sign after copying.** bun appends the JS bundle to the executable,
-which invalidates its code signature. The binary runs from the path it was built
-at, but any copy (e.g. installing to `~/.local/bin`) is **SIGKILLed on first run**
-(exit 137, no output). Ad-hoc sign it after installing:
+**macOS signing.** bun appends the JS bundle to the executable, which
+invalidates its code signature, and an invalidly signed copy is **SIGKILLed on
+first run** (exit 137, no output). Since v1.19.x upstream's `build.ts` ad-hoc
+re-signs darwin binaries right after compiling (patch 03 points that step at
+`fylun-code`), and a copy of a v1.19.4 build was verified to run without re-signing.
+Binaries built on v1.18.18 still need it after installing:
 
 ```bash
 codesign --force --sign - ~/.local/bin/fylun-code-bin
@@ -53,7 +55,7 @@ codesign --force --sign - ~/.local/bin/fylun-code-bin
 | 01-identity | `app = "fylun-code"` in `packages/core/src/global.ts` | Single constant all XDG paths derive from: data, cache, config, state, tmp — **including `auth.json`**. Complete on-disk separation from stock opencode. |
 | 02-config-files | Global config filenames → `fyluncode.json(c)`; tui-migrate disabled | Global config is ours; migration code *writes to* (strips keys from) any `opencode.json` found up the tree — must never touch a stock user's files. |
 | 03-binary-name | Build outfile + yargs scriptName → `fylun-code` | Binary/help-text identity. |
-| 04-update-channel | `latest` queries `usefylun/fylun-code` GitHub releases; `upgrade` re-runs the install script (`fylun.ai/code/install`) | Upstream's upgrade paths install `opencode-ai` from npm/brew/GitHub — would replace this binary with stock opencode. Now wired to Fylun's own release + installer, so `fylun-code upgrade` self-updates and update-available checks work. |
+| 04-update-channel | `latest` queries `usefylun/fylun-code` GitHub releases; `upgrade` re-runs the install script (`fylun.ai/code/install`) | Upstream's upgrade paths install `opencode-ai` from npm/brew/GitHub — would replace this binary with stock opencode. Now wired to Fylun's own release + installer, so `fylun-code upgrade` self-updates and update-available checks work. **Since v1.19.4 also neutralises upstream's OpenCode 2 offer**: upstream 1.19 asks npm's `opencode-ai` for the latest version, falls back to an "upgrade to OpenCode 2.0" notice whenever it is up to date, and `upgrade --major` / the `/update` dialog's Upgrade button run `opencode.ai/v2/install` or `npm i -g @opencode/cli` — stock OpenCode 2. The patch keeps the version source on `usefylun/fylun-code`, makes `upgradeMajor` refuse, drops `--major` and the "OpenCode 2 is available" lines, and turns the dialog's major state into "Fylun Code is up to date." Moving Fylun users to a new upstream major is a Fylun release, not an upstream offer. |
 | 05-branding | ASCII logo + wordmark say "fylun code" | Identity in the TUI banner / help logo. |
 | 06-pinned-catalog | Baked models.dev snapshot is authoritative (no disk-cache preference, no runtime fetch/refresh) | The catalog feeds the provider/`/login` list and the model picker. `build.sh` bakes `distribution/models.json` (see "Regenerating models") via `MODELS_DEV_API_JSON`, so the picker is deterministic and works offline. **The TUI half of this patch was removed 2026-08-01** — it dropped the "Recent" section and the "Connect provider" action, both justified only by "Fylun is the only provider", which stopped being true. Don't bake an empty `{}` catalog: that removes Fylun from the connect/`/login` list too. |
 | 07-login-flow | `AutoMethod` exported; `/login` goes straight to Fylun browser OAuth (skips the provider list + auth-method menu), falling back to the full dialog if unavailable. `/connect` keeps the full menu. Fylun is added to `PROVIDER_PRIORITY` and carries "(Recommended — sign in)"; OpenCode Zen's description credits anomalyco | Fast Claude-Code-style login, with Fylun leading the picker **on merit rather than by removing the alternatives**. Upstream's per-provider descriptions and the "Other / custom provider" entry were restored 2026-08-01, so bring-your-own keys are reachable from the UI. Two changed lines instead of two deleted blocks — additive hunks conflict far less on upstream merges. |
