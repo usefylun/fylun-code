@@ -360,7 +360,10 @@ for (const entry of CURATED) {
     // `omitTemperature` means the provider rejects the parameter outright, so
     // advertising it would offer a knob every request throws away.
     temperature: !info.omitTemperature,
-    tool_call: true,
+    // The registry marks the few models that cannot take tools (the Perplexity
+    // Sonar family). Fylun's /v1/chat/completions refuses tools for them, so
+    // advertising tool_call would make every agent turn on one fail.
+    tool_call: info.supportsTools !== false,
     modalities: {
       input: info.supportsImageInput === true ? ["text", "image"] : ["text"],
       output: ["text"],

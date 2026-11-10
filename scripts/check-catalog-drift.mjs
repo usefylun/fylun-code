@@ -2,7 +2,7 @@
 /**
  * Fail if the baked catalog disagrees with @fylun/ai's registry.
  *
- * Three rules, all learned the hard way:
+ * Four rules, all learned the hard way:
  *
  *   1. **Nothing may be baked that the registry lacks.** The bake is a curated
  *      SUBSET — previous-generation and retired entries are dropped — so it is
@@ -15,6 +15,11 @@
  *      picks one gets a hard failure with no explanation.
  *
  *   3. **The seeded default model must be baked.** See below.
+ *
+ *   4. **Nothing may be baked as tool-capable that the registry says is not.**
+ *      Fylun's /v1/chat/completions answers a request that sends tools to such
+ *      a model (the Perplexity Sonar family) with a 400, so a baked
+ *      `tool_call: true` there breaks every turn.
  *
  * Nothing checked this before; the board carried "nothing checks this" as a
  * known gap for weeks. Run it after any catalog change:
@@ -77,11 +82,13 @@ const idByKey = Object.fromEntries(
 
 const known = new Set();
 const deprecated = new Set();
+const noTools = new Set();
 for (const entry of src.matchAll(/\[ModelIds\.([A-Z0-9_]+)\]:\s*\{([\s\S]*?)\n {2}\},/g)) {
   const id = idByKey[entry[1]];
   if (!id) continue;
   known.add(id);
   if (/deprecated:\s*true/.test(entry[2])) deprecated.add(id);
+  if (/supportsTools:\s*false/.test(entry[2])) noTools.add(id);
 }
 
 const baked = JSON.parse(
@@ -91,8 +98,9 @@ const bakedIds = Object.keys(baked.fylun?.models ?? {});
 
 const unknown = bakedIds.filter((id) => !known.has(id));
 const stale = bakedIds.filter((id) => deprecated.has(id));
+const toolless = bakedIds.filter((id) => noTools.has(id) && baked.fylun.models[id].tool_call !== false);
 
-if (unknown.length === 0 && stale.length === 0) {
+if (unknown.length === 0 && stale.length === 0 && toolless.length === 0) {
   console.log(
     `check-catalog-drift: ok — ${bakedIds.length} baked, all present in the registry and none deprecated.`
   );
@@ -107,6 +115,11 @@ if (unknown.length > 0) {
 if (stale.length > 0) {
   console.error(
     `check-catalog-drift: baked but DEPRECATED (the CLI has no deprecation messaging):\n  ${stale.join("\n  ")}`
+  );
+}
+if (toolless.length > 0) {
+  console.error(
+    `check-catalog-drift: baked with tool_call but the registry says supportsTools: false:\n  ${toolless.join("\n  ")}`
   );
 }
 console.error("\nRegenerate distribution/models-fylun.json — see README, 'Regenerating models'.");

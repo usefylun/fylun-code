@@ -1161,7 +1161,7 @@
         "attachment": false,
         "reasoning": false,
         "temperature": true,
-        "tool_call": true,
+        "tool_call": false,
         "modalities": {
           "input": [
             "text"
@@ -1187,7 +1187,7 @@
         "attachment": true,
         "reasoning": false,
         "temperature": true,
-        "tool_call": true,
+        "tool_call": false,
         "modalities": {
           "input": [
             "text",
@@ -1214,7 +1214,7 @@
         "attachment": true,
         "reasoning": false,
         "temperature": true,
-        "tool_call": true,
+        "tool_call": false,
         "modalities": {
           "input": [
             "text",
@@ -1241,7 +1241,7 @@
         "attachment": false,
         "reasoning": false,
         "temperature": true,
-        "tool_call": true,
+        "tool_call": false,
         "modalities": {
           "input": [
             "text"
