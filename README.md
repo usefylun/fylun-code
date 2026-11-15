@@ -11,7 +11,7 @@ Built on OpenCode (MIT) — keep this attribution visible in anything user-facin
 
 ```
 fylun-code/
-├── UPSTREAM_VERSION        # pinned upstream release tag (v1.19.4)
+├── UPSTREAM_VERSION        # pinned upstream release tag (v1.19.5)
 ├── upstream/               # gitignored; shallow clone managed by scripts
 ├── overlay/patches/        # the entire diff between opencode and fylun-code
 ├── plugin/                 # Fylun auth provider — compiled into the binary (patch 08)

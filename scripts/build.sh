@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Build the fylun-code binary for the current platform.
-# Requires bun (upstream pins bun 1.3.x): https://bun.sh
+# Requires bun (upstream pins bun 1.4.4): https://bun.sh
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
